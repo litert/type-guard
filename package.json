@@ -1,0 +1,38 @@
+{
+  "name": "@litert/type-guard",
+  "version": "0.1.0",
+  "description": "A type checking code \"JIT\".",
+  "main": "dist/index.js",
+  "scripts": {
+    "prepare": "npm run rebuild",
+    "build": "tsc -p .",
+    "rebuild": "npm run clean && npm run lint && npm run build",
+    "test": "echo See directory sources/samples",
+    "clean": "rm -rf dist",
+    "lint": "tslint -p . -c tslint.json"
+  },
+  "keywords": [
+    "litert",
+    "lrt",
+    "type",
+    "checker",
+    "verify"
+  ],
+  "author": "Angus.Fenying <fenying@litert.org> (https://fenying.net)",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/litert/type-guard.js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/litert/type-guard.js/issues"
+  },
+  "homepage": "https://github.com/litert/type-guard.js#readme",
+  "dependencies": {},
+  "types": "dist/index.d.ts",
+  "typings": "dist/index.d.ts",
+  "devDependencies": {},
+  "engines": {
+    "node": ">=8.0.0"
+  }
+}

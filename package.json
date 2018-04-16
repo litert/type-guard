@@ -22,12 +22,12 @@
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/litert/type-guard.js.git"
+    "url": "git+https://github.com/litert/type-guard.git"
   },
   "bugs": {
-    "url": "https://github.com/litert/type-guard.js/issues"
+    "url": "https://github.com/litert/type-guard/issues"
   },
-  "homepage": "https://github.com/litert/type-guard.js#readme",
+  "homepage": "https://github.com/litert/type-guard#readme",
   "dependencies": {},
   "types": "dist/index.d.ts",
   "typings": "dist/index.d.ts",

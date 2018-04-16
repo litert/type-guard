@@ -12,7 +12,8 @@ npm i @litert/typeguard -S
 
 ### createCompiler
 
-该方法创建一个 TypeGuard.Compiler 类型的编译器对象，用于编译规则为特定语言的检查代码。
+该方法创建一个 `TypeGuard.Compiler` 类型的编译器对象，用于编译规则为特定语言的检查
+代码。
 
 > 目前仅支持 JavaScript。
 
@@ -32,14 +33,14 @@ console.log(compiler.compile(
 
 ### createCompiler4JavaScript
 
-该方法创建一个 TypeGuard.Compiler4JavaScript 类型的编译器对象。该对象只能编译生成
+该方法创建一个 `TypeGuard.Compiler4JavaScript` 类型的编译器对象。该对象只能编译生成
 JavaScript 代码，但是会自动转换成可以执行的 JavaScript 函数。
 
 ```ts
 
 import * as TyG from "@litert/typeguard";
 
-let compiler = TyG.createCompiler(new TyG.JavaScriptLanguage());
+let compiler = TyG.createCompiler4JavaScript();
 
 const isOptionalString = compiler.compile<string | undefined>(
     ["$.or", "string", "void"]

@@ -13,12 +13,38 @@
    +----------------------------------------------------------------------+
  */
 
-export function isNumericString(v: string): boolean {
+import * as TyG from ".";
 
-    return /^[-+]?\d+(\.\d+)?$/.test(v);
+class Compiler4JavaScript
+implements TyG.Compiler4JavaScript {
+
+    private _compiler: TyG.Compiler;
+
+    public constructor() {
+
+        this._compiler = TyG.createCompiler(new TyG.JavaScriptLanguage());
+    }
+
+    public compile<T = any>(
+        rule: any,
+        stopOnEntry?: boolean
+    ): TyG.TypeChecker<T> {
+
+        return <TyG.TypeChecker<T>> new Function(
+            "input",
+            `${stopOnEntry && "debugger;" || ""} return ${
+                this._compiler.compile(
+                    rule
+                ).source
+            };`
+        );
+
+    }
 }
 
-export function escape(v: string): string {
+export function createCompiler4JavaScript(): TyG.Compiler4JavaScript {
 
-    return v.replace(/"/g, "\\\"");
+    return new Compiler4JavaScript();
 }
+
+export default createCompiler4JavaScript;

@@ -30,7 +30,7 @@ export interface CompileOptions {
     "stopOnEntry"?: boolean;
 }
 
-export interface CompileResult<T = any> {
+export interface CompileResult {
 
     "source": string;
 }
@@ -97,10 +97,18 @@ export const MIX_TYPE_REL = {
 
 export interface Compiler {
 
-    compile<T = any>(
-        descriptor: any,
+    compile(
+        rule: any,
         opts?: CompileOptions
-    ): CompileResult<T>;
+    ): CompileResult;
+}
+
+export interface Compiler4JavaScript {
+
+    compile<T = any>(
+        rule: any,
+        stopOnEntry?: boolean
+    ): TypeChecker<T>;
 }
 
 export const KEY_ARRAY_SUFFIX = "->[]";

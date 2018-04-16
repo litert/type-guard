@@ -383,3 +383,5 @@ implements Language {
         return `${arrName}[${index}]`;
     }
 }
+
+export default JavaScriptLanguage;

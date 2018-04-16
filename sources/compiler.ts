@@ -625,10 +625,10 @@ implements Compiler {
         );
     }
 
-    public compile<T>(
+    public compile(
         descriptor: any,
         opts?: CompileOptions
-    ): CompileResult<T> {
+    ): CompileResult {
 
         let ctx = new CompileContext();
 

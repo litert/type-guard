@@ -1,7 +1,7 @@
 {
-  "name": "@litert/type-guard",
+  "name": "@litert/typeguard",
   "version": "0.1.0",
-  "description": "A type checking code \"JIT\".",
+  "description": "A type checking code \"JIT\" library.",
   "main": "dist/index.js",
   "scripts": {
     "prepare": "npm run rebuild",

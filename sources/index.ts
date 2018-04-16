@@ -16,9 +16,12 @@
 export {
 
     TypeChecker,
-    Language
+    Language,
+    Compiler,
+    Compiler4JavaScript
 
 } from "./common";
 
 export { createCompiler } from "./compiler";
 export { JavaScriptLanguage } from "./lang.javascript";
+export { createCompiler4JavaScript } from "./compiler.javascript";

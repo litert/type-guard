@@ -119,7 +119,7 @@ implements Language {
         case FILTER_ON.LENGTH:
             ret.push(`${v} !== null`);
             ret.push(`${v} !== undefined`);
-            ret.push(`typeof ${v} === "number"`);
+            ret.push(`typeof ${v}.length === "number"`);
             v = `${v}.length`;
             break;
         case FILTER_ON.ARRAY_LENGTH:

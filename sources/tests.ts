@@ -113,7 +113,7 @@ const Tests = {
         ]
     },
     isPointStrict: {
-        rule: ["$.object", {"x": "float", "y": "float"}],
+        rule: ["$.struct", {"x": "float", "y": "float"}],
         args: [
             {"x": 1.2, "y": 4},
             {"x": 3, "y": 113.2},
@@ -406,6 +406,13 @@ const Tests = {
             }
         ]
     },
+    embededArrayTest: {
+        rule: "string[][]",
+        args: [
+            [["a"], [], ["b"]],
+            [["a"], "a", ["b"]]
+        ]
+    }
 };
 
 function runTestItem(

@@ -18,7 +18,7 @@ import {
     FILTER_ON,
     FILTERS,
     Language,
-    BUILT_IN_TYPES,
+    BuiltInTypes,
     BuiltInType
 
 } from "./common";
@@ -34,59 +34,59 @@ implements Language {
     public getBITCondition(v: string, t: BuiltInType): string {
 
         switch (t) {
-        case BUILT_IN_TYPES.optional:
-        case BUILT_IN_TYPES.undefined:
-        case BUILT_IN_TYPES.void:
+        case BuiltInTypes.optional:
+        case BuiltInTypes.undefined:
+        case BuiltInTypes.void:
             return `(${v} === void 0)`;
-        case BUILT_IN_TYPES.any:
+        case BuiltInTypes.any:
             return `(true)`;
-        case BUILT_IN_TYPES.array:
+        case BuiltInTypes.array:
             return `Array.isArray(${v})`;
-        case BUILT_IN_TYPES.int:
+        case BuiltInTypes.int:
             return `Number.isInteger(${v})`;
-        case BUILT_IN_TYPES.uint:
+        case BuiltInTypes.uint:
             return `(Number.isInteger(${v}) && ${v} >= 0)`;
-        case BUILT_IN_TYPES.uint8:
+        case BuiltInTypes.uint8:
             return `(Number.isInteger(${v}) && ${v} >= 0 && ${v} < 256)`;
-        case BUILT_IN_TYPES.int8:
+        case BuiltInTypes.int8:
             return `(Number.isInteger(${v}) && ${v} >= -128 && ${v} < 128)`;
-        case BUILT_IN_TYPES.uint16:
+        case BuiltInTypes.uint16:
             return `(Number.isInteger(${v}) && ${v} >= 0 && ${v} < 65536)`;
-        case BUILT_IN_TYPES.int16:
+        case BuiltInTypes.int16:
             return `(Number.isInteger(${v}) && ${v} >= -32768 && ${v} < 32768)`;
-        case BUILT_IN_TYPES.uint32:
+        case BuiltInTypes.uint32:
             return `(Number.isInteger(${v}) && ${v} >= 0 && ${v} < 4294967296)`;
-        case BUILT_IN_TYPES.int32:
+        case BuiltInTypes.int32:
             return `(Number.isInteger(${v}) && ${v} >= -2147483648 && ${v} < 2147483648)`;
-        case BUILT_IN_TYPES.uint64:
+        case BuiltInTypes.uint64:
             return `(Number.isInteger(${v}) && ${v} >= 0)`;
-        case BUILT_IN_TYPES.int64:
+        case BuiltInTypes.int64:
             return `Number.isInteger(${v})`;
-        case BUILT_IN_TYPES.string:
+        case BuiltInTypes.string:
             return `(typeof ${v} === "string")`;
-        case BUILT_IN_TYPES.ascii_string:
+        case BuiltInTypes.ascii_string:
             return `(typeof ${v} === "string" && /^[\\u0000-\\u007F]+$/.test(${v}))`;
-        case BUILT_IN_TYPES.latin_string:
+        case BuiltInTypes.latin_string:
             return `(typeof ${v} === "string" && /^[\\u0000-\\u024F\\u2C60-\\u2C7F]+$/.test(${v}))`;
-        case BUILT_IN_TYPES.boolean:
+        case BuiltInTypes.boolean:
             return `(typeof ${v} === "boolean")`;
-        case BUILT_IN_TYPES.number:
+        case BuiltInTypes.number:
             return `(typeof ${v} === "number")`;
-        case BUILT_IN_TYPES.object:
+        case BuiltInTypes.object:
             return `(typeof ${v} === "object")`;
-        case BUILT_IN_TYPES.valid_object:
+        case BuiltInTypes.valid_object:
             return `(${v} !== null && typeof ${v} === "object")`;
-        case BUILT_IN_TYPES.true_value:
+        case BuiltInTypes.true_value:
             return `(${v} ? true : false)`;
-        case BUILT_IN_TYPES.false_value:
+        case BuiltInTypes.false_value:
             return `(!${v})`;
-        case BUILT_IN_TYPES.true:
-        case BUILT_IN_TYPES.false:
-        case BUILT_IN_TYPES.null:
+        case BuiltInTypes.true:
+        case BuiltInTypes.false:
+        case BuiltInTypes.null:
             return `(${v} === ${t})`;
-        case BUILT_IN_TYPES.float:
+        case BuiltInTypes.float:
             return `(typeof ${v} === "number" && ${v} !== NaN)`;
-        case BUILT_IN_TYPES.numeric:
+        case BuiltInTypes.numeric:
             return `(typeof ${v} === "number" || (
                 typeof ${v} === "string" &&
                 /^[-+]?\\d+(\\.\\d+)?$/.test(${v})

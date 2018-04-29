@@ -19,11 +19,12 @@ export {
     Language,
     Compiler,
     Compiler4JavaScript,
-    BUILT_IN_TYPES,
-    ADV_TYPE_REL
+    BuiltInTypes,
+    AdvancedTypes
 
 } from "./common";
 
 export { createCompiler } from "./compiler";
-export { JavaScriptLanguage } from "./lang.javascript";
 export { createCompiler4JavaScript } from "./compiler.javascript";
+
+export { JavaScriptLanguage } from "./lang.javascript";

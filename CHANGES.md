@@ -2,10 +2,10 @@
 
 ## v0.2.0
 
--   Added advanced type `$.object` to exactly limit keys of object:
+-   Added advanced type `$.struct` to exactly limit keys of object:
 
     ```json
-    ["$.object", {
+    ["$.struct", {
         "a": "int",
         "b": "string"
     }]
@@ -21,7 +21,7 @@
     }
     ```
 
-    because only keys `"a"` and `"b"` are definied in description.
+    because only keys `"a"` and `"b"` are defined in description.
 
     Like `$.map` and `$.array`, there is a easier notation for it in an object
     description:
@@ -38,7 +38,7 @@
 
     ```json
     {
-        "a": ["$.object", {
+        "a": ["$.struct", {
             "b": "string"
         }]
     }

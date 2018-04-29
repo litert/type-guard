@@ -26,11 +26,11 @@ implements TyG.Compiler4JavaScript {
     }
 
     public compile<T = any>(
-        rule: any,
+        schema: any,
         stopOnEntry?: boolean
     ): TyG.TypeChecker<T> {
 
-        const result = this._compiler.compile(rule);
+        const result = this._compiler.compile(schema);
 
         return <TyG.TypeChecker<T>> new Function(
             result.inputVariable,

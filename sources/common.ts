@@ -37,7 +37,7 @@ export interface CompileResult {
     "inputVariable": string;
 }
 
-export const BUILT_IN_TYPES = {
+export const BuiltInTypes = {
     "void": "void",
     "optional": "optional",
     "array": "array",
@@ -80,7 +80,7 @@ function freezeObject(obj: any): void {
     }
 }
 
-export type BuiltInType = keyof typeof BUILT_IN_TYPES;
+export type BuiltInType = keyof typeof BuiltInTypes;
 
 export const FILTERS = {
     BETWEEN: "between",
@@ -104,7 +104,7 @@ export const FILTER_ON = {
 
 export const ADV_TYPE_REL_PREFIX = "$.";
 
-export const ADV_TYPE_REL = {
+export const AdvancedTypes = {
 
     $AND: `${ADV_TYPE_REL_PREFIX}and`,
     $OR: `${ADV_TYPE_REL_PREFIX}or`,
@@ -112,7 +112,7 @@ export const ADV_TYPE_REL = {
     $ARRAY: `${ADV_TYPE_REL_PREFIX}array`,
     $MAP: `${ADV_TYPE_REL_PREFIX}map`,
     $DICT: `${ADV_TYPE_REL_PREFIX}dict`,
-    $OBJECT: `${ADV_TYPE_REL_PREFIX}object`
+    $STRUCT: `${ADV_TYPE_REL_PREFIX}struct`
 };
 
 export const IMPLICIT_SYMBOL = "?";
@@ -160,9 +160,9 @@ export interface Language {
      * @param v   The name of variable to be checked.
      * @param t   The name of built-in type
      */
-    getBITCondition<K extends keyof typeof BUILT_IN_TYPES>(
+    getBITCondition<K extends keyof typeof BuiltInTypes>(
         v: string,
-        t: K | (typeof BUILT_IN_TYPES)[K]
+        t: K | (typeof BuiltInTypes)[K]
     ): string;
 
     /**
@@ -286,6 +286,6 @@ export interface Language {
     getArrayValue(arrName: string, index: string | number): string;
 }
 
-freezeObject(BUILT_IN_TYPES);
+freezeObject(BuiltInTypes);
 
-freezeObject(ADV_TYPE_REL);
+freezeObject(AdvancedTypes);

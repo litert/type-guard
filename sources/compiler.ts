@@ -14,8 +14,8 @@
  */
 
 import {
-    BUILT_IN_TYPES,
-    ADV_TYPE_REL,
+    BuiltInTypes,
+    AdvancedTypes,
     CompileOptions,
     Compiler,
     Dict,
@@ -81,9 +81,9 @@ implements Compiler {
     private _isFilter(filter: string): boolean {
 
         return filter[0] === "|" &&
-                /^\|(length|value|string\.length|array\.length) \w+( [-+]?\d+(\.\d+)?)*$/.test(
-                    filter
-                );
+        /^\|(length|value|string\.length|array\.length) \w+( [-+]?\d+(\.\d+)?)*$/.test(
+            filter
+        );
     }
 
     private _isOptionalType(theType: any): boolean {
@@ -91,8 +91,8 @@ implements Compiler {
         if (typeof theType === "string") {
 
             switch (theType) {
-            case BUILT_IN_TYPES.void:
-            case BUILT_IN_TYPES.optional:
+            case BuiltInTypes.void:
+            case BuiltInTypes.optional:
                 return true;
             default:
                 return theType.startsWith(IMPLICIT_SYMBOL);
@@ -103,13 +103,13 @@ implements Compiler {
 
             if (
                 (
-                    theType[0] === ADV_TYPE_REL.$OR ||
+                    theType[0] === AdvancedTypes.$OR ||
                     typeof theType[0] !== "string" ||
                     !theType[0].startsWith(ADV_TYPE_REL_PREFIX)
                 ) &&
                 (
-                    theType.indexOf(BUILT_IN_TYPES.optional) !== -1 ||
-                    theType.indexOf(BUILT_IN_TYPES.void) !== -1
+                    theType.indexOf(BuiltInTypes.optional) !== -1 ||
+                    theType.indexOf(BuiltInTypes.void) !== -1
                 )
             ) {
                 return true;
@@ -217,7 +217,7 @@ implements Compiler {
     private _isBuiltInType(type: string): type is BuiltInType {
 
         // @ts-ignore
-        return BUILT_IN_TYPES[type] === type;
+        return BuiltInTypes[type] === type;
     }
 
     private _getArrayConditionStatement(
@@ -226,9 +226,9 @@ implements Compiler {
         theType: any
     ): string {
 
-        if (theType === BUILT_IN_TYPES.any) {
+        if (theType === BuiltInTypes.any) {
 
-            return this._lang.getBITCondition(varName, BUILT_IN_TYPES.array);
+            return this._lang.getBITCondition(varName, BuiltInTypes.array);
         }
 
         let $iter = ctx.createTempVariableName();
@@ -238,7 +238,7 @@ implements Compiler {
             $argName,
             varName,
             this._lang.createIfStatement(
-                this._lang.getBITCondition($argName, BUILT_IN_TYPES.array),
+                this._lang.getBITCondition($argName, BuiltInTypes.array),
                 `${this._lang.createArrayIteration(
                     $argName,
                     $iter,
@@ -260,11 +260,11 @@ implements Compiler {
         theType: any
     ): string {
 
-        if (theType === BUILT_IN_TYPES.any) {
+        if (theType === BuiltInTypes.any) {
 
             return this._lang.getBITCondition(
                 varName,
-                BUILT_IN_TYPES.valid_object
+                BuiltInTypes.valid_object
             );
         }
 
@@ -276,12 +276,12 @@ implements Compiler {
             varName,
             this._lang.createIfStatement(
                 `${this._lang.NOT}${this._lang.getBITCondition(
-                    $argName, BUILT_IN_TYPES.array
+                    $argName, BuiltInTypes.array
                 )}
                 ${this._lang.AND}
                 ${this._lang.getBITCondition(
                     $argName,
-                    BUILT_IN_TYPES.valid_object
+                    BuiltInTypes.valid_object
                 )}`,
                 `${this._lang.createMapIteration(
                     $argName,
@@ -305,11 +305,11 @@ implements Compiler {
         theType: any
     ): string {
 
-        if (theType === BUILT_IN_TYPES.any) {
+        if (theType === BuiltInTypes.any) {
 
             return this._lang.getBITCondition(
                 varName,
-                BUILT_IN_TYPES.valid_object
+                BuiltInTypes.valid_object
             );
         }
 
@@ -321,12 +321,12 @@ implements Compiler {
             varName,
             this._lang.createIfStatement(
                 `${this._lang.NOT}${this._lang.getBITCondition(
-                    $argName, BUILT_IN_TYPES.array
+                    $argName, BuiltInTypes.array
                 )}
                 ${this._lang.AND}
                 ${this._lang.getBITCondition(
                     $argName,
-                    BUILT_IN_TYPES.valid_object
+                    BuiltInTypes.valid_object
                 )}`,
                 `${this._lang.createMapIteration(
                     $argName,
@@ -370,7 +370,7 @@ implements Compiler {
              */
             this._lang.getBITCondition(
                 varName,
-                BUILT_IN_TYPES.valid_object
+                BuiltInTypes.valid_object
             )
         ];
 
@@ -387,25 +387,25 @@ implements Compiler {
 
             if (this._isKeyWithArraySuffix(key)) {
 
-                keyType = [ADV_TYPE_REL.$ARRAY, keyType];
+                keyType = [AdvancedTypes.$ARRAY, keyType];
                 key = this._removeKeyArraySuffix(key);
             }
             else if (this._isKeyWithMapSuffix(key)) {
 
-                keyType = [ADV_TYPE_REL.$MAP, keyType];
+                keyType = [AdvancedTypes.$MAP, keyType];
                 key = this._removeKeyMapSuffix(key);
             }
             else if (this._isKeyWithObjectSuffix(key)) {
 
-                keyType = [ADV_TYPE_REL.$OBJECT, keyType];
+                keyType = [AdvancedTypes.$STRUCT, keyType];
                 key = this._removeKeyObjectSuffix(key);
             }
 
             if (isOptional) {
 
                 keyType = this._isOptionalType(keyType) ? keyType : [
-                    ADV_TYPE_REL.$OR,
-                    BUILT_IN_TYPES.optional,
+                    AdvancedTypes.$OR,
+                    BuiltInTypes.optional,
                     keyType
                 ];
             }
@@ -444,7 +444,7 @@ implements Compiler {
         ) {
 
             throw new TypeError(
-                "$.object can only work with one object argument."
+                "$.struct can only work with one object argument."
             );
         }
 
@@ -461,7 +461,7 @@ implements Compiler {
              */
             this._lang.getBITCondition(
                 varName,
-                BUILT_IN_TYPES.valid_object
+                BuiltInTypes.valid_object
             )
         ];
 
@@ -480,25 +480,25 @@ implements Compiler {
 
             if (this._isKeyWithArraySuffix(key)) {
 
-                keyType = [ADV_TYPE_REL.$ARRAY, keyType];
+                keyType = [AdvancedTypes.$ARRAY, keyType];
                 key = this._removeKeyArraySuffix(key);
             }
             else if (this._isKeyWithMapSuffix(key)) {
 
-                keyType = [ADV_TYPE_REL.$MAP, keyType];
+                keyType = [AdvancedTypes.$MAP, keyType];
                 key = this._removeKeyMapSuffix(key);
             }
             else if (this._isKeyWithObjectSuffix(key)) {
 
-                keyType = [ADV_TYPE_REL.$OBJECT, keyType];
+                keyType = [AdvancedTypes.$STRUCT, keyType];
                 key = this._removeKeyObjectSuffix(key);
             }
 
             if (isOptional) {
 
                 keyType = this._isOptionalType(keyType) ? keyType : [
-                    ADV_TYPE_REL.$OR,
-                    BUILT_IN_TYPES.optional,
+                    AdvancedTypes.$OR,
+                    BuiltInTypes.optional,
                     keyType
                 ];
             }
@@ -556,7 +556,7 @@ implements Compiler {
                 theType
             );
 
-        case ADV_TYPE_REL.$OR:
+        case AdvancedTypes.$OR:
 
             return this._getConditionStatementBy$Or(
                 ctx,
@@ -564,7 +564,7 @@ implements Compiler {
                 theType.slice(1)
             );
 
-        case ADV_TYPE_REL.$AND:
+        case AdvancedTypes.$AND:
 
             return this._getConditionStatementBy$And(
                 ctx,
@@ -572,7 +572,7 @@ implements Compiler {
                 theType.slice(1)
             );
 
-        case ADV_TYPE_REL.$TUPLE:
+        case AdvancedTypes.$TUPLE:
 
             return this._getConditionStatementBy$Tuple(
                 ctx,
@@ -580,7 +580,7 @@ implements Compiler {
                 theType.slice(1)
             );
 
-        case ADV_TYPE_REL.$MAP:
+        case AdvancedTypes.$MAP:
 
             return this._getConditionStatementBy$Map(
                 ctx,
@@ -588,7 +588,7 @@ implements Compiler {
                 theType.slice(1)
             );
 
-        case ADV_TYPE_REL.$OBJECT:
+        case AdvancedTypes.$STRUCT:
 
             return this._getConditionStatementBy$Object(
                 ctx,
@@ -596,7 +596,7 @@ implements Compiler {
                 theType.slice(1)
             );
 
-        case ADV_TYPE_REL.$DICT:
+        case AdvancedTypes.$DICT:
 
             return this._getConditionStatementBy$Dict(
                 ctx,
@@ -604,7 +604,7 @@ implements Compiler {
                 theType.slice(1)
             );
 
-        case ADV_TYPE_REL.$ARRAY:
+        case AdvancedTypes.$ARRAY:
 
             return this._getConditionStatementBy$Array(
                 ctx,
@@ -826,17 +826,17 @@ implements Compiler {
             );
         }
 
-        throw new TypeError(`Unknown type descriptor "${this._lang.escape(
+        throw new TypeError(`Unknown type schema "${this._lang.escape(
             theType
         )}".`);
     }
 
     /**
-     * Get the judge condition statement of type structure description.
+     * Get the judge condition statement of type structure schema.
      *
      * @param ctx      The context object of compilation.
      * @param varName  The name of variable input to be verified.
-     * @param theType  The type structure description.
+     * @param theType  The type structure schema.
      */
     private _getConditionStatement(
         ctx: CompileContext,
@@ -899,7 +899,7 @@ implements Compiler {
         default:
 
             throw new TypeError(
-                `Unacceptable type "${typeof theType}" of type description.`
+                `Unacceptable type "${typeof theType}" of type schema.`
             );
         }
     }
@@ -937,7 +937,7 @@ implements Compiler {
     }
 
     public compile(
-        descriptor: any,
+        schema: any,
         opts?: CompileOptions
     ): CompileResult {
 
@@ -948,7 +948,7 @@ implements Compiler {
         const source = this._getConditionStatement(
             ctx,
             inputVariable,
-            descriptor
+            schema
         );
 
         return { source, inputVariable };

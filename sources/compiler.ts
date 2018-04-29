@@ -490,19 +490,29 @@ implements Compiler {
             throw new TypeError("DICT syntax: $.dict <keys> <element_type>.");
         }
 
-        if (!(new Function("input", `return ${this.compile(
-            ["string[]", "|length gt 0"]
-        ).source}`))(
-            theType[0]
-        )) {
+        const keys: string[] = theType[0];
 
-            throw new TypeError("Keys of DICT must be a string array.");
+        if (!Array.isArray(keys)) {
+
+            throw new TypeError(
+                "Keys of DICT must be a non-empty string array."
+            );
+        }
+
+        for (let item of keys) {
+
+            if (typeof item !== "string") {
+
+                throw new TypeError(
+                    "Keys of DICT must be a non-empty string array."
+                );
+            }
         }
 
         return this._getDictConditionStatement(
             ctx,
             varName,
-            theType[0],
+            keys,
             theType.length === 2 ? theType[1] : theType.slice(1)
         );
     }
@@ -780,13 +790,15 @@ implements Compiler {
 
         let ctx = new CompileContext(this._lang);
 
+        const inputVariable = ctx.createTempVariableName();
+
         const source = this._getConditionStatement(
             ctx,
-            "input",
+            inputVariable,
             descriptor
         );
 
-        return { source };
+        return { source, inputVariable };
     }
 }
 

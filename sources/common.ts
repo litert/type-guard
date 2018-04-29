@@ -33,6 +33,8 @@ export interface CompileOptions {
 export interface CompileResult {
 
     "source": string;
+
+    "inputVariable": string;
 }
 
 export const BUILT_IN_TYPES = {
@@ -133,7 +135,7 @@ export interface Compiler4JavaScript {
 
 export const KEY_ARRAY_SUFFIX = "->[]";
 export const KEY_MAP_SUFFIX = "->{}";
-export const KEY_STRICT_MAP_SUFFIX = "->{=}";
+export const KEY_OBJECT_SUFFIX = "->(=)";
 export const TYPE_ARRAY_SUFFIX = "[]";
 export const TYPE_MAP_SUFFIX = "{}";
 
@@ -184,22 +186,53 @@ export interface Language {
         elseStatement?: string
     ): string;
 
+    /**
+     * The logical NOT operator notation in this language.
+     */
     readonly NOT: string;
 
+    /**
+     * The `return true;` operation notation in this language.
+     */
     readonly RETURN_TRUE: string;
 
+    /**
+     * The `return false;` operation notation in this language.
+     */
     readonly RETURN_FALSE: string;
 
+    /**
+     * The logical AND operator notation in this language.
+     */
     readonly AND: string;
 
+    /**
+     * The logical TRUE value notation in this language.
+     */
     readonly TRUE_VALUE: string;
 
+    /**
+     * The logical FALSE value notation in this language.
+     */
     readonly FALSE_VALUE: string;
 
+    /**
+     * The logical OR operator notation in this language.
+     */
     readonly OR: string;
 
+    /**
+     * Create the name for a temporary variable.
+     *
+     * @param index The index of the temporary vairable.
+     */
     createTempVariableName(index: number): string;
 
+    /**
+     * Escape special charactors in a string.
+     *
+     * @param s The string to be escaped.
+     */
     escape(s: string): string;
 
     getBooleanCheckStatement(varName: string): string;

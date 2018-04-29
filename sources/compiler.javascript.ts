@@ -30,15 +30,12 @@ implements TyG.Compiler4JavaScript {
         stopOnEntry?: boolean
     ): TyG.TypeChecker<T> {
 
-        return <TyG.TypeChecker<T>> new Function(
-            "input",
-            `${stopOnEntry && "debugger;" || ""} return ${
-                this._compiler.compile(
-                    rule
-                ).source
-            };`
-        );
+        const result = this._compiler.compile(rule);
 
+        return <TyG.TypeChecker<T>> new Function(
+            result.inputVariable,
+            `${stopOnEntry && "debugger;" || ""} return ${result.source};`
+        );
     }
 }
 

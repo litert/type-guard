@@ -16,21 +16,7 @@
 // tslint:disable:no-console
 import * as TypeGuard from ".";
 
-let compiler = TypeGuard.createCompiler(new TypeGuard.JavaScriptLanguage());
-
-function createJavaScriptInlineChecker<T = any>(
-    rule: any,
-    stopOnEntry?: boolean
-): TypeGuard.TypeChecker<T> {
-
-    return <TypeGuard.TypeChecker<T>> new Function(
-        "input",
-        `${stopOnEntry && "debugger;" || ""} return ${compiler.compile(
-            rule
-        ).source};`
-    );
-
-}
+let compiler = TypeGuard.createCompiler4JavaScript();
 
 const Tests = {
 
@@ -362,7 +348,7 @@ function runTestItem(
     console.log(`${ruleText}\n`);
     console.log(`Tests:\n`);
 
-    const verify = createJavaScriptInlineChecker(
+    const verify = compiler.compile(
         Tests[name].rule,
         stopOnEntry
     );

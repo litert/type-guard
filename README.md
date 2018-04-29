@@ -8,12 +8,10 @@
 
 A type checking code "JIT"😄.
 
-> Still under development.
-
 ## Requirement
 
 - TypeScript v2.7.1 (or newer)
-- Node.js v8.0.0 (or newer)
+- ECMAScript 2015 (or newer)
 
 ## Installation
 

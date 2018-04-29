@@ -44,6 +44,7 @@ implements Language {
 
         switch (t) {
         case BUILT_IN_TYPES.optional:
+        case BUILT_IN_TYPES.undefined:
         case BUILT_IN_TYPES.void:
             return `(${v} === void 0)`;
         case BUILT_IN_TYPES.any:

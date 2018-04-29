@@ -2,6 +2,8 @@
 
 ## v0.2.0
 
+-   Added `undefined` to built-in-types, as alias of `void` and `optional`.
+
 -   Added easier optional type expression with a prepending question mark:
 
     ```json

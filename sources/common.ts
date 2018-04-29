@@ -63,7 +63,8 @@ export const BUILT_IN_TYPES = {
     "false": "false",
     "null": "null",
     "float": "float",
-    "numeric": "numeric"
+    "numeric": "numeric",
+    "undefined": "undefined"
 };
 
 export type BuiltInType = keyof typeof BUILT_IN_TYPES;

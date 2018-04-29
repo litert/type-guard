@@ -20,6 +20,10 @@
     }
     ```
 
+-   Added `ascii_string` and `latin_string`.
+
+-   Removed `ascii_char` and `latin_char`.
+
 ## v0.1.1
 
 - Fixed filter "|length".

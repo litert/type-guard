@@ -18,7 +18,9 @@ export {
     TypeChecker,
     Language,
     Compiler,
-    Compiler4JavaScript
+    Compiler4JavaScript,
+    BUILT_IN_TYPES,
+    MIX_TYPE_REL
 
 } from "./common";
 

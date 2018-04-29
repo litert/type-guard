@@ -55,8 +55,8 @@ export const BUILT_IN_TYPES = {
     "number": "number",
     "object": "object",
     "valid_object": "valid_object",
-    "ascii_char": "ascii_char",
-    "latin_char": "latin_char",
+    "ascii_string": "ascii_string",
+    "latin_string": "latin_string",
     "true_value": "true_value",
     "false_value": "false_value",
     "true": "true",
@@ -67,6 +67,17 @@ export const BUILT_IN_TYPES = {
     "undefined": "undefined"
 };
 
+function freezeObject(obj: any): void {
+
+    for (let key of Object.keys(obj)) {
+
+        Object.defineProperty(obj, key, {
+            writable: false,
+            configurable: false
+        });
+    }
+}
+
 export type BuiltInType = keyof typeof BUILT_IN_TYPES;
 
 export const FILTERS = {
@@ -76,7 +87,10 @@ export const FILTERS = {
     LOWER_THAN: "lt",
     LOWER_OR_EQUAL: "le",
     EQUAL_TO: "eq",
-    NOT_EQUAL: "ne"
+    NOT_EQUAL: "ne",
+    ODD: "odd",
+    EVEN: "even",
+    TIMES_OF: "timesof"
 };
 
 export const FILTER_ON = {
@@ -213,3 +227,7 @@ export interface Language {
 
     getArrayValue(arrName: string, index: string | number): string;
 }
+
+freezeObject(BUILT_IN_TYPES);
+
+freezeObject(MIX_TYPE_REL);

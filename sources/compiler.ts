@@ -528,6 +528,15 @@ implements Compiler {
         theType: string
     ): string {
 
+        if (theType[0] === IMPLICIT_SYMBOL) {
+
+            return this._getConditionStatementByArray(
+                ctx,
+                varName,
+                ["void", theType.substr(1)]
+            );
+        }
+
         if (this._isSimpleArrayType(theType)) {
 
             return this._getArrayConditionStatement(
@@ -595,15 +604,6 @@ implements Compiler {
 
         switch (typeof theType) {
         case "string":
-
-            if (theType[0] === "?") {
-
-                return this._getConditionStatementByArray(
-                    ctx,
-                    varName,
-                    ["void", theType.substr(1)]
-                );
-            }
 
             return this._getConditionStatementByString(
                 ctx,

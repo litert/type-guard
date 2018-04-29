@@ -73,10 +73,10 @@ implements Language {
             return `Number.isInteger(${v})`;
         case BUILT_IN_TYPES.string:
             return `(typeof ${v} === "string")`;
-        case BUILT_IN_TYPES.ascii_char:
-            return `(typeof ${v} === "string" && ${v}.length === 1 && ${v}.charCodeAt(0) < 0x80)`;
-        case BUILT_IN_TYPES.latin_char:
-            return `(typeof ${v} === "string" && ${v}.length === 1 && ${v}.charCodeAt(0) < 0x100)`;
+        case BUILT_IN_TYPES.ascii_string:
+            return `(typeof ${v} === "string" && /^[\\u0000-\\u007F]+$/.test(${v}))`;
+        case BUILT_IN_TYPES.latin_string:
+            return `(typeof ${v} === "string" && /^[\\u0000-\\u024F\\u2C60-\\u2C7F]+$/.test(${v}))`;
         case BUILT_IN_TYPES.boolean:
             return `(typeof ${v} === "boolean")`;
         case BUILT_IN_TYPES.number:
@@ -132,7 +132,7 @@ implements Language {
             v = `${v}.length`;
             break;
         case FILTER_ON.VALUE:
-            ret.push(`typeof ${v} === "number"`);
+            // ret.push(`typeof ${v} === "number"`);
             break;
         default:
             throw new TypeError(`Unknown filter target "${filter[0]}".`);
@@ -207,6 +207,28 @@ implements Language {
             }
 
             ret.push(`${v} != ${filter[2]}`);
+
+            break;
+
+        case FILTERS.TIMES_OF:
+
+            if (filter.length !== 3) {
+                throw new TypeError(`Filter ${filter[1]} require 1 argument.`);
+            }
+
+            ret.push(`${v} % ${filter[2]} === 0`);
+
+            break;
+
+        case FILTERS.ODD:
+
+            ret.push(`${v} % 2 === 1`);
+
+            break;
+
+        case FILTERS.EVEN:
+
+            ret.push(`${v} % 2 === 0`);
 
             break;
 

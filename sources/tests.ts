@@ -46,6 +46,10 @@ const Tests = {
         rule: "string",
         args: ["a", "", 123, null, false, true, [""]]
     },
+    isASCIIString: {
+        rule: "ascii_string",
+        args: ["a", "heihei", "好", "a我b", 123, null, false, true, [""]]
+    },
     isStringArray: {
         rule: "string[]",
         args: [

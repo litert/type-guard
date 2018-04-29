@@ -2,7 +2,49 @@
 
 ## v0.2.0
 
--   Added `$.dict` to limit keys of `$.map`:
+-   Added advanced type `$.object` to exactly limit keys of object:
+
+    ```json
+    ["$.object", {
+        "a": "int",
+        "b": "string"
+    }]
+    ```
+
+    will not match
+
+    ```json
+    {
+        "a": 123,
+        "b": "aaa",
+        "c": "ddd"
+    }
+    ```
+
+    because only keys `"a"` and `"b"` are definied in description.
+
+    Like `$.map` and `$.array`, there is a easier notation for it in an object
+    description:
+
+    ```json
+    {
+        "a->(=)": {
+            "b": "string"
+        }
+    }
+    ```
+
+    equals to
+
+    ```json
+    {
+        "a": ["$.object", {
+            "b": "string"
+        }]
+    }
+    ```
+
+-   Added advanced type `$.dict` to limit keys of `$.map`:
 
     ```json
     ["$.dict", ["a", "b"], "string"]
@@ -31,6 +73,16 @@
         "a?": "string",
         "b": "int",
         "map->{}?": "string"
+    }
+    ```
+
+    This description equals to:
+
+    ```json
+    {
+        "a": ["string", "void"],
+        "b": "int",
+        "map": ["$.map", "string"]
     }
     ```
 

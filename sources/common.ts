@@ -102,17 +102,17 @@ export const FILTER_ON = {
     VALUE: "value"
 };
 
-export const MIX_TYPE_REL_PREFIX = "$.";
+export const ADV_TYPE_REL_PREFIX = "$.";
 
-export const MIX_TYPE_REL = {
+export const ADV_TYPE_REL = {
 
-    $AND: `${MIX_TYPE_REL_PREFIX}and`,
-    $OR: `${MIX_TYPE_REL_PREFIX}or`,
-    $TUPLE: `${MIX_TYPE_REL_PREFIX}tuple`,
-    $ARRAY: `${MIX_TYPE_REL_PREFIX}array`,
-    $MAP: `${MIX_TYPE_REL_PREFIX}map`,
-    $DICT: `${MIX_TYPE_REL_PREFIX}dict`,
-    $OBJECT: `${MIX_TYPE_REL_PREFIX}object`
+    $AND: `${ADV_TYPE_REL_PREFIX}and`,
+    $OR: `${ADV_TYPE_REL_PREFIX}or`,
+    $TUPLE: `${ADV_TYPE_REL_PREFIX}tuple`,
+    $ARRAY: `${ADV_TYPE_REL_PREFIX}array`,
+    $MAP: `${ADV_TYPE_REL_PREFIX}map`,
+    $DICT: `${ADV_TYPE_REL_PREFIX}dict`,
+    $OBJECT: `${ADV_TYPE_REL_PREFIX}object`
 };
 
 export const IMPLICIT_SYMBOL = "?";
@@ -148,7 +148,7 @@ export interface Language {
      * @param inputVar  The input of paramater of closure function
      * @param code      The code to be wrapped.
      */
-    makeClosureExecution(
+    createClosureExecution(
         paramVar: string,
         inputVar: string,
         code: string
@@ -172,6 +172,32 @@ export interface Language {
      * @param f   The expression of filter
      */
     getFilterConditionStatement(v: string, f: string): string;
+
+    /**
+     * Generate the statement for getting the keys array of an object.
+     *
+     * @param objName The name of object variable.
+     */
+    getObjectKeysArrayStatement(objName: string): string;
+
+    /**
+     * Generate the definition statement for a new constant.
+     *
+     * @param constName The name of new constant.
+     * @param val       The value of new constant.
+     */
+    getConstantDefinition(constName: string, val: string): string;
+
+    /**
+     * Check if the elements in array variable are insides the array.
+     *
+     * @param arrVarName  The name of array vairable.
+     * @param arr         The array.
+     */
+    getStringArrayContainsCondition(
+        arrVarName: string,
+        arr: string[]
+    ): string;
 
     /**
      * Generate the IF statement.
@@ -251,8 +277,6 @@ export interface Language {
 
     getBooleanValueCheckStatement(varName: string, value: number): string;
 
-    createClosureExecution(argName: string, varName: string, body: string): string;
-
     createArrayIteration(arr: string, iter: string, body: string): string;
 
     createMapIteration(arr: string, iter: string, body: string): string;
@@ -264,4 +288,4 @@ export interface Language {
 
 freezeObject(BUILT_IN_TYPES);
 
-freezeObject(MIX_TYPE_REL);
+freezeObject(ADV_TYPE_REL);

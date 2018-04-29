@@ -15,7 +15,7 @@
 
 import {
     BUILT_IN_TYPES,
-    MIX_TYPE_REL,
+    ADV_TYPE_REL,
     CompileOptions,
     Compiler,
     Dict,
@@ -27,7 +27,8 @@ import {
     TYPE_MAP_SUFFIX,
     Language,
     IMPLICIT_SYMBOL,
-    MIX_TYPE_REL_PREFIX
+    ADV_TYPE_REL_PREFIX,
+    KEY_OBJECT_SUFFIX
 } from "./common";
 
 class CompileContext {
@@ -102,9 +103,9 @@ implements Compiler {
 
             if (
                 (
-                    theType[0] === MIX_TYPE_REL.$OR ||
+                    theType[0] === ADV_TYPE_REL.$OR ||
                     typeof theType[0] !== "string" ||
-                    !theType[0].startsWith(MIX_TYPE_REL_PREFIX)
+                    !theType[0].startsWith(ADV_TYPE_REL_PREFIX)
                 ) &&
                 (
                     theType.indexOf(BUILT_IN_TYPES.optional) !== -1 ||
@@ -178,6 +179,16 @@ implements Compiler {
         return key.endsWith(KEY_MAP_SUFFIX);
     }
 
+    /**
+     * Check if the key of object is ending with "->(=)".
+     *
+     * @param key The key to be checked.
+     */
+    private _isKeyWithObjectSuffix(key: string): boolean {
+
+        return key.endsWith(KEY_OBJECT_SUFFIX);
+    }
+
     private _isKeyWithArraySuffix(key: string): boolean {
 
         return key.endsWith(KEY_ARRAY_SUFFIX);
@@ -191,6 +202,11 @@ implements Compiler {
     private _removeKeyMapSuffix(key: string): string {
 
         return key.slice(0, -KEY_MAP_SUFFIX.length);
+    }
+
+    private _removeKeyObjectSuffix(key: string): string {
+
+        return key.slice(0, -KEY_OBJECT_SUFFIX.length);
     }
 
     /**
@@ -333,7 +349,14 @@ implements Compiler {
         );
     }
 
-    private _getConditionStatementByObject(
+    /**
+     * Get condition statement of a non-strict structure.
+     *
+     * @param ctx       The context object.
+     * @param varName   The name of variable to be checked.
+     * @param theType   The type to be checked.
+     */
+    private _getConditionStatementByStructure(
         ctx: CompileContext,
         varName: string,
         theType: Dict<any>
@@ -342,6 +365,9 @@ implements Compiler {
         let keys = Object.keys(theType);
 
         let ret: string[] = [
+            /**
+             * First check if the variable is structure-like.
+             */
             this._lang.getBITCondition(
                 varName,
                 BUILT_IN_TYPES.valid_object
@@ -361,19 +387,26 @@ implements Compiler {
 
             if (this._isKeyWithArraySuffix(key)) {
 
-                keyType = [MIX_TYPE_REL.$ARRAY, keyType];
+                keyType = [ADV_TYPE_REL.$ARRAY, keyType];
                 key = this._removeKeyArraySuffix(key);
             }
             else if (this._isKeyWithMapSuffix(key)) {
 
-                keyType = [MIX_TYPE_REL.$MAP, keyType];
+                keyType = [ADV_TYPE_REL.$MAP, keyType];
                 key = this._removeKeyMapSuffix(key);
+            }
+            else if (this._isKeyWithObjectSuffix(key)) {
+
+                keyType = [ADV_TYPE_REL.$OBJECT, keyType];
+                key = this._removeKeyObjectSuffix(key);
             }
 
             if (isOptional) {
 
                 keyType = this._isOptionalType(keyType) ? keyType : [
-                    BUILT_IN_TYPES.optional, keyType
+                    ADV_TYPE_REL.$OR,
+                    BUILT_IN_TYPES.optional,
+                    keyType
                 ];
             }
 
@@ -387,6 +420,118 @@ implements Compiler {
                 keyType
             ));
         }
+
+        return `(${ret.join(` ${this._lang.AND} `)})`;
+    }
+
+    /**
+     * Get condition statement of a strict structure.
+     *
+     * @param ctx       The context object.
+     * @param varName   The name of variable to be checked.
+     * @param theType   The type to be checked.
+     */
+    private _getConditionStatementBy$Object(
+        ctx: CompileContext,
+        varName: string,
+        theType: any
+    ): string {
+
+        if (
+            theType.length !== 1 ||
+            typeof theType[0] !== "object" ||
+            Array.isArray(theType[0])
+        ) {
+
+            throw new TypeError(
+                "$.object can only work with one object argument."
+            );
+        }
+
+        theType = theType[0];
+
+        let keys = Object.keys(theType);
+
+        const $objName = ctx.createTempVariableName();
+        const $objKeys = ctx.createTempVariableName();
+
+        let ret: string[] = [
+            /**
+             * First check if the variable is structure-like.
+             */
+            this._lang.getBITCondition(
+                varName,
+                BUILT_IN_TYPES.valid_object
+            )
+        ];
+
+        let finalKeys: string[] = [];
+
+        for (let key of keys) {
+
+            let keyType = theType[key];
+            let isOptional = false;
+
+            if (key.endsWith(IMPLICIT_SYMBOL)) {
+
+                key = key.slice(0, -1);
+                isOptional = true;
+            }
+
+            if (this._isKeyWithArraySuffix(key)) {
+
+                keyType = [ADV_TYPE_REL.$ARRAY, keyType];
+                key = this._removeKeyArraySuffix(key);
+            }
+            else if (this._isKeyWithMapSuffix(key)) {
+
+                keyType = [ADV_TYPE_REL.$MAP, keyType];
+                key = this._removeKeyMapSuffix(key);
+            }
+            else if (this._isKeyWithObjectSuffix(key)) {
+
+                keyType = [ADV_TYPE_REL.$OBJECT, keyType];
+                key = this._removeKeyObjectSuffix(key);
+            }
+
+            if (isOptional) {
+
+                keyType = this._isOptionalType(keyType) ? keyType : [
+                    ADV_TYPE_REL.$OR,
+                    BUILT_IN_TYPES.optional,
+                    keyType
+                ];
+            }
+
+            finalKeys.push(key);
+
+            ret.push(this._getConditionStatement(
+                ctx,
+                this._lang.getMapValue(
+                    varName,
+                    key,
+                    true
+                ),
+                keyType
+            ));
+        }
+
+        ret.splice(1, 0, this._lang.createClosureExecution(
+            $objName,
+            varName,
+            `${this._lang.getConstantDefinition(
+                $objKeys,
+                this._lang.getObjectKeysArrayStatement($objName)
+            )}
+            ${this._lang.createIfStatement(
+                this._lang.getStringArrayContainsCondition(
+                    $objKeys,
+                    finalKeys
+                ),
+                this._lang.RETURN_TRUE,
+                this._lang.RETURN_FALSE
+            )}`
+        ));
 
         return `(${ret.join(` ${this._lang.AND} `)})`;
     }
@@ -411,7 +556,7 @@ implements Compiler {
                 theType
             );
 
-        case MIX_TYPE_REL.$OR:
+        case ADV_TYPE_REL.$OR:
 
             return this._getConditionStatementBy$Or(
                 ctx,
@@ -419,7 +564,7 @@ implements Compiler {
                 theType.slice(1)
             );
 
-        case MIX_TYPE_REL.$AND:
+        case ADV_TYPE_REL.$AND:
 
             return this._getConditionStatementBy$And(
                 ctx,
@@ -427,7 +572,7 @@ implements Compiler {
                 theType.slice(1)
             );
 
-        case MIX_TYPE_REL.$TUPLE:
+        case ADV_TYPE_REL.$TUPLE:
 
             return this._getConditionStatementBy$Tuple(
                 ctx,
@@ -435,7 +580,7 @@ implements Compiler {
                 theType.slice(1)
             );
 
-        case MIX_TYPE_REL.$MAP:
+        case ADV_TYPE_REL.$MAP:
 
             return this._getConditionStatementBy$Map(
                 ctx,
@@ -443,7 +588,15 @@ implements Compiler {
                 theType.slice(1)
             );
 
-        case MIX_TYPE_REL.$DICT:
+        case ADV_TYPE_REL.$OBJECT:
+
+            return this._getConditionStatementBy$Object(
+                ctx,
+                varName,
+                theType.slice(1)
+            );
+
+        case ADV_TYPE_REL.$DICT:
 
             return this._getConditionStatementBy$Dict(
                 ctx,
@@ -451,7 +604,7 @@ implements Compiler {
                 theType.slice(1)
             );
 
-        case MIX_TYPE_REL.$ARRAY:
+        case ADV_TYPE_REL.$ARRAY:
 
             return this._getConditionStatementBy$Array(
                 ctx,
@@ -716,7 +869,7 @@ implements Compiler {
                 );
             }
 
-            return this._getConditionStatementByObject(
+            return this._getConditionStatementByStructure(
                 ctx,
                 varName,
                 theType

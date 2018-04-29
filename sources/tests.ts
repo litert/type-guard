@@ -112,6 +112,22 @@ const Tests = {
             false
         ]
     },
+    isPointStrict: {
+        rule: ["$.object", {"x": "float", "y": "float"}],
+        args: [
+            {"x": 1.2, "y": 4},
+            {"x": 3, "y": 113.2},
+            {"x": 3, "y": 113.2, "z": 223.5},
+            undefined,
+            {"x": 1.2, "y": "4"},
+            "",
+            "a",
+            ["", 123],
+            123,
+            null,
+            false
+        ]
+    },
     isPointArray: {
         rule: ["$.array", {"x": "float", "y": "float"}],
         args: [
@@ -327,7 +343,69 @@ const Tests = {
                 }
             }
         ]
-    }
+    },
+    strictObjectTest: {
+        rule: {
+            "a": "string",
+            "b->(=)": {
+                "c?": "int",
+                "d->(=)?": {
+                    "e": "?uint"
+                }
+            }
+        },
+        args: [
+            {
+                "a": "hello",
+                "b": {
+                    "c": 321
+                }
+            },
+            {
+                "a": "hello",
+                "b": {
+                    "c": 321,
+                    "d": {
+                        "e": 333
+                    }
+                }
+            },
+            {
+                "a": "hello",
+                "b": {
+                    "d": {
+                        "e": 333
+                    }
+                }
+            },
+            {
+                "a": "hello",
+                "b": {
+                    "c": 321,
+                    "e": {
+                        "d": 333
+                    }
+                }
+            },
+            {
+                "a": "hello",
+                "b": {
+                    "c": 321,
+                    "d": {}
+                }
+            },
+            {
+                "a": "hello",
+                "b": {
+                    "c": 321,
+                    "d": {
+                        "e": 44,
+                        "f": true
+                    }
+                }
+            }
+        ]
+    },
 };
 
 function runTestItem(
@@ -369,4 +447,4 @@ function runAllTests(stopOnEntry?: boolean) {
 }
 
 runAllTests();
-// runTestItem("isStringDict", true);
+// runTestItem("strictObjectTest", true);

@@ -26,15 +26,6 @@ import {
 export class JavaScriptLanguage
 implements Language {
 
-    public makeClosureExecution(
-        paramVar: string,
-        inputVar: string,
-        code: string
-    ): string {
-
-        return `(function(${paramVar}) { ${code} })(${inputVar})`;
-    }
-
     /**
      * Get the check condition statement of built-in types.
      * @param v   The name of variable to be checked.
@@ -388,6 +379,30 @@ implements Language {
     ): string {
 
         return `for (let ${iter} in ${arr}) { ${body} }`;
+    }
+
+    public getObjectKeysArrayStatement(
+        objName: string
+    ): string {
+
+        return `Object.keys(${objName})`;
+    }
+
+    public getConstantDefinition(constName: string, val: string): string {
+
+        return `const ${constName} = ${val};`;
+    }
+
+    public getStringArrayContainsCondition(
+        arrVarName: string,
+        arr: string[]
+    ): string {
+
+        const KEYS: string = `[${arr.map(
+            (k) => `"${this.escape(k)}"`
+        ).join(", ")}]`;
+
+        return `new Set(${KEYS}.concat(${arrVarName})).size === ${arr.length}`;
     }
 
     public getMapValue(

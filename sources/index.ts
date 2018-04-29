@@ -20,7 +20,7 @@ export {
     Compiler,
     Compiler4JavaScript,
     BUILT_IN_TYPES,
-    MIX_TYPE_REL
+    ADV_TYPE_REL
 
 } from "./common";
 

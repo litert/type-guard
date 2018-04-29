@@ -282,6 +282,57 @@ implements Compiler {
         );
     }
 
+    private _getDictConditionStatement(
+        ctx: CompileContext,
+        varName: string,
+        keys: string[],
+        theType: any
+    ): string {
+
+        if (theType === BUILT_IN_TYPES.any) {
+
+            return this._lang.getBITCondition(
+                varName,
+                BUILT_IN_TYPES.valid_object
+            );
+        }
+
+        let $key = ctx.createTempVariableName();
+        let $argName = ctx.createTempVariableName();
+
+        return this._lang.createClosureExecution(
+            $argName,
+            varName,
+            this._lang.createIfStatement(
+                `${this._lang.NOT}${this._lang.getBITCondition(
+                    $argName, BUILT_IN_TYPES.array
+                )}
+                ${this._lang.AND}
+                ${this._lang.getBITCondition(
+                    $argName,
+                    BUILT_IN_TYPES.valid_object
+                )}`,
+                `${this._lang.createMapIteration(
+                    $argName,
+                    $key,
+                    `switch (${$key}) {
+                    ${keys.map(
+                        (k) => `case "${this._lang.escape(k)}":`
+                    ).join(" ")} break;
+                    default: return false;
+                    }
+                    ${this._getCheckStatement(
+                        ctx,
+                        this._lang.getMapValue($argName, $key),
+                        theType
+                    )}`
+                )}
+                ${this._lang.RETURN_TRUE}`,
+                this._lang.RETURN_FALSE
+            )
+        );
+    }
+
     private _getConditionStatementByObject(
         ctx: CompileContext,
         varName: string,
@@ -392,6 +443,14 @@ implements Compiler {
                 theType.slice(1)
             );
 
+        case MIX_TYPE_REL.$DICT:
+
+            return this._getConditionStatementBy$Dict(
+                ctx,
+                varName,
+                theType.slice(1)
+            );
+
         case MIX_TYPE_REL.$ARRAY:
 
             return this._getConditionStatementBy$Array(
@@ -408,19 +467,43 @@ implements Compiler {
         theType: any[]
     ): string {
 
-        if (theType.length === 1) {
+        if (theType.length < 1) {
 
-            return this._getMapConditionStatement(
-                ctx,
-                varName,
-                theType[0]
-            );
+            throw new TypeError("MAP syntax: $.map <element_type>.");
         }
 
         return this._getMapConditionStatement(
             ctx,
             varName,
-            theType
+            theType.length === 1 ? theType[0] : theType
+        );
+    }
+
+    private _getConditionStatementBy$Dict(
+        ctx: CompileContext,
+        varName: string,
+        theType: any[]
+    ): string {
+
+        if (theType.length < 2) {
+
+            throw new TypeError("DICT syntax: $.dict <keys> <element_type>.");
+        }
+
+        if (!(new Function("input", `return ${this.compile(
+            ["string[]", "|length gt 0"]
+        ).source}`))(
+            theType[0]
+        )) {
+
+            throw new TypeError("Keys of DICT must be a string array.");
+        }
+
+        return this._getDictConditionStatement(
+            ctx,
+            varName,
+            theType[0],
+            theType.length === 2 ? theType[1] : theType.slice(1)
         );
     }
 
@@ -430,19 +513,15 @@ implements Compiler {
         theType: any[]
     ): string {
 
-        if (theType.length === 1) {
+        if (theType.length < 1) {
 
-            return this._getArrayConditionStatement(
-                ctx,
-                varName,
-                theType[0]
-            );
+            throw new TypeError("ARRAY syntax: $.array <element_type>.");
         }
 
         return this._getArrayConditionStatement(
             ctx,
             varName,
-            theType
+            theType.length === 1 ? theType[0] : theType.slice(0)
         );
     }
 

@@ -109,6 +109,7 @@ export const MIX_TYPE_REL = {
     $TUPLE: `${MIX_TYPE_REL_PREFIX}tuple`,
     $ARRAY: `${MIX_TYPE_REL_PREFIX}array`,
     $MAP: `${MIX_TYPE_REL_PREFIX}map`,
+    $DICT: `${MIX_TYPE_REL_PREFIX}dict`,
     $OBJECT: `${MIX_TYPE_REL_PREFIX}object`
 };
 

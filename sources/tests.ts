@@ -74,6 +74,19 @@ const Tests = {
             false
         ]
     },
+    isStringDict: {
+        rule: ["$.dict", ["a", "b"], "string"],
+        args: [
+            {"a": "c", "b": "d"},
+            {"a": "c", "c": "d"},
+            {"a": "c", "b": 123},
+            "a",
+            ["", 123],
+            123,
+            null,
+            false
+        ]
+    },
     isOptionalString: {
         rule: ["string", "void"],
         args: [
@@ -370,4 +383,4 @@ function runAllTests(stopOnEntry?: boolean) {
 }
 
 runAllTests();
-// runTestItem("objectSubMapTest1", false);
+// runTestItem("isStringDict", true);

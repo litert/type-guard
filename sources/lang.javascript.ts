@@ -232,39 +232,39 @@ implements Language {
         return ret;
     }
 
-    public get not(): string {
+    public get NOT(): string {
 
         return "!";
     }
 
-    public get returnTrue(): string {
+    public get RETURN_TRUE(): string {
 
         return "return true;";
     }
 
-    public get returnFalse(): string {
+    public get RETURN_FALSE(): string {
 
         return "return false;";
     }
 
-    public get and(): string {
+    public get AND(): string {
 
-        return " && ";
+        return "&&";
     }
 
-    public get trueValue(): string {
+    public get TRUE_VALUE(): string {
 
         return "true";
     }
 
-    public get falseValue(): string {
+    public get FALSE_VALUE(): string {
 
         return "false";
     }
 
-    public get or(): string {
+    public get OR(): string {
 
-        return " || ";
+        return "||";
     }
 
     public escape(s: string): string {
@@ -274,6 +274,11 @@ implements Language {
                 .replace(/'/g, "\\\'")
                 .replace(/\r/g, "\\r")
                 .replace(/\n/g, "\\n");
+    }
+
+    public createTempVariableName(index: number): string {
+
+        return `var_${index}`;
     }
 
     public getBooleanCheckStatement(varName: string): string {

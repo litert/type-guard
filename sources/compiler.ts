@@ -25,7 +25,9 @@ import {
     KEY_ARRAY_SUFFIX,
     TYPE_ARRAY_SUFFIX,
     TYPE_MAP_SUFFIX,
-    Language
+    Language,
+    IMPLICIT_SYMBOL,
+    MIX_TYPE_REL_PREFIX
 } from "./common";
 
 class CompileContext {
@@ -34,16 +36,20 @@ class CompileContext {
 
     private _counter: number;
 
-    public constructor() {
+    private _lang: Language;
+
+    public constructor(lang: Language) {
 
         this.funcs = {};
 
         this._counter = 0;
+
+        this._lang = lang;
     }
 
     public createTempVariableName(): string {
 
-        return `var_${this._counter++}`;
+        return this._lang.createTempVariableName(this._counter++);
     }
 }
 
@@ -77,6 +83,39 @@ implements Compiler {
                 /^\|(length|value|string\.length|array\.length) \w+( [-+]?\d+(\.\d+)?)*$/.test(
                     filter
                 );
+    }
+
+    private _isOptionalType(theType: any): boolean {
+
+        if (typeof theType === "string") {
+
+            switch (theType) {
+            case BUILT_IN_TYPES.void:
+            case BUILT_IN_TYPES.optional:
+                return true;
+            default:
+                return theType.startsWith(IMPLICIT_SYMBOL);
+            }
+        }
+
+        if (Array.isArray(theType)) {
+
+            if (
+                (
+                    theType[0] === MIX_TYPE_REL.$OR ||
+                    typeof theType[0] !== "string" ||
+                    !theType[0].startsWith(MIX_TYPE_REL_PREFIX)
+                ) &&
+                (
+                    theType.indexOf(BUILT_IN_TYPES.optional) !== -1 ||
+                    theType.indexOf(BUILT_IN_TYPES.void) !== -1
+                )
+            ) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -129,6 +168,11 @@ implements Compiler {
         return type.slice(0, -TYPE_ARRAY_SUFFIX.length);
     }
 
+    /**
+     * Check if the key of object is ending with "->{}".
+     *
+     * @param key The key to be checked.
+     */
     private _isKeyWithMapSuffix(key: string): boolean {
 
         return key.endsWith(KEY_MAP_SUFFIX);
@@ -163,12 +207,12 @@ implements Compiler {
     private _getArrayConditionStatement(
         ctx: CompileContext,
         varName: string,
-        theType: string
+        theType: any
     ): string {
 
-        if (theType === "any") {
+        if (theType === BUILT_IN_TYPES.any) {
 
-            return this._lang.getBITCondition(varName, "array");
+            return this._lang.getBITCondition(varName, BUILT_IN_TYPES.array);
         }
 
         let $iter = ctx.createTempVariableName();
@@ -178,7 +222,7 @@ implements Compiler {
             $argName,
             varName,
             this._lang.createIfStatement(
-                this._lang.getBITCondition($argName, "array"),
+                this._lang.getBITCondition($argName, BUILT_IN_TYPES.array),
                 `${this._lang.createArrayIteration(
                     $argName,
                     $iter,
@@ -188,8 +232,8 @@ implements Compiler {
                         theType,
                     )
                 )}
-                ${this._lang.returnTrue}`,
-                this._lang.returnFalse
+                ${this._lang.RETURN_TRUE}`,
+                this._lang.RETURN_FALSE
             )
         );
     }
@@ -197,12 +241,15 @@ implements Compiler {
     private _getMapConditionStatement(
         ctx: CompileContext,
         varName: string,
-        theType: string
+        theType: any
     ): string {
 
-        if (theType === "any") {
+        if (theType === BUILT_IN_TYPES.any) {
 
-            return this._lang.getBITCondition(varName, "valid_object");
+            return this._lang.getBITCondition(
+                varName,
+                BUILT_IN_TYPES.valid_object
+            );
         }
 
         let $key = ctx.createTempVariableName();
@@ -212,9 +259,14 @@ implements Compiler {
             $argName,
             varName,
             this._lang.createIfStatement(
-                `${this._lang.not}${this._lang.getBITCondition($argName, "array")}
-                ${this._lang.and}
-                ${this._lang.getBITCondition($argName, "valid_object")}`,
+                `${this._lang.NOT}${this._lang.getBITCondition(
+                    $argName, BUILT_IN_TYPES.array
+                )}
+                ${this._lang.AND}
+                ${this._lang.getBITCondition(
+                    $argName,
+                    BUILT_IN_TYPES.valid_object
+                )}`,
                 `${this._lang.createMapIteration(
                     $argName,
                     $key,
@@ -224,8 +276,8 @@ implements Compiler {
                         theType
                     )
                 )}
-                ${this._lang.returnTrue}`,
-                this._lang.returnFalse
+                ${this._lang.RETURN_TRUE}`,
+                this._lang.RETURN_FALSE
             )
         );
     }
@@ -241,51 +293,51 @@ implements Compiler {
         let ret: string[] = [
             this._lang.getBITCondition(
                 varName,
-                "valid_object"
+                BUILT_IN_TYPES.valid_object
             )
         ];
 
         for (let key of keys) {
 
+            let keyType = theType[key];
+            let isOptional = false;
+
+            if (key.endsWith(IMPLICIT_SYMBOL)) {
+
+                key = key.slice(0, -1);
+                isOptional = true;
+            }
+
             if (this._isKeyWithArraySuffix(key)) {
 
-                ret.push(this._getArrayConditionStatement(
-                    ctx,
-                    this._lang.getMapValue(
-                        varName,
-                        this._removeKeyArraySuffix(key),
-                        true
-                    ),
-                    theType[key]
-                ));
+                keyType = [MIX_TYPE_REL.$ARRAY, keyType];
+                key = this._removeKeyArraySuffix(key);
             }
             else if (this._isKeyWithMapSuffix(key)) {
 
-                ret.push(this._getMapConditionStatement(
-                    ctx,
-                    this._lang.getMapValue(
-                        varName,
-                        this._removeKeyMapSuffix(key),
-                        true
-                    ),
-                    theType[key]
-                ));
+                keyType = [MIX_TYPE_REL.$MAP, keyType];
+                key = this._removeKeyMapSuffix(key);
             }
-            else {
 
-                ret.push(this._getConditionStatement(
-                    ctx,
-                    this._lang.getMapValue(
-                        varName,
-                        key,
-                        true
-                    ),
-                    theType[key]
-                ));
+            if (isOptional) {
+
+                keyType = this._isOptionalType(keyType) ? keyType : [
+                    BUILT_IN_TYPES.optional, keyType
+                ];
             }
+
+            ret.push(this._getConditionStatement(
+                ctx,
+                this._lang.getMapValue(
+                    varName,
+                    key,
+                    true
+                ),
+                keyType
+            ));
         }
 
-        return `(${ret.join(` ${this._lang.and} `)})`;
+        return `(${ret.join(` ${this._lang.AND} `)})`;
     }
 
     private _getConditionStatementByArray(
@@ -296,7 +348,7 @@ implements Compiler {
 
         if (theType.length === 0) {
 
-            return this._lang.falseValue;
+            return this._lang.FALSE_VALUE;
         }
 
         switch (theType[0]) {
@@ -356,15 +408,19 @@ implements Compiler {
         theType: any[]
     ): string {
 
-        if (theType.length !== 1) {
+        if (theType.length === 1) {
 
-            throw new TypeError("$.map can only has one argument.");
+            return this._getMapConditionStatement(
+                ctx,
+                varName,
+                theType[0]
+            );
         }
 
         return this._getMapConditionStatement(
             ctx,
             varName,
-            theType[0]
+            theType
         );
     }
 
@@ -374,15 +430,19 @@ implements Compiler {
         theType: any[]
     ): string {
 
-        if (theType.length !== 1) {
+        if (theType.length === 1) {
 
-            throw new TypeError("$.array can only has one argument.");
+            return this._getArrayConditionStatement(
+                ctx,
+                varName,
+                theType[0]
+            );
         }
 
         return this._getArrayConditionStatement(
             ctx,
             varName,
-            theType[0]
+            theType
         );
     }
 
@@ -394,7 +454,7 @@ implements Compiler {
 
         if (theType.length === 0) {
 
-            return this._lang.falseValue;
+            return this._lang.FALSE_VALUE;
         }
 
         let ret: string[] = [];
@@ -408,7 +468,7 @@ implements Compiler {
             ));
         }
 
-        return `(${ret.join(` ${this._lang.and} `)})`;
+        return `(${ret.join(` ${this._lang.AND} `)})`;
     }
 
     private _getConditionStatementBy$Tuple(
@@ -434,7 +494,7 @@ implements Compiler {
             ));
         }
 
-        return `(${ret.join(` ${this._lang.and} `)})`;
+        return `(${ret.join(` ${this._lang.AND} `)})`;
     }
 
     private _getConditionStatementBy$Or(
@@ -445,7 +505,7 @@ implements Compiler {
 
         if (theType.length === 0) {
 
-            return this._lang.falseValue;
+            return this._lang.FALSE_VALUE;
         }
 
         let ret: string[] = [];
@@ -459,7 +519,7 @@ implements Compiler {
             ));
         }
 
-        return `(${ret.join(` ${this._lang.or} `)})`;
+        return `(${ret.join(` ${this._lang.OR} `)})`;
     }
 
     private _getConditionStatementByString(
@@ -536,6 +596,15 @@ implements Compiler {
         switch (typeof theType) {
         case "string":
 
+            if (theType[0] === "?") {
+
+                return this._getConditionStatementByArray(
+                    ctx,
+                    varName,
+                    ["void", theType.substr(1)]
+                );
+            }
+
             return this._getConditionStatementByString(
                 ctx,
                 varName,
@@ -596,13 +665,13 @@ implements Compiler {
     private _getStatements(positive: boolean): Statements {
 
         return positive ? {
-            "$deny": this._lang.returnTrue,
-            "$allow": this._lang.returnFalse,
+            "$deny": this._lang.RETURN_TRUE,
+            "$allow": this._lang.RETURN_FALSE,
             "$not": ""
         } : {
-            "$deny": this._lang.returnFalse,
-            "$allow": this._lang.returnTrue,
-            "$not": this._lang.not
+            "$deny": this._lang.RETURN_FALSE,
+            "$allow": this._lang.RETURN_TRUE,
+            "$not": this._lang.NOT
         };
     }
 
@@ -630,7 +699,7 @@ implements Compiler {
         opts?: CompileOptions
     ): CompileResult {
 
-        let ctx = new CompileContext();
+        let ctx = new CompileContext(this._lang);
 
         const source = this._getConditionStatement(
             ctx,

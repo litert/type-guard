@@ -82,6 +82,18 @@ const Tests = {
             false
         ]
     },
+    isImplicitOptionalString: {
+        rule: "?string",
+        args: [
+            undefined,
+            "",
+            "a",
+            ["", 123],
+            123,
+            null,
+            false
+        ]
+    },
     isPoint: {
         rule: {"x": "float", "y": "float"},
         args: [
@@ -117,6 +129,26 @@ const Tests = {
         rule: ["$.map", {"x": "float", "y": "float"}],
         args: [
             {a: {"x": 1.2, "y": 4}, b: {"x": 1.2, "y": 4}},
+            [{"x": 1.2, "y": 4}, {"x": 1.2, "y": "4"}],
+            {a: {"x": 1.2, "y": "4"}, b: {"x": 1.2, "y": 4}},
+            {a: {"x": 1.2, "y": 4}, b: false},
+            undefined,
+            {"x": 1.2, "y": 4},
+            [],
+            "",
+            "a",
+            ["", 123],
+            123,
+            null,
+            false
+        ]
+    },
+    isNumberOrPointMap: {
+        rule: ["$.map", {"x": "float", "y": "float"}, "uint32"],
+        args: [
+            {a: {"x": 1.2, "y": 4}, b: {"x": 1.2, "y": 4}, c: 123},
+            {a: {"x": 1.2, "y": 4}, b: {"x": 1.2, "y": 4}},
+            {a: {"x": 1.2, "y": 4}, b: {"x": 1.2, "y": 4}, d: 55.02},
             [{"x": 1.2, "y": 4}, {"x": 1.2, "y": "4"}],
             {a: {"x": 1.2, "y": "4"}, b: {"x": 1.2, "y": 4}},
             {a: {"x": 1.2, "y": 4}, b: false},
@@ -199,9 +231,9 @@ const Tests = {
     },
     objectSubMapTest1: {
         rule: {
-            name: "string",
-            age: ["$.and", "int", "|value between 1 100"],
-            "friends->{}": {
+            "name": "string",
+            "age?": ["$.and", "int", "|value between 1 100"],
+            "friends->{}?": {
                 "name": "string",
                 "gender": ["=male", "=female", "=other"]
             }
@@ -220,6 +252,23 @@ const Tests = {
                         gender: "male"
                     }
                 }
+            },
+            {
+                name: "Angus",
+                friends: {
+                    "Edith": {
+                        name: "Edith",
+                        gender: "female"
+                    },
+                    "Yubo": {
+                        name: "Yubo",
+                        gender: "male"
+                    }
+                }
+            },
+            {
+                name: "Angus",
+                age: 24
             },
             {
                 name: "Angus",

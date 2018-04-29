@@ -85,15 +85,19 @@ export const FILTER_ON = {
     VALUE: "value"
 };
 
+export const MIX_TYPE_REL_PREFIX = "$.";
+
 export const MIX_TYPE_REL = {
 
-    $AND: "$.and",
-    $OR: "$.or",
-    $TUPLE: "$.tuple",
-    $ARRAY: "$.array",
-    $MAP: "$.map",
-    $STRICT_MAP: "$.strict_map"
+    $AND: `${MIX_TYPE_REL_PREFIX}and`,
+    $OR: `${MIX_TYPE_REL_PREFIX}or`,
+    $TUPLE: `${MIX_TYPE_REL_PREFIX}tuple`,
+    $ARRAY: `${MIX_TYPE_REL_PREFIX}array`,
+    $MAP: `${MIX_TYPE_REL_PREFIX}map`,
+    $OBJECT: `${MIX_TYPE_REL_PREFIX}object`
 };
+
+export const IMPLICIT_SYMBOL = "?";
 
 export interface Compiler {
 
@@ -119,32 +123,66 @@ export const TYPE_MAP_SUFFIX = "{}";
 
 export interface Language {
 
-    makeClosureExecution(paramVar: string, inputVar: string, code: string): string;
+    /**
+     * Wrap a code segment into a closure execution.
+     *
+     * @param paramVar  The name of parameter of closure function
+     * @param inputVar  The input of paramater of closure function
+     * @param code      The code to be wrapped.
+     */
+    makeClosureExecution(
+        paramVar: string,
+        inputVar: string,
+        code: string
+    ): string;
 
     /**
-     * Get the check condition statement of built-in types.
+     * Generate the condition statement of checking variable by built-in types.
+     *
      * @param v   The name of variable to be checked.
      * @param t   The name of built-in type
      */
-    getBITCondition(v: string, t: BuiltInType): string;
+    getBITCondition<K extends keyof typeof BUILT_IN_TYPES>(
+        v: string,
+        t: K | (typeof BUILT_IN_TYPES)[K]
+    ): string;
 
-    getFilterConditionStatement(v: string, t: string): string;
+    /**
+     * Generate the condition statement of checking variable by filter.
+     *
+     * @param v   The name of variable to be checked.
+     * @param f   The expression of filter
+     */
+    getFilterConditionStatement(v: string, f: string): string;
 
-    createIfStatement(condition: string, statement: string, elseStatement?: string): string;
+    /**
+     * Generate the IF statement.
+     *
+     * @param condition     The condition statement of IF statement.
+     * @param statement     The code to be execute if matched.
+     * @param elseStatement The code to be execute if not matched.
+     */
+    createIfStatement(
+        condition: string,
+        statement: string,
+        elseStatement?: string
+    ): string;
 
-    readonly not: string;
+    readonly NOT: string;
 
-    readonly returnTrue: string;
+    readonly RETURN_TRUE: string;
 
-    readonly returnFalse: string;
+    readonly RETURN_FALSE: string;
 
-    readonly and: string;
+    readonly AND: string;
 
-    readonly trueValue: string;
+    readonly TRUE_VALUE: string;
 
-    readonly falseValue: string;
+    readonly FALSE_VALUE: string;
 
-    readonly or: string;
+    readonly OR: string;
+
+    createTempVariableName(index: number): string;
 
     escape(s: string): string;
 

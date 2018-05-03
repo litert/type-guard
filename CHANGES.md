@@ -44,6 +44,34 @@
     }
     ```
 
+-   Added reference field name by syntax `$.valueof:field`, e.g.
+
+    ```json
+    {
+        "method": ["=email", "=password"],
+        "$.valueof:method": "string"
+    }
+    ```
+
+    will `$.valueof:method` means using value of field `method` as the name of 
+    a field. Thus it matches
+
+    ```json
+    {
+        "method": "email",
+        "email": "aaa@sample.com"
+    }
+    ```
+
+    and
+
+    ```json
+    {
+        "method": "password",
+        "password": "xxxxxxxxx"
+    }
+    ```
+
 -   Added advanced type `$.dict` to limit keys of `$.map`:
 
     ```json

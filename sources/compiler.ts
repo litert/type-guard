@@ -27,7 +27,7 @@ import {
     TYPE_MAP_SUFFIX,
     Language,
     IMPLICIT_SYMBOL,
-    ADV_TYPE_REL_PREFIX,
+    ADV_TYPE_PREFIX,
     KEY_OBJECT_SUFFIX
 } from "./common";
 
@@ -105,7 +105,7 @@ implements Compiler {
                 (
                     theType[0] === AdvancedTypes.$OR ||
                     typeof theType[0] !== "string" ||
-                    !theType[0].startsWith(ADV_TYPE_REL_PREFIX)
+                    !theType[0].startsWith(ADV_TYPE_PREFIX)
                 ) &&
                 (
                     theType.indexOf(BuiltInTypes.optional) !== -1 ||
@@ -184,7 +184,7 @@ implements Compiler {
      *
      * @param key The key to be checked.
      */
-    private _isKeyWithObjectSuffix(key: string): boolean {
+    private _isKeyWithStructureSuffix(key: string): boolean {
 
         return key.endsWith(KEY_OBJECT_SUFFIX);
     }
@@ -204,7 +204,7 @@ implements Compiler {
         return key.slice(0, -KEY_MAP_SUFFIX.length);
     }
 
-    private _removeKeyObjectSuffix(key: string): string {
+    private _removeKeyStructureSuffix(key: string): string {
 
         return key.slice(0, -KEY_OBJECT_SUFFIX.length);
     }
@@ -356,7 +356,7 @@ implements Compiler {
      * @param varName   The name of variable to be checked.
      * @param theType   The type to be checked.
      */
-    private _getConditionStatementByStructure(
+    private _getConditionStatementByObject(
         ctx: CompileContext,
         varName: string,
         theType: Dict<any>
@@ -374,6 +374,8 @@ implements Compiler {
             )
         ];
 
+        const keyList: Dict<boolean> = {};
+
         for (let key of keys) {
 
             let keyType = theType[key];
@@ -382,6 +384,15 @@ implements Compiler {
             if (key.endsWith(IMPLICIT_SYMBOL)) {
 
                 key = key.slice(0, -1);
+                isOptional = true;
+            }
+
+            /**
+             * Ignore $.virtual in non-strict object mode.
+             */
+            if (key.startsWith(AdvancedTypes.$VIRTUAL)) {
+
+                key = key.substr(AdvancedTypes.$VIRTUAL.length);
                 isOptional = true;
             }
 
@@ -395,28 +406,70 @@ implements Compiler {
                 keyType = [AdvancedTypes.$MAP, keyType];
                 key = this._removeKeyMapSuffix(key);
             }
-            else if (this._isKeyWithObjectSuffix(key)) {
+            else if (this._isKeyWithStructureSuffix(key)) {
 
                 keyType = [AdvancedTypes.$STRUCT, keyType];
-                key = this._removeKeyObjectSuffix(key);
+                key = this._removeKeyStructureSuffix(key);
             }
 
-            if (isOptional) {
+            if (key.startsWith(AdvancedTypes.$VIRTUAL)) {
 
-                keyType = this._isOptionalType(keyType) ? keyType : [
+                key = key.slice(AdvancedTypes.$VIRTUAL.length);
+                isOptional = true;
+            }
+
+            if (isOptional && !this._isOptionalType(keyType)) {
+
+                keyType = [
                     AdvancedTypes.$OR,
                     BuiltInTypes.optional,
                     keyType
                 ];
             }
 
-            ret.push(this._getConditionStatement(
-                ctx,
-                this._lang.getMapValue(
+            if (key.startsWith(AdvancedTypes.$VALUEOF)) {
+
+                const refKey = this._lang.getMapValue(
+                    varName,
+                    key.slice(AdvancedTypes.$VALUEOF.length),
+                    true
+                );
+
+                ret.push(`(${this._lang.getBITCondition(
+                    refKey,
+                    BuiltInTypes.string
+                )} ${this._lang.OR} ${this._lang.getBITCondition(
+                    refKey,
+                    BuiltInTypes.number
+                )})`);
+
+                key = this._lang.getMapValue(
+                    varName,
+                    refKey,
+                    false
+                );
+            }
+            else {
+
+                if (keyList[key]) {
+
+                    throw new ReferenceError(
+                        `Duplicated key "${key}" in schema.`
+                    );
+                }
+
+                keyList[key] = true;
+
+                key = this._lang.getMapValue(
                     varName,
                     key,
                     true
-                ),
+                );
+            }
+
+            ret.push(this._getConditionStatement(
+                ctx,
+                key,
                 keyType
             ));
         }
@@ -431,7 +484,7 @@ implements Compiler {
      * @param varName   The name of variable to be checked.
      * @param theType   The type to be checked.
      */
-    private _getConditionStatementBy$Object(
+    private _getConditionStatementBy$Structure(
         ctx: CompileContext,
         varName: string,
         theType: any
@@ -465,16 +518,25 @@ implements Compiler {
             )
         ];
 
-        let finalKeys: string[] = [];
+        let literalKeys: string[] = [];
+        let referKeys: string[] = [];
 
         for (let key of keys) {
 
             let keyType = theType[key];
             let isOptional = false;
+            let isVirtual = false;
 
             if (key.endsWith(IMPLICIT_SYMBOL)) {
 
                 key = key.slice(0, -1);
+                isOptional = true;
+            }
+
+            if (key.startsWith(AdvancedTypes.$VIRTUAL)) {
+
+                key = key.substr(AdvancedTypes.$VIRTUAL.length);
+                isVirtual = true;
                 isOptional = true;
             }
 
@@ -488,10 +550,10 @@ implements Compiler {
                 keyType = [AdvancedTypes.$MAP, keyType];
                 key = this._removeKeyMapSuffix(key);
             }
-            else if (this._isKeyWithObjectSuffix(key)) {
+            else if (this._isKeyWithStructureSuffix(key)) {
 
                 keyType = [AdvancedTypes.$STRUCT, keyType];
-                key = this._removeKeyObjectSuffix(key);
+                key = this._removeKeyStructureSuffix(key);
             }
 
             if (isOptional) {
@@ -502,16 +564,68 @@ implements Compiler {
                     keyType
                 ];
             }
+/*
+            if (
+                keyType === FILED_ASSERT_RESULT &&
+                key.startsWith(AdvancedTypes.$ASSERT)
+            ) {
+                const refKey = this._lang.getMapValue(
+                    varName,
+                    key.slice(AdvancedTypes.$ASSERT.length),
+                    true
+                );
 
-            finalKeys.push(key);
+                referKeys.push(key.slice(AdvancedTypes.$ASSERT.length));
 
-            ret.push(this._getConditionStatement(
-                ctx,
-                this._lang.getMapValue(
+                ret.push(`(${this._lang.NOT}${this._lang.getBITCondition(
+                    refKey,
+                    BuiltInTypes.void
+                )})`);
+
+                continue;
+            }
+*/
+            if (key.startsWith(AdvancedTypes.$VALUEOF)) {
+
+                referKeys.push(key.slice(AdvancedTypes.$VALUEOF.length));
+
+                const refKey = this._lang.getMapValue(
+                    varName,
+                    key.slice(AdvancedTypes.$VALUEOF.length),
+                    true
+                );
+
+                ret.push(`(${this._lang.getBITCondition(
+                    refKey,
+                    BuiltInTypes.string
+                )} ${this._lang.OR} ${this._lang.getBITCondition(
+                    refKey,
+                    BuiltInTypes.number
+                )})`);
+
+                key = this._lang.getMapValue(
+                    varName,
+                    refKey,
+                    false
+                );
+            }
+            else {
+
+                if (!isVirtual) {
+
+                    literalKeys.push(key);
+                }
+
+                key = this._lang.getMapValue(
                     varName,
                     key,
                     true
-                ),
+                );
+            }
+
+            ret.push(this._getConditionStatement(
+                ctx,
+                key,
                 keyType
             ));
         }
@@ -524,9 +638,11 @@ implements Compiler {
                 this._lang.getObjectKeysArrayStatement($objName)
             )}
             ${this._lang.createIfStatement(
-                this._lang.getStringArrayContainsCondition(
+                this._lang.getCheckKeysEqualCondition(
+                    $objName,
                     $objKeys,
-                    finalKeys
+                    literalKeys,
+                    referKeys
                 ),
                 this._lang.RETURN_TRUE,
                 this._lang.RETURN_FALSE
@@ -590,7 +706,7 @@ implements Compiler {
 
         case AdvancedTypes.$STRUCT:
 
-            return this._getConditionStatementBy$Object(
+            return this._getConditionStatementBy$Structure(
                 ctx,
                 varName,
                 theType.slice(1)
@@ -869,7 +985,7 @@ implements Compiler {
                 );
             }
 
-            return this._getConditionStatementByStructure(
+            return this._getConditionStatementByObject(
                 ctx,
                 varName,
                 theType

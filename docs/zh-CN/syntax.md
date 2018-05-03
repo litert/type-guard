@@ -589,6 +589,8 @@ interface Map<T> {
 
 ## 进阶使用
 
+### 混合使用
+
 `$.map`、`$.dict`、`$.array` 修饰符后面可以有多个元素，例如：
 
 ```json
@@ -620,3 +622,37 @@ interface Map<T> {
 ```
 
 进一步简化为：`"string[]{}"`
+
+### 对象的属性名引用
+
+在对象中，可以通过 `$.valueof` 语法将一个属性的值作为另一个属性的名称，例如：
+
+```json
+{
+    "a": ["=hello", "=world"],
+    "$.valueof:a": "boolean"
+}
+```
+
+表示第二个属性的名称必须是属性 a 的值，也就是说，如果 a == "hello"，则必须有一个名为
+"hello" 的布尔型属性，如果 a == "world"，则必须有一个名为 "world" 的布尔型属性。
+
+### 对象的属性存在性断言
+
+在对象中，可以通过 `$.valueof` 语法，将一个属性的值作为另一个属性的名称，并断言该属性
+必须存在（不为 `undefined`）：
+
+```json
+{
+    "a": ["=hello", "=world"],
+    "$.valueof:a": "exists",
+    "$.virtual:hello": "string",
+    "$.virtual:world": "uint32"
+}
+```
+
+此处将 `$.valueof:a` 的值设置为 `exists`，表示属性不能为 `undefined`。
+因此 `hello` 或者 `world` 中必须有一个存在。
+
+> 将 `hello` 和 `world` 设置为 `virtual` 属性，这样表示他们被用于存在性断言。
+> `virtual` 属性默认是可选的。

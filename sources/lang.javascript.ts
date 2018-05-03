@@ -37,7 +37,9 @@ implements Language {
         case BuiltInTypes.optional:
         case BuiltInTypes.undefined:
         case BuiltInTypes.void:
-            return `(${v} === void 0)`;
+            return `(${v} === undefined)`;
+        case BuiltInTypes.exists:
+            return `(${v} !== undefined)`;
         case BuiltInTypes.any:
             return `(true)`;
         case BuiltInTypes.array:
@@ -393,16 +395,22 @@ implements Language {
         return `const ${constName} = ${val};`;
     }
 
-    public getStringArrayContainsCondition(
-        arrVarName: string,
-        arr: string[]
+    public getCheckKeysEqualCondition(
+        objVar: string,
+        objKeysVar: string,
+        literalKeys: string[],
+        referKeys: string[]
     ): string {
 
-        const KEYS: string = `[${arr.map(
+        const KEYS: string = `[${literalKeys.map(
             (k) => `"${this.escape(k)}"`
+        ).concat(
+            referKeys.map((k) => `${objVar}["${this.escape(k)}"]`)
         ).join(", ")}]`;
 
-        return `new Set(${KEYS}.concat(${arrVarName})).size === ${arr.length}`;
+        return `new Set(${KEYS}.concat(${objKeysVar})).size === ${
+            literalKeys.length + referKeys.length
+        }`;
     }
 
     public getMapValue(

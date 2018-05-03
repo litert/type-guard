@@ -39,7 +39,9 @@ export interface CompileResult {
 
 export const BuiltInTypes = {
     "void": "void",
+    "undefined": "undefined",
     "optional": "optional",
+    "exists": "exists",
     "array": "array",
     "any": "any",
     "int": "int",
@@ -65,8 +67,7 @@ export const BuiltInTypes = {
     "false": "false",
     "null": "null",
     "float": "float",
-    "numeric": "numeric",
-    "undefined": "undefined"
+    "numeric": "numeric"
 };
 
 function freezeObject(obj: any): void {
@@ -102,17 +103,19 @@ export const FILTER_ON = {
     VALUE: "value"
 };
 
-export const ADV_TYPE_REL_PREFIX = "$.";
+export const ADV_TYPE_PREFIX = "$.";
 
 export const AdvancedTypes = {
 
-    $AND: `${ADV_TYPE_REL_PREFIX}and`,
-    $OR: `${ADV_TYPE_REL_PREFIX}or`,
-    $TUPLE: `${ADV_TYPE_REL_PREFIX}tuple`,
-    $ARRAY: `${ADV_TYPE_REL_PREFIX}array`,
-    $MAP: `${ADV_TYPE_REL_PREFIX}map`,
-    $DICT: `${ADV_TYPE_REL_PREFIX}dict`,
-    $STRUCT: `${ADV_TYPE_REL_PREFIX}struct`
+    $AND: `${ADV_TYPE_PREFIX}and`,
+    $OR: `${ADV_TYPE_PREFIX}or`,
+    $TUPLE: `${ADV_TYPE_PREFIX}tuple`,
+    $ARRAY: `${ADV_TYPE_PREFIX}array`,
+    $MAP: `${ADV_TYPE_PREFIX}map`,
+    $DICT: `${ADV_TYPE_PREFIX}dict`,
+    $STRUCT: `${ADV_TYPE_PREFIX}struct`,
+    $VALUEOF: `${ADV_TYPE_PREFIX}valueof:`,
+    $VIRTUAL: `${ADV_TYPE_PREFIX}virtual:`
 };
 
 export const IMPLICIT_SYMBOL = "?";
@@ -189,14 +192,13 @@ export interface Language {
     getConstantDefinition(constName: string, val: string): string;
 
     /**
-     * Check if the elements in array variable are insides the array.
-     *
-     * @param arrVarName  The name of array vairable.
-     * @param arr         The array.
+     * Check if the keys of object are equal.
      */
-    getStringArrayContainsCondition(
-        arrVarName: string,
-        arr: string[]
+    getCheckKeysEqualCondition(
+        objVar: string,
+        objKeysVar: string,
+        literalKeys: string[],
+        referKeys: string[]
     ): string;
 
     /**

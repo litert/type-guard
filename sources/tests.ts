@@ -412,6 +412,97 @@ const Tests = {
             [["a"], [], ["b"]],
             [["a"], "a", ["b"]]
         ]
+    },
+    valueofKeyTest: {
+        rule: {
+            "method": ["=email", "=password"],
+            "$.valueof:method": "string"
+        },
+        args: [
+            {"method": "email", "email": "fenying@litert.org"},
+            {"method": "password", "password": "hello world"},
+            {"method": "password", "class": "hello world"},
+            {"method": "vvv", "class": "hello world"},
+            {"at": "vvv", "class": "hello world"}
+        ]
+    },
+    valueofKeyStrictTest: {
+        rule: ["$.struct", {
+            "$.valueof:method": "string",
+            "method": ["=email", "=password"]
+        }],
+        args: [
+            {"method": "email", "email": "fenying@litert.org"},
+            {"method": "password", "password": "hello world"},
+            {"method": "password", "password": "hello world", "c": "dsad"},
+            {"method": "password", "class": "hello world"},
+            {"method": "vvv", "class": "hello world"},
+            {"at": "vvv", "class": "hello world"}
+        ]
+    },
+    valueofKeyStrictTest2: {
+        rule: ["$.struct", {
+            "$.valueof:method->[]": "string",
+            "method": ["=email", "=password"]
+        }],
+        args: [
+            {"method": "email", "email": ["fenying@litert.org"]},
+            {"method": "password", "password": ["hello world"]},
+            {"method": "password", "password": ["hello world"], "c": "dsad"},
+            {"method": "password", "class": "hello world"},
+            {"method": "vvv", "class": "hello world"},
+            {"at": "vvv", "class": "hello world"}
+        ]
+    },
+    valueofKeyStrictTest3: {
+        rule: ["$.struct", {
+            "$.valueof:method->[]?": "string",
+            "method": ["=email", "=password"]
+        }],
+        args: [
+            {"method": "email", "email": ["fenying@litert.org"]},
+            {"method": "password", "password": ["hello world"]},
+            {"method": "password"},
+            {"method": "password", "password": ["hello world"], "c": "dsad"},
+            {"method": "password", "class": "hello world"},
+            {"method": "vvv", "class": "hello world"},
+            {"at": "vvv", "class": "hello world"}
+        ]
+    },
+    assertKeyTest1: {
+        rule: {
+            "method": ["=email", "=password"],
+            "$.valueof:method": "exists",
+            "email?": "string[]",
+            "password?": "string[]"
+        },
+        args: [
+            {"method": "email", "email": ["fenying@litert.org"]},
+            {"method": "password", "password": ["hello world"]},
+            {"method": "password"},
+            {"method": "password", "password": ["hello world"], "c": "dsad"},
+            {"method": "password", "class": "hello world"},
+            {"method": "vvv", "class": "hello world"},
+            {"at": "vvv", "class": "hello world"}
+        ]
+    },
+    assertStrictKeyTest1: {
+        rule: ["$.struct", {
+            "method": ["=email", "=password"],
+            "$.valueof:method": "exists",
+            "$.virtual:email?": "string",
+            "$.virtual:password?": "string"
+        }],
+        args: [
+            {"method": "email", "email": "fenying@litert.org", "password": "hello world"},
+            {"method": "email", "email": "fenying@litert.org"},
+            {"method": "password", "password": "hello world"},
+            {"method": "password"},
+            {"method": "password", "password": ["hello world"], "c": "dsad"},
+            {"method": "password", "class": "hello world"},
+            {"method": "vvv", "class": "hello world"},
+            {"at": "vvv", "class": "hello world"}
+        ]
     }
 };
 
@@ -454,4 +545,4 @@ function runAllTests(stopOnEntry?: boolean) {
 }
 
 runAllTests();
-// runTestItem("strictObjectTest", true);
+// runTestItem("assertStrictKeyTest1");

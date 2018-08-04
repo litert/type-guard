@@ -7,12 +7,12 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Do tests",
-            "program": "${workspaceFolder}/sources/tests.ts",
+            "name": "[TypeGuard] Do tests",
+            "program": "${workspaceFolder}/src/tests.ts",
             "sourceMaps": true,
             "outFiles": [
-                "${workspaceFolder}/dist/*.js",
-                "${workspaceFolder}/dist/**/*.js"
+                "${workspaceFolder}/lib/*.js",
+                "${workspaceFolder}/lib/**/*.js"
             ]
         }
     ]

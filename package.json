@@ -1,14 +1,14 @@
 {
   "name": "@litert/typeguard",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "A type checking code \"JIT\" library.",
-  "main": "dist/index.js",
+  "main": "lib/index.js",
   "scripts": {
     "prepare": "npm run rebuild",
     "build": "tsc -p .",
     "rebuild": "npm run clean && npm run lint && npm run build",
-    "test": "echo See directory sources/samples",
-    "clean": "rm -rf dist",
+    "test": "node lib/tests.js",
+    "clean": "rm -rf lib",
     "lint": "tslint -p . -c tslint.json"
   },
   "keywords": [
@@ -29,9 +29,11 @@
   },
   "homepage": "https://github.com/litert/type-guard#readme",
   "dependencies": {},
-  "types": "dist/index.d.ts",
-  "typings": "dist/index.d.ts",
-  "devDependencies": {},
+  "types": "lib/index.d.ts",
+  "typings": "lib/index.d.ts",
+  "devDependencies": {
+    "typescript": "^2.9.2"
+  },
   "engines": {
     "node": ">=8.0.0"
   }

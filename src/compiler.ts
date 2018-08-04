@@ -1,16 +1,17 @@
 /*
-   +----------------------------------------------------------------------+
-   | LiteRT TypeGuard.js Library                                          |
-   +----------------------------------------------------------------------+
-   | Copyright (c) 2018 Fenying Studio                                    |
-   +----------------------------------------------------------------------+
-   | This source file is subject to version 2.0 of the Apache license,    |
-   | that is bundled with this package in the file LICENSE, and is        |
-   | available through the world-wide-web at the following url:           |
-   | https://github.com/litert/type-guard/blob/master/LICENSE             |
-   +----------------------------------------------------------------------+
-   | Authors: Angus Fenying <fenying@litert.org>                          |
-   +----------------------------------------------------------------------+
+ * Copyright 2018 Angus.Fenying <fenying@litert.org>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 import {
@@ -81,7 +82,7 @@ implements Compiler {
     private _isFilter(filter: string): boolean {
 
         return filter[0] === "|" &&
-        /^\|(length|value|string\.length|array\.length) \w+( [-+]?\d+(\.\d+)?)*$/.test(
+        /^\|(\w+|string\.length|array\.length) \w+( [-+]?\d+(\.\d+)?)*$/.test(
             filter
         );
     }

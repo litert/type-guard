@@ -47,11 +47,11 @@ const isBoolean = compiler.compile("boolean");
 
 console.log(isUInt8(123));
 console.log(isUInt8(255));
-console.log(isUInt8(256)); // 超出 UInt8 的范围
+console.log(isUInt8(256));      // 超出 UInt8 的范围
 console.log(isBoolean(true));
-console.log(isBoolean(null)); // null 不是 boolean 型
+console.log(isBoolean(null));   // null 不是 boolean 型
 console.log(isBoolean(false));
-console.log(isBoolean(123)); // 123 不是 boolean 型
+console.log(isBoolean(123));    // 123 不是 boolean 型
 ```
 
 ### 直接量
@@ -59,10 +59,10 @@ console.log(isBoolean(123)); // 123 不是 boolean 型
 使用直接量表达式，可以校验数据是否为具体的值：
 
 ```js
-compiler.compile(123); // 被校验的变量必须为数值 123（类型上完全匹配）
-compiler.compile(null); // 被校验的变量必须为 null （类型上完全匹配）
-compiler.compile(true); // 被校验的变量必须为布尔值 true （类型上完全匹配）
-compiler.compile(false); // 被校验的变量必须为布尔值 false （类型上完全匹配）
+compiler.compile(123);      // 被校验的变量必须为数值 123（类型上完全匹配）
+compiler.compile(null);     // 被校验的变量必须为 null （类型上完全匹配）
+compiler.compile(true);     // 被校验的变量必须为布尔值 true （类型上完全匹配）
+compiler.compile(false);    // 被校验的变量必须为布尔值 false （类型上完全匹配）
 ```
 
 ### 字符串匹配
@@ -98,6 +98,7 @@ target 可以是如下值：
 - `length` 变量的值长度（字符串长度或者数组长度）
 - `string.length` 字符串变量的长度（会先校验是否为字符串）
 - `array.length` 数组变量的长度（会先校验是否为数组）
+- 任意简单类型
 
 目前支持如下比较方式：
 
@@ -151,19 +152,19 @@ compiler.compile("|value ne 1");
 compiler.compile("|value eq 1");
 
 /**
- * 被校验的值必须是奇数
+ * 被校验的值必须是整数且是奇数
  */
-compiler.compile("|value odd");
+compiler.compile("|uint odd");
 
 /**
- * 被校验的值必须是偶数
+ * 被校验的值必须是整数且是偶数
  */
-compiler.compile("|value even");
+compiler.compile("|uint even");
 
 /**
- * 被校验的值必须是 10 的倍数
+ * 被校验的值必须是整数且是 10 的倍数
  */
-compiler.compile("|value timesof 10");
+compiler.compile("|uint timesof 10");
 ```
 
 ## 高级类型

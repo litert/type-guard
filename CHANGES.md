@@ -1,5 +1,22 @@
 # Changes Logs
 
+## v0.3.0
+
+-   Upgrade TypeScript compiler to `v2.9.2`.
+-   Allowed built-in type in filter:
+
+    To ensure an unsigned integer less than 1000, the rule should be
+
+    ```json
+    ["$.and", "uint", "|value lt 1000"]
+    ```
+
+    And now, use following rule instead:
+
+    ```json
+    "|uint lt 1000"
+    ```
+
 ## v0.2.0
 
 -   Added advanced type `$.struct` to exactly limit keys of object:

@@ -28,7 +28,8 @@
         "radix": false,
         "no-var-requires": false,
         "no-bitwise": false,
-        "prefer-for-of": false
+        "prefer-for-of": false,
+        "function-constructor": false
     },
     "rulesDirectory": []
 }

@@ -1,5 +1,9 @@
 # Changes Logs
 
+## v0.3.1
+
+- Fixed the `undefined` detection.
+
 ## v0.3.0
 
 -   Upgrade TypeScript compiler to `v2.9.2`.

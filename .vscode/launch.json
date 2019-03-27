@@ -8,11 +8,14 @@
             "type": "node",
             "request": "launch",
             "name": "[TypeGuard] Do tests",
-            "program": "${workspaceFolder}/src/tests.ts",
+            "program": "${workspaceFolder}/src/samples/debug.ts",
             "sourceMaps": true,
+            "cwd": "${workspaceFolder}",
             "outFiles": [
                 "${workspaceFolder}/lib/*.js",
-                "${workspaceFolder}/lib/**/*.js"
+                "${workspaceFolder}/lib/**/*.js",
+                "${workspaceFolder}/samples/*.js",
+                "${workspaceFolder}/samples/**/*.js"
             ]
         }
     ]

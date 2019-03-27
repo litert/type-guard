@@ -263,11 +263,10 @@ implements C.ILanguageBuilder {
 
     public fieldIndex(
         o: string,
-        k: string,
-        literal?: boolean
+        k: string
     ): string {
 
-        return `${o}[${ literal ? JSON.stringify(k) : k}]`;
+        return `${o}[${k}]`;
     }
 
     public arrayIndex(

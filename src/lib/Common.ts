@@ -274,8 +274,7 @@ export interface ILanguageBuilder {
 
     fieldIndex(
         objectName: string,
-        key: string,
-        literal?: boolean
+        key: string
     ): string;
 
     arrayIndex(

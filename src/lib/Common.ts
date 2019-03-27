@@ -83,7 +83,7 @@ export interface ILanguageBuilder {
 
     and(conditions: string[]): string;
 
-    eq(a: string, b: string): string;
+    eq(a: string, b: string | number): string;
 
     ne(a: string, b: string): string;
 

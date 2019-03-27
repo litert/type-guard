@@ -16,7 +16,7 @@ const tgc = new CheckerCompiler(
 // tslint:disable: no-console
 
 const result = tgc.compile({
-    rules: "string(0,200)[5]"
+    rules: ["$.tuple", "hex_string(8)", "uint8"]
 });
 
 const checker = new Function(
@@ -26,6 +26,9 @@ const checker = new Function(
 
 console.log(result.source);
 
+console.log(checker(["FFFFFFFF", 127]));
+console.log(checker(["10090000", 123]));
+console.log(checker(["100", -128]));
 console.log(checker([100, 127, -128, 111, 0]));
 console.log(checker(["100", "127", "-128", "111", "0"]));
 console.log(checker({

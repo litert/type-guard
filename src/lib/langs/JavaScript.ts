@@ -74,7 +74,7 @@ implements C.ILanguageBuilder {
         return `${conditions.map((x) => `(${x})`).join(" && ")}`;
     }
 
-    public eq(a: string, b: string): string {
+    public eq(a: string, b: string | number): string {
 
         return `${a} === ${b}`;
     }
@@ -158,6 +158,11 @@ implements C.ILanguageBuilder {
         return positive ? "===" : "!==";
     }
 
+    private _not(positive: boolean = true): string {
+
+        return positive ? "" : "!";
+    }
+
     public isString(vn: string, positive: boolean = true): string {
 
         return `typeof ${vn} ${this._equal(positive)} "string"`;
@@ -172,7 +177,7 @@ implements C.ILanguageBuilder {
 
     public isInteger(vn: string, positive: boolean = true): string {
 
-        return `Number.isInteger(${vn}) ${this._equal(positive)} true`;
+        return `${this._not(positive)}Number.isInteger(${vn})`;
     }
 
     public isNumber(vn: string, positive: boolean = true): string {
@@ -189,7 +194,7 @@ implements C.ILanguageBuilder {
 
     public isArray(vn: string, positive: boolean = true): string {
 
-        return `Array.isArray(${vn}) ${this._equal(positive)} true`;
+        return `${this._not(positive)}Array.isArray(${vn})`;
     }
 
     public isBoolean(vn: string, positive: boolean = true): string {

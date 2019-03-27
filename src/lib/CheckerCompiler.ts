@@ -373,6 +373,10 @@ export class CheckerCompiler {
 
                 return this._compileModifierMAP(ctx, rules.slice(1));
             }
+            case Modifers.TUPLE: {
+
+                return this._compileModifierTUPLE(ctx, rules.slice(1));
+            }
         }
 
         throw new TypeError(`Unknown modifier "${rules[0]}".`);
@@ -422,6 +426,26 @@ export class CheckerCompiler {
         this._untrap(ctx);
 
         return result;
+    }
+
+    private _compileModifierTUPLE(ctx: C.IContext, rules: any[]): string {
+
+        const result: string[] = [
+            this._lang.isArray(ctx.vName, true),
+            this._lang.eq(this._lang.arrayLength(ctx.vName), rules.length)
+        ];
+
+        for (let i = 0; i < rules.length; i++) {
+
+            this._trap(ctx);
+
+            ctx.vName = this._lang.arrayIndex(ctx.vName, i);
+            result.push(this._compile(ctx, rules[i]));
+
+            this._untrap(ctx);
+        }
+
+        return this._lang.and(result);
     }
 
     private _compileModifierMAP(ctx: C.IContext, rules: any[]): string {

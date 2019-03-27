@@ -27,6 +27,7 @@ const checker = new Function(
 console.log(result.source);
 
 console.log(checker([100, 127, -128, 111, 0]));
+console.log(checker(["100", "127", "-128", "111", "0"]));
 console.log(checker({
     "A": 123,
     "b": -123

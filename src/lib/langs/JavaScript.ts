@@ -66,47 +66,47 @@ implements C.ILanguageBuilder {
 
     public or(conditions: string[]): string {
 
-        return `(${conditions.join(" || ")})`;
+        return `${conditions.map((x) => `(${x})`).join(" || ")}`;
     }
 
     public and(conditions: string[]): string {
 
-        return `(${conditions.join(" && ")})`;
+        return `${conditions.map((x) => `(${x})`).join(" && ")}`;
     }
 
     public eq(a: string, b: string): string {
 
-        return `(${a} === ${b})`;
+        return `${a} === ${b}`;
     }
 
     public ne(a: string, b: string): string {
 
-        return `(${a} !== ${b})`;
+        return `${a} !== ${b}`;
     }
 
     public gt(a: string, b: string): string {
 
-        return `(${a} > ${b})`;
+        return `${a} > ${b}`;
     }
 
     public gte(a: string, b: string): string {
 
-        return `(${a} >= ${b})`;
+        return `${a} >= ${b}`;
     }
 
     public lt(a: string, b: string): string {
 
-        return `(${a} < ${b})`;
+        return `${a} < ${b}`;
     }
 
     public lte(a: string, b: string): string {
 
-        return `(${a} <= ${b})`;
+        return `${a} <= ${b}`;
     }
 
     public not(a: string): string {
 
-        return `(!(${a}))`;
+        return `!(${a})`;
     }
 
     public literal(val: string): string {
@@ -116,7 +116,7 @@ implements C.ILanguageBuilder {
 
     public modOf(a: string, b: string): string {
 
-        return `(${a} % ${b})`;
+        return `${a} % ${b}`;
     }
 
     private _escape(s: string): string {
@@ -145,12 +145,12 @@ implements C.ILanguageBuilder {
 
     public isNull(vn: string, positive: boolean = true): string {
 
-        return `(${vn} ${this._equal(positive)} null)`;
+        return `${vn} ${this._equal(positive)} null`;
     }
 
     public isUndefined(vn: string, positive: boolean = true): string {
 
-        return `(${vn} ${this._equal(positive)} undefined)`;
+        return `${vn} ${this._equal(positive)} undefined`;
     }
 
     private _equal(positive: boolean = true): string {
@@ -160,7 +160,7 @@ implements C.ILanguageBuilder {
 
     public isString(vn: string, positive: boolean = true): string {
 
-        return `(typeof ${vn} ${this._equal(positive)} "string")`;
+        return `typeof ${vn} ${this._equal(positive)} "string"`;
     }
 
     public isDict(vn: string, positive: boolean = true): string {
@@ -172,29 +172,29 @@ implements C.ILanguageBuilder {
 
     public isInteger(vn: string, positive: boolean = true): string {
 
-        return `(Number.isInteger(${vn}) ${this._equal(positive)} true)`;
+        return `Number.isInteger(${vn}) ${this._equal(positive)} true`;
     }
 
     public isNumber(vn: string, positive: boolean = true): string {
 
         return positive ?
-            `(typeof ${vn} === "number" && Number.isFinite(${vn}) && !Number.isNaN(${vn}))` :
-            `(typeof ${vn} !== "number" || !Number.isFinite(${vn}) || Number.isNaN(${vn}))`;
+            `typeof ${vn} === "number" && Number.isFinite(${vn}) && !Number.isNaN(${vn})` :
+            `typeof ${vn} !== "number" || !Number.isFinite(${vn}) || Number.isNaN(${vn})`;
     }
 
     public isNumeric(vn: string, positive: boolean = true): string {
 
-        return `(/^[+-]?\\d+(\\.\\d+)?$/.test(${vn}) ${this._equal(positive)} true)`;
+        return `/^[+-]?\\d+(\\.\\d+)?$/.test(${vn}) ${this._equal(positive)} true`;
     }
 
     public isArray(vn: string, positive: boolean = true): string {
 
-        return `(Array.isArray(${vn}) ${this._equal(positive)} true)`;
+        return `Array.isArray(${vn}) ${this._equal(positive)} true`;
     }
 
     public isBoolean(vn: string, positive: boolean = true): string {
 
-        return `(typeof ${vn} ${this._equal(positive)} "boolean")`;
+        return `typeof ${vn} ${this._equal(positive)} "boolean"`;
     }
 
     public arrayLength(vn: string): string {
@@ -295,12 +295,12 @@ implements C.ILanguageBuilder {
 
     public isTrueValue(vn: string): string {
 
-        return `(!!${vn})`;
+        return `!!${vn}`;
     }
 
     public isFalseValue(vn: string): string {
 
-        return `(!${vn})`;
+        return `!${vn}`;
     }
 
     public returnValue(vn: string): string {

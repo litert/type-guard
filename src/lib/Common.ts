@@ -363,6 +363,12 @@ export const FILTER_PREFIX = "|";
 
 export const IMPLICIT_SYMBOL = "?";
 
+export const KEY_MAP_SUFFIX = "->{}";
+
+export const KEY_ARRAY_SUFFIX = "->[]";
+
+export const KEY_STRICT_SUFFIX = "->(=)";
+
 export enum EFlags {
 
     FROM_STRING,

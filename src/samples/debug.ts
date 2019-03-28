@@ -16,7 +16,14 @@ const tgc = new CheckerCompiler(
 // tslint:disable: no-console
 
 const result = tgc.compile({
-    rules: ["void", ["$.array", "string", "string", "int"]]
+    rules: {
+        "a": "uint32",
+        "b?": ["=123", "numeric"],
+        "c->[]?": {
+            "name": "string(1, 255)",
+            "age": "int"
+        }
+    }
 });
 
 const checker = new Function(
@@ -26,6 +33,20 @@ const checker = new Function(
 
 console.log(result.source);
 
+console.log(checker({
+    "a": 123
+}));
+console.log(checker({
+    "a": 123,
+    "c": [{
+        "name": "2131231",
+        "age": 333
+    }]
+}));
+console.log(checker({
+    "a": 123321,
+    "b": "123"
+}));
 console.log(checker(["FFFFFFFF", 127]));
 console.log(checker(["10090000", 123]));
 console.log(checker(["100", -128]));

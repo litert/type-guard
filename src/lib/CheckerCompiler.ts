@@ -512,9 +512,73 @@ export class CheckerCompiler {
         return result;
     }
 
-    private _compileStructuredRule(ctx: C.IContext, rule: {}): string {
+    private _compileStructuredRule(ctx: C.IContext, rules: Record<string, any>): string {
 
-        return this._lang.literal(false);
+        const strict = !!ctx.flags[C.EFlags.STRICT];
+
+        const result: string[] = [
+            this._lang.isDict(ctx.vName, true)
+        ];
+
+        for (let k in rules) {
+
+            let rule = rules[k];
+
+            let optional = false;
+
+            if (k.endsWith(C.IMPLICIT_SYMBOL)) {
+
+                optional = true;
+                k = k.slice(0, -1);
+            }
+
+            ctx.trap();
+
+            if (k.endsWith(C.KEY_ARRAY_SUFFIX)) {
+
+                k = k.slice(0, -C.KEY_ARRAY_SUFFIX.length);
+                rule = ["$.array", rule];
+            }
+            else if (k.endsWith(C.KEY_MAP_SUFFIX)) {
+
+                k = k.slice(0, -C.KEY_MAP_SUFFIX.length);
+                rule = [Modifers.MAP, rule];
+            }
+            else if (k.endsWith(C.KEY_STRICT_SUFFIX)) {
+
+                k = k.slice(0, -C.KEY_STRICT_SUFFIX.length);
+                rule = [Modifers.STRICT, rule];
+            }
+
+            if (optional) {
+
+                if (this._isOrRule(rule)) {
+
+                    rule.push("void");
+                }
+                else {
+
+                    rule = ["void", rule];
+                }
+            }
+
+            ctx.vName = this._lang.fieldIndex(ctx.vName, this._lang.literal(k));
+
+            result.push(this._compile(ctx, rule));
+
+            ctx.untrap();
+        }
+
+        return this._lang.and(result);
+    }
+
+    private _isOrRule(rule: unknown): rule is any[] {
+
+        return Array.isArray(rule) && (
+            rule[0] === Modifers.OR ||
+            typeof rule[0] !== "string" ||
+            !rule[0].startsWith(C.MODIFIER_PREFIX)
+        );
     }
 
 }

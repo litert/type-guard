@@ -1,5 +1,6 @@
 import * as C from "./Common";
 import * as Modifers from "./Modifiers";
+import { Context } from "./Context";
 
 export class CheckerCompiler {
 
@@ -11,15 +12,7 @@ export class CheckerCompiler {
 
     public compile(options: C.ICompileOptions): C.ICompileResult {
 
-        const ctx: C.IContext = {
-            fromString: false,
-            strict: false,
-            vCursor: 0,
-            tracePoint: 0,
-            vName: this._lang.varName("entry"),
-            trace: !!options.traceable,
-            stack: []
-        };
+        const ctx: C.IContext = new Context(this._lang.varName("entry"));
 
         const ret: C.ICompileResult = {
 
@@ -398,7 +391,7 @@ export class CheckerCompiler {
 
     private _compileModifierARRAY(ctx: C.IContext, rules: any[]): string {
 
-        this._trap(ctx);
+        ctx.trap();
 
         const CLOSURE_ARG = ctx.vName;
 
@@ -423,7 +416,7 @@ export class CheckerCompiler {
             )
         ]);
 
-        this._untrap(ctx);
+        ctx.untrap();
 
         return result;
     }
@@ -437,12 +430,12 @@ export class CheckerCompiler {
 
         for (let i = 0; i < rules.length; i++) {
 
-            this._trap(ctx);
+            ctx.trap();
 
             ctx.vName = this._lang.arrayIndex(ctx.vName, i);
             result.push(this._compile(ctx, rules[i]));
 
-            this._untrap(ctx);
+            ctx.untrap();
         }
 
         return this._lang.and(result);
@@ -455,7 +448,7 @@ export class CheckerCompiler {
             rules = rules[0];
         }
 
-        this._trap(ctx);
+        ctx.trap();
 
         const CLOSURE_ARG = ctx.vName;
 
@@ -482,7 +475,7 @@ export class CheckerCompiler {
             )
         ]);
 
-        this._untrap(ctx);
+        ctx.untrap();
 
         return result;
     }
@@ -492,32 +485,4 @@ export class CheckerCompiler {
         return this._lang.literal(false);
     }
 
-    private _trap(ctx: C.IContext): void {
-
-        ctx.stack.push({
-            vName: ctx.vName,
-            fromString: ctx.fromString,
-            strict: ctx.strict
-        });
-    }
-
-    private _untrap(ctx: C.IContext): void {
-
-        const prev = ctx.stack.pop();
-
-        if (!prev) {
-
-            throw new Error("Failed to pop stack.");
-        }
-
-        ctx.stack.push({
-            vName: ctx.vName,
-            fromString: ctx.fromString,
-            strict: ctx.strict
-        });
-
-        ctx.vName = prev.vName;
-        ctx.fromString = prev.fromString;
-        ctx.strict = prev.strict;
-    }
 }

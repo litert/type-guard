@@ -66,10 +66,20 @@ implements C.ILanguageBuilder {
 
     public or(conditions: string[]): string {
 
+        if (conditions.length === 1) {
+
+            return conditions[0];
+        }
+
         return `${conditions.map((x) => `(${x})`).join(" || ")}`;
     }
 
     public and(conditions: string[]): string {
+
+        if (conditions.length === 1) {
+
+            return conditions[0];
+        }
 
         return `${conditions.map((x) => `(${x})`).join(" && ")}`;
     }

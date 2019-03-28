@@ -68,6 +68,14 @@ export class CheckerCompiler {
 
     private _compileStringRule(ctx: C.IContext, rule: string): string {
 
+        if (rule[0] === C.IMPLICIT_SYMBOL) {
+
+            return this._lang.or([
+                this._builtInTypes.compile("void", ctx, []),
+                this._compileStringRule(ctx, rule.slice(1))
+            ]);
+        }
+
         let regResult: RegExpMatchArray | null;
 
         /**
@@ -370,6 +378,21 @@ export class CheckerCompiler {
 
                 return this._compileModifierTUPLE(ctx, rules.slice(1));
             }
+            case Modifers.STRING: {
+
+                ctx.flags[C.EFlags.FROM_STRING] = C.EFlagValue.INHERIT;
+                return this._compileModifiedRule(ctx, rules.slice(1));
+            }
+            case Modifers.STRICT: {
+
+                ctx.flags[C.EFlags.STRICT] = C.EFlagValue.YES;
+                return this._compileModifiedRule(ctx, rules.slice(1));
+            }
+            case Modifers.EQUAL: {
+
+                ctx.flags[C.EFlags.STRICT] = C.EFlagValue.INHERIT;
+                return this._compileModifiedRule(ctx, rules.slice(1));
+            }
         }
 
         throw new TypeError(`Unknown modifier "${rules[0]}".`);
@@ -377,9 +400,18 @@ export class CheckerCompiler {
 
     private _compileModifierOR(ctx: C.IContext, rules: any[]): string {
 
-        return this._lang.or(
-            rules.map((rule) => this._compile(ctx, rule))
-        );
+        let result: string[] = [];
+
+        for (const r of rules) {
+
+            ctx.trap();
+
+            result.push(this._compile(ctx, r));
+
+            ctx.untrap();
+        }
+
+        return this._lang.or(result);
     }
 
     private _compileModifierAND(ctx: C.IContext, rules: any[]): string {

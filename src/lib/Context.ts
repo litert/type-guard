@@ -12,23 +12,18 @@ export class Context implements C.IContext {
 
     public vName: string;
 
-    public fromString: boolean;
-
-    public strict: boolean;
+    public flags: Record<string, C.EFlagValue>;
 
     public constructor(
         vName: string
     ) {
-
-        this.fromString = false;
-
         this.vName = vName;
-
-        this.strict = false;
 
         this.stack = [];
 
         this.vCursor = 0;
+
+        this.flags = {};
 
         this.tracePoint = 0;
 
@@ -39,9 +34,20 @@ export class Context implements C.IContext {
 
         this.stack.push({
             vName: this.vName,
-            fromString: this.fromString,
-            strict: this.strict
+            flags: this.flags
         });
+
+        const prevFlags = this.flags;
+
+        this.flags = {};
+
+        for (const key in prevFlags) {
+
+            if (prevFlags[key] === C.EFlagValue.INHERIT) {
+
+                this.flags[key] = prevFlags[key];
+            }
+        }
     }
 
     public untrap(): void {
@@ -54,7 +60,6 @@ export class Context implements C.IContext {
         }
 
         this.vName = prev.vName;
-        this.fromString = prev.fromString;
-        this.strict = prev.strict;
+        this.flags = prev.flags;
     }
 }

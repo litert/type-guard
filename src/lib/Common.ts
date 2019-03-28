@@ -361,13 +361,28 @@ export const MODIFIER_PREFIX = "$.";
 
 export const FILTER_PREFIX = "|";
 
+export const IMPLICIT_SYMBOL = "?";
+
+export enum EFlags {
+
+    FROM_STRING,
+    STRICT,
+    OPTIONAL,
+    REQUIRED
+}
+
+export enum EFlagValue {
+
+    NO,
+    YES,
+    INHERIT
+}
+
 export interface IContextData {
 
     vName: string;
 
-    fromString: boolean;
-
-    strict: boolean;
+    flags: Record<string, EFlagValue>;
 }
 
 export interface IContext extends IContextData {

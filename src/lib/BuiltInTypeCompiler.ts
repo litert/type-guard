@@ -475,9 +475,37 @@ implements C.IBuiltInTypeCompiler {
             case "optional":
             case "undefined": {
 
+                if (ctx.flags[C.EFlags.REQUIRED]) {
+
+                    throw new Error(
+                        `Conflicted: Can not use "optional" with "required" type.`
+                    );
+                }
+
+                if (ctx.flags[C.EFlags.OPTIONAL]) {
+
+                    return this._lang.literal(true);
+                }
+
+                ctx.flags[C.EFlags.OPTIONAL] = C.EFlagValue.YES;
+
                 return this._lang.isUndefined(ctx.vName, true);
             }
             case "required": {
+
+                if (ctx.flags[C.EFlags.OPTIONAL]) {
+
+                    throw new Error(
+                        `Conflicted: Can not use "required" with "optional" type.`
+                    );
+                }
+
+                if (ctx.flags[C.EFlags.REQUIRED]) {
+
+                    return this._lang.literal(true);
+                }
+
+                ctx.flags[C.EFlags.REQUIRED] = C.EFlagValue.YES;
 
                 return this._lang.isUndefined(ctx.vName, false);
             }

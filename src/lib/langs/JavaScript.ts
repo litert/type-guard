@@ -64,6 +64,11 @@ implements C.ILanguageBuilder {
         return `var_${index}`;
     }
 
+    private _dereplicate(conds: string[]): string[] {
+
+        return Array.from(new Set(conds));
+    }
+
     public or(conditions: string[]): string {
 
         if (conditions.length === 1) {
@@ -71,7 +76,7 @@ implements C.ILanguageBuilder {
             return conditions[0];
         }
 
-        conditions = conditions.filter((x) => x !== "true");
+        conditions = this._dereplicate(conditions.filter((x) => x !== "true"));
 
         if (!conditions.length) {
 
@@ -88,7 +93,7 @@ implements C.ILanguageBuilder {
             return conditions[0];
         }
 
-        conditions = conditions.filter((x) => x !== "true");
+        conditions = this._dereplicate(conditions.filter((x) => x !== "true"));
 
         if (!conditions.length) {
 

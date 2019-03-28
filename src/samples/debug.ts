@@ -16,7 +16,7 @@ const tgc = new CheckerCompiler(
 // tslint:disable: no-console
 
 const result = tgc.compile({
-    rules: "|array.length timesof 5"
+    rules: ["void", ["$.array", "string", "string", "int"]]
 });
 
 const checker = new Function(

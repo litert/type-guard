@@ -8,53 +8,31 @@ implements C.ILanguageBuilder {
         return str[0] === "\"";
     }
 
+    public lowerCase(a: string): string {
+
+        return `${a}.toLowerCase()`;
+    }
+
     public instr(
         expr: string,
-        match: string,
-        caseSensitive: boolean = true
+        match: string
     ): string {
-
-        if (!caseSensitive) {
-
-            expr = `${expr}.toLowerCase()`;
-            match = this._isLiteralString(match) ?
-                match.toLowerCase() :
-                `${match}.toLowerCase()`;
-        }
 
         return `${expr}.includes(${match})`;
     }
 
     public startsWith(
         expr: string,
-        match: string,
-        caseSensitive: boolean = true
+        match: string
     ): string {
-
-        if (!caseSensitive) {
-
-            expr = `${expr}.toLowerCase()`;
-            match = this._isLiteralString(match) ?
-                match.toLowerCase() :
-                `${match}.toLowerCase()`;
-        }
 
         return `${expr}.startsWith(${match})`;
     }
 
     public endsWith(
         expr: string,
-        match: string,
-        caseSensitive: boolean = true
+        match: string
     ): string {
-
-        if (!caseSensitive) {
-
-            expr = `${expr}.toLowerCase()`;
-            match = this._isLiteralString(match) ?
-                match.toLowerCase() :
-                `${match}.toLowerCase()`;
-        }
 
         return `${expr}.endsWith(${match})`;
     }

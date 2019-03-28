@@ -181,11 +181,19 @@ export class CheckerCompiler {
 
         switch ((assertRule && assertRule[1]) || rule.substr(0, 2)) {
         case "==":
-        case "euqal":
+        case "equal":
 
             return this._lang.eq(
                 ctx.vName,
                 this._lang.literal(rule.slice(offset))
+            );
+
+        case "%=":
+        case "equal-i":
+
+            return this._lang.eq(
+                this._lang.lowerCase(ctx.vName),
+                this._lang.literal(rule.slice(offset).toLowerCase())
             );
 
         case "!=":
@@ -196,9 +204,16 @@ export class CheckerCompiler {
                 this._lang.literal(rule.slice(offset))
             );
 
+        case "%!":
+        case "not-equal-i":
+
+            return this._lang.ne(
+                this._lang.lowerCase(ctx.vName),
+                this._lang.literal(rule.slice(offset).toLowerCase())
+            );
+
         case "~=":
         case "match":
-        case "regexp":
 
             return this._lang.matchRegExp(
                 ctx.vName,
@@ -207,7 +222,6 @@ export class CheckerCompiler {
 
         case "~!":
         case "not-match":
-        case "not-regexp":
 
             return this._lang.not(this._lang.matchRegExp(
                 ctx.vName,
@@ -219,8 +233,7 @@ export class CheckerCompiler {
 
             return this._lang.instr(
                 ctx.vName,
-                this._lang.literal(rule.slice(offset)),
-                true
+                this._lang.literal(rule.slice(offset))
             );
 
         case "?!":
@@ -228,26 +241,23 @@ export class CheckerCompiler {
 
             return this._lang.not(this._lang.instr(
                 ctx.vName,
-                this._lang.literal(rule.slice(offset)),
-                true
+                this._lang.literal(rule.slice(offset))
             ));
 
         case "*=":
-        case "include-ci":
+        case "include-i":
 
             return this._lang.instr(
-                ctx.vName,
-                this._lang.literal(rule.slice(offset)),
-                false
+                this._lang.lowerCase(ctx.vName),
+                this._lang.literal(rule.slice(offset).toLowerCase())
             );
 
         case "*!":
-        case "not-include-ci":
+        case "not-include-i":
 
             return this._lang.not(this._lang.instr(
-                ctx.vName,
-                this._lang.literal(rule.slice(offset)),
-                false
+                this._lang.lowerCase(ctx.vName),
+                this._lang.literal(rule.slice(offset).toLowerCase())
             ));
 
         case "^=":
@@ -255,16 +265,14 @@ export class CheckerCompiler {
 
             return this._lang.startsWith(
                 ctx.vName,
-                this._lang.literal(rule.slice(offset)),
-                true
+                this._lang.literal(rule.slice(offset))
             );
 
-        case "start-with-ci":
+        case "start-with-i":
 
             return this._lang.startsWith(
-                ctx.vName,
-                this._lang.literal(rule.slice(offset)),
-                false
+                this._lang.lowerCase(ctx.vName),
+                this._lang.literal(rule.slice(offset).toLowerCase())
             );
 
         case "^!":
@@ -272,16 +280,14 @@ export class CheckerCompiler {
 
             return this._lang.not(this._lang.startsWith(
                 ctx.vName,
-                this._lang.literal(rule.slice(offset)),
-                true
+                this._lang.literal(rule.slice(offset))
             ));
 
-        case "not-start-with-ci":
+        case "not-start-with-i":
 
             return this._lang.not(this._lang.startsWith(
-                ctx.vName,
-                this._lang.literal(rule.slice(offset)),
-                false
+                this._lang.lowerCase(ctx.vName),
+                this._lang.literal(rule.slice(offset).toLowerCase())
             ));
 
         case "$=":
@@ -289,16 +295,14 @@ export class CheckerCompiler {
 
             return this._lang.endsWith(
                 ctx.vName,
-                this._lang.literal(rule.slice(offset)),
-                true
+                this._lang.literal(rule.slice(offset))
             );
 
-        case "end-with-ci":
+        case "end-with-i":
 
             return this._lang.endsWith(
-                ctx.vName,
-                this._lang.literal(rule.slice(offset)),
-                false
+                this._lang.lowerCase(ctx.vName),
+                this._lang.literal(rule.slice(offset).toLowerCase())
             );
 
         case "$!":
@@ -306,16 +310,14 @@ export class CheckerCompiler {
 
             return this._lang.not(this._lang.endsWith(
                 ctx.vName,
-                this._lang.literal(rule.slice(offset)),
-                true
+                this._lang.literal(rule.slice(offset))
             ));
 
-        case "not-end-with-ci":
+        case "not-end-with-i":
 
             return this._lang.not(this._lang.endsWith(
-                ctx.vName,
-                this._lang.literal(rule.slice(offset)),
-                false
+                this._lang.lowerCase(ctx.vName),
+                this._lang.literal(rule.slice(offset).toLowerCase())
             ));
 
         default:

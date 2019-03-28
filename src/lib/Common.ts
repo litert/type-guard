@@ -97,6 +97,8 @@ export interface ILanguageBuilder {
 
     not(a: string): string;
 
+    lowerCase(a: string): string;
+
     /**
      * a % b
      * @param a
@@ -112,12 +114,10 @@ export interface ILanguageBuilder {
      *
      * @param varName       The name of string variable to be searched.
      * @param match         The given string to match.
-     * @param caseSensitive Specify if sub string is case-sensitive. [Default: true]
      */
     instr(
         expr: string,
-        match: string,
-        caseSensitive?: boolean
+        match: string
     ): string;
 
     /**
@@ -126,12 +126,10 @@ export interface ILanguageBuilder {
      *
      * @param varName       The name of string variable to be searched.
      * @param match         The given string to match.
-     * @param caseSensitive Specify if sub string is case-sensitive. [Default: true]
      */
     startsWith(
         expr: string,
-        match: string,
-        caseSensitive?: boolean
+        match: string
     ): string;
 
     /**
@@ -140,12 +138,10 @@ export interface ILanguageBuilder {
      *
      * @param varName       The name of string variable to be searched.
      * @param match         The given string to match.
-     * @param caseSensitive Specify if sub string is case-sensitive. [Default: true]
      */
     endsWith(
         expr: string,
-        match: string,
-        caseSensitive?: boolean
+        match: string
     ): string;
 
     /**

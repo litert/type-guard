@@ -16,14 +16,7 @@ const tgc = new CheckerCompiler(
 // tslint:disable: no-console
 
 const result = tgc.compile({
-    rules: {
-        "a": "uint32",
-        "b?": ["=123", "numeric"],
-        "c->[]?": {
-            "name": "string(1, 255)",
-            "age": "int"
-        }
-    }
+    rules: `:match:/abc/i`
 });
 
 const checker = new Function(
@@ -33,6 +26,7 @@ const checker = new Function(
 
 console.log(result.source);
 
+console.log(checker("cccabCddd"));
 console.log(checker({
     "a": 123
 }));

@@ -16,17 +16,15 @@ export class Context implements C.IContext {
 
     public strict: boolean;
 
-    public asserts: Record<string, boolean>;
-
-    public constructor(vName: string) {
+    public constructor(
+        vName: string
+    ) {
 
         this.fromString = false;
 
         this.vName = vName;
 
         this.strict = false;
-
-        this.asserts = {};
 
         this.stack = [];
 
@@ -37,40 +35,12 @@ export class Context implements C.IContext {
         this.trace = false;
     }
 
-    public inspect(
-        type: string,
-        action: (ctx: C.IContext, result: C.EInspectResult) => void
-    ): C.EInspectResult {
-
-        // tslint:disable: no-unused-expression
-
-        const r = this.asserts[type];
-
-        if (r === undefined) {
-
-            action && action(this, C.EInspectResult.UNKNOWN);
-            return C.EInspectResult.UNKNOWN;
-        }
-        else if (r === true) {
-
-            action && action(this, C.EInspectResult.OK);
-            return C.EInspectResult.OK;
-        }
-        else {
-
-            action && action(this, C.EInspectResult.NO);
-            return C.EInspectResult.NO;
-        }
-    }
-
-
     public trap(): void {
 
         this.stack.push({
             vName: this.vName,
             fromString: this.fromString,
-            strict: this.strict,
-            asserts: this.asserts
+            strict: this.strict
         });
     }
 
@@ -86,6 +56,5 @@ export class Context implements C.IContext {
         this.vName = prev.vName;
         this.fromString = prev.fromString;
         this.strict = prev.strict;
-        this.asserts = prev.asserts;
     }
 }

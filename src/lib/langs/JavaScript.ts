@@ -71,6 +71,13 @@ implements C.ILanguageBuilder {
             return conditions[0];
         }
 
+        conditions = conditions.filter((x) => x !== "true");
+
+        if (!conditions.length) {
+
+            return "true";
+        }
+
         return `${conditions.map((x) => `(${x})`).join(" || ")}`;
     }
 
@@ -79,6 +86,13 @@ implements C.ILanguageBuilder {
         if (conditions.length === 1) {
 
             return conditions[0];
+        }
+
+        conditions = conditions.filter((x) => x !== "true");
+
+        if (!conditions.length) {
+
+            return "true";
         }
 
         return `${conditions.map((x) => `(${x})`).join(" && ")}`;

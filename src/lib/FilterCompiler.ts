@@ -11,7 +11,13 @@ implements C.IFilterCompiler {
     public compile(rule: string, ctx: C.IContext): string {
 
         let vName = ctx.vName;
+
         const filter = rule.slice(1).split(" ");
+
+        if (filter.slice(2).length !== filter.slice(2).filter((x) => /^\d+(\.\d+)?$/.test(x)).length) {
+
+            throw new TypeError("Only number is allowed as filter arguments.");
+        }
 
         let ret: string[] = [];
 

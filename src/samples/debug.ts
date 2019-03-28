@@ -16,7 +16,7 @@ const tgc = new CheckerCompiler(
 // tslint:disable: no-console
 
 const result = tgc.compile({
-    rules: ["$.tuple", "hex_string(8)", "uint8"]
+    rules: "|array.length timesof 5"
 });
 
 const checker = new Function(

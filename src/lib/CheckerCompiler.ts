@@ -352,7 +352,7 @@ export class CheckerCompiler {
         switch (rules[0]) {
             case Modifers.OR: {
 
-                return this._compileModifierOR(ctx, rules);
+                return this._compileModifierOR(ctx, rules.slice(1));
             }
             case Modifers.AND: {
 

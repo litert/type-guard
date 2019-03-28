@@ -361,13 +361,6 @@ export const MODIFIER_PREFIX = "$.";
 
 export const FILTER_PREFIX = "|";
 
-export enum EInspectResult {
-
-    OK,
-    NO,
-    UNKNOWN
-}
-
 export interface IContextData {
 
     vName: string;
@@ -375,8 +368,6 @@ export interface IContextData {
     fromString: boolean;
 
     strict: boolean;
-
-    asserts: Record<string, boolean>;
 }
 
 export interface IContext extends IContextData {
@@ -392,12 +383,4 @@ export interface IContext extends IContextData {
     trap(): void;
 
     untrap(): void;
-
-    inspect(
-        type: string,
-        action: (
-            ctx: IContext,
-            result: EInspectResult
-        ) => void
-    ): EInspectResult;
 }

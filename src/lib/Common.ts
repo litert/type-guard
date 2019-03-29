@@ -324,7 +324,7 @@ export interface IBuiltInTypeCompiler {
      */
     isBuiltInType(type: string): boolean;
 
-    compile(type: string, ctx: IContext, args: string[]): string;
+    compile(type: string, ctx: IContext, args: number[]): string;
 
     /**
      * Check if a type is number type.

@@ -298,24 +298,7 @@ implements C.IBuiltInTypeCompiler {
         return BUILT_IN_TYPES[type] !== undefined;
     }
 
-    public compile(type: string, ctx: C.IContext, args: string[]): string {
-
-        let params: number[] = args.map((x) => parseFloat(x));
-
-        if (["float", "number", "ufloat"].includes(type)) {
-
-            if (params.filter((x) => Number.isFinite(x) && !Number.isNaN(x)).length !== args.length) {
-
-                throw new TypeError(`Unknown argument (${args.join(", ")}) for ${type}.`);
-            }
-        }
-        else {
-
-            if (params.filter((x) => Number.isInteger(x)).length !== args.length) {
-
-                throw new TypeError(`Unknown argument (${args.join(", ")}) for ${type}.`);
-            }
-        }
+    public compile(type: string, ctx: C.IContext, args: number[]): string {
 
         switch (type) {
 
@@ -329,17 +312,17 @@ implements C.IBuiltInTypeCompiler {
             }
             case "array": {
 
-                return this._isArray(ctx, params);
+                return this._isArray(ctx, args);
             }
             case "string": {
 
-                return this._isString(ctx, params);
+                return this._isString(ctx, args);
             }
             case "ascii_string": {
 
                 return this._isString(
                     ctx,
-                    params,
+                    args,
                     "[\\u0000-\\u007F]"
                 );
             }
@@ -347,13 +330,13 @@ implements C.IBuiltInTypeCompiler {
 
                 return this._isString(
                     ctx,
-                    params,
+                    args,
                     "[\\u0000-\\u024F\\u2C60-\\u2C7F]"
                 );
             }
             case "hex_string": {
 
-                return this._isString(ctx, params, "[0-9A-Fa-f]");
+                return this._isString(ctx, args, "[0-9A-Fa-f]");
             }
             case "ufloat": {
 
@@ -365,11 +348,11 @@ implements C.IBuiltInTypeCompiler {
             case "float":
             case "number": {
 
-                return this._isNumber(ctx, params);
+                return this._isNumber(ctx, args);
             }
             case "int": {
 
-                return this._isInteger(ctx, params);
+                return this._isInteger(ctx, args);
             }
             case "int64": {
 
@@ -515,11 +498,11 @@ implements C.IBuiltInTypeCompiler {
             }
             case "decimal": {
 
-                return this._isDecimal(ctx, params);
+                return this._isDecimal(ctx, args);
             }
             case "udecimal": {
 
-                return this._isDecimal(ctx, params, true);
+                return this._isDecimal(ctx, args, true);
             }
         }
 
@@ -662,19 +645,74 @@ implements C.IBuiltInTypeCompiler {
                     throw new RangeError(`Arg 0 should not be larger than arg 1 for number.`);
                 }
 
-                return this._lang.and([
-                    this._lang.isNumber(ctx.vName, true),
-                    this._lang.gte(
+                const result: string[] = [
+                    this._lang.isNumber(ctx.vName, true)
+                ];
+
+                if (this._checkValidNumber(params[0], `Invalid argument "${params[0]}".`)) {
+
+                    result.push(this._lang.gte(
                         ctx.vName,
-                        this._lang.literal(params[0])
-                    ),
-                    this._lang.lte(
+                        params[0]
+                    ));
+                }
+
+                if (this._checkValidNumber(params[1], `Invalid argument "${params[1]}".`)) {
+
+                    result.push(this._lang.lte(
                         ctx.vName,
-                        this._lang.literal(params[1])
-                    )
-                ]);
+                        params[1]
+                    ));
+                }
+
+                return this._lang.and(result);
             }
         }
+    }
+
+    private _checkValidNumber(v: number, msg: string): boolean {
+
+        if (Number.isNaN(v)) {
+
+            return false;
+        }
+
+        if (Number.isFinite(v)) {
+
+            return true;
+        }
+
+        throw new TypeError(msg);
+    }
+
+    private _checkValidInteger(v: number, msg: string): boolean {
+
+        if (Number.isNaN(v)) {
+
+            return false;
+        }
+
+        if (Number.isInteger(v)) {
+
+            return true;
+        }
+
+        throw new TypeError(msg);
+    }
+
+    private _checkValidUInteger(v: number, msg: string): boolean {
+
+        if (Number.isNaN(v)) {
+
+            return false;
+        }
+
+        if (Number.isInteger(v) && v > -1) {
+
+            return true;
+        }
+
+        throw new TypeError(msg);
     }
 
     private _isInteger(ctx: C.IContext, params: number[]): string {
@@ -692,17 +730,27 @@ implements C.IBuiltInTypeCompiler {
                     throw new RangeError(`Arg 0 should not be larger than arg 1 for number.`);
                 }
 
-                return this._lang.and([
-                    this._lang.isInteger(ctx.vName, true),
-                    this._lang.gte(
+                const result: string[] = [
+                    this._lang.isInteger(ctx.vName, true)
+                ];
+
+                if (this._checkValidInteger(params[0], `Invalid argument "${params[0]}".`)) {
+
+                    result.push(this._lang.gte(
                         ctx.vName,
                         this._lang.literal(params[0])
-                    ),
-                    this._lang.lte(
+                    ));
+                }
+
+                if (this._checkValidInteger(params[1], `Invalid argument "${params[1]}".`)) {
+
+                    result.push(this._lang.lte(
                         ctx.vName,
                         this._lang.literal(params[1])
-                    )
-                ]);
+                    ));
+                }
+
+                return this._lang.and(result);
             }
         }
     }

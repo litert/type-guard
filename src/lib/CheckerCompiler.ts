@@ -142,22 +142,18 @@ export class CheckerCompiler {
          * - `string`
          * - `int(12, 34)`
          */
-        if (regResult = rule.match(/^(\w+)(\((-?\d+(\.\d+)?)(,\s*(-?\d+(\.\d+)?))?\))?$/)) {
+        if (regResult = rule.match(/^(\w+)(\(\s*(-?\d+(\.\d+)?)?(\s*,\s*(-?\d+(\.\d+)?))*\s*\))?$/)) {
 
-            if (regResult[6]) {
+            if (regResult[2]) {
 
-                return this._builtInTypes.compile(
-                    regResult[1],
-                    ctx,
-                    [regResult[3], regResult[6]]
+                const args = regResult[2].slice(1, -1).trim().split(",").map(
+                    (x) => parseFloat(x.trim())
                 );
-            }
-            else if (regResult[3]) {
 
                 return this._builtInTypes.compile(
                     regResult[1],
                     ctx,
-                    [regResult[3]]
+                    args
                 );
             }
 

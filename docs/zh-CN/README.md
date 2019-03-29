@@ -207,16 +207,6 @@ compiler.compile("|value ne 1");
 compiler.compile("|value eq 1");
 
 /**
- * 被校验的值必须是整数且是奇数
- */
-compiler.compile("|uint odd");
-
-/**
- * 被校验的值必须是整数且是偶数
- */
-compiler.compile("|uint even");
-
-/**
  * 被校验的值必须是整数且是 10 的倍数
  */
 compiler.compile("|uint timesof 10");

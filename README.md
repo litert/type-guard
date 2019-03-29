@@ -10,8 +10,8 @@ A type checking code "JIT"😄.
 
 ## Requirement
 
-- TypeScript v2.7.1 (or newer)
-- ECMAScript 2015 (or newer)
+- TypeScript v3.3.x (or newer)
+- ECMAScript 2017 (or newer)
 
 ## Installation
 

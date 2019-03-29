@@ -154,7 +154,7 @@ const BUILT_IN_TYPES: Record<string, ITypeInfo> = {
         "hasLength": false,
         "constructed": false
     },
-    "dict": {
+    "struct": {
         "elemental": false,
         "forcedString": false,
         "numeric": false,
@@ -337,27 +337,23 @@ implements C.IBuiltInTypeCompiler {
             }
             case "ascii_string": {
 
-                return this._lang.and([
-                    this._isString(ctx, params),
-                    this._lang.matchRegExp(ctx.vName, "^[\\u0000-\\u007F]+$")
-                ]);
+                return this._isString(
+                    ctx,
+                    params,
+                    "[\\u0000-\\u007F]"
+                );
             }
             case "latin_string": {
 
-                return this._lang.and([
-                    this._isString(ctx, params),
-                    this._lang.matchRegExp(
-                        ctx.vName,
-                        "^[\\u0000-\\u024F\\u2C60-\\u2C7F]+$"
-                    )
-                ]);
+                return this._isString(
+                    ctx,
+                    params,
+                    "[\\u0000-\\u024F\\u2C60-\\u2C7F]"
+                );
             }
             case "hex_string": {
 
-                return this._lang.and([
-                    this._isString(ctx, params),
-                    this._lang.matchRegExp(ctx.vName, "^[0-9A-Fa-f]+$")
-                ]);
+                return this._isString(ctx, params, "[0-9A-Fa-f]");
             }
             case "ufloat": {
 
@@ -391,16 +387,16 @@ implements C.IBuiltInTypeCompiler {
 
                 return this._lang.and([
                     this._lang.isInteger(ctx.vName, true),
-                    this._lang.gte(ctx.vName, "-0x80000000"),
-                    this._lang.lte(ctx.vName, "0x7FFFFFFF")
+                    this._lang.gte(ctx.vName, "-0x8000"),
+                    this._lang.lte(ctx.vName, "0x7FFF")
                 ]);
             }
             case "int32": {
 
                 return this._lang.and([
                     this._lang.isInteger(ctx.vName, true),
-                    this._lang.gte(ctx.vName, "-0x8000"),
-                    this._lang.lte(ctx.vName, "0x7FFF")
+                    this._lang.gte(ctx.vName, "-0x80000000"),
+                    this._lang.lte(ctx.vName, "0x7FFFFFFF")
                 ]);
             }
             case "safe_int": {
@@ -463,7 +459,7 @@ implements C.IBuiltInTypeCompiler {
 
                 return this._lang.eq(ctx.vName, this._lang.literal(false));
             }
-            case "true": {
+            case "true_value": {
 
                 return this._lang.isTrueValue(ctx.vName);
             }
@@ -509,9 +505,9 @@ implements C.IBuiltInTypeCompiler {
 
                 return this._lang.isUndefined(ctx.vName, false);
             }
-            case "dict": {
+            case "struct": {
 
-                return this._lang.isDict(ctx.vName, true);
+                return this._lang.isStrucutre(ctx.vName, true);
             }
             case "numeric": {
 
@@ -532,21 +528,46 @@ implements C.IBuiltInTypeCompiler {
 
     private _isDecimal(ctx: C.IContext, params: number[], unsigned: boolean = false): string {
 
+        if (params[0] <= 0) {
+
+            throw new RangeError(`Arg 0 can not be zero for decimal.`);
+        }
+
         const sign = unsigned ? "" : "[-+]?";
         switch (params.length) {
 
             default:
             case 0: {
 
-                return this._lang.isNumeric(ctx.vName, true);
+                return this._lang.and([
+                    this._lang.isString(ctx.vName, true),
+                    this._lang.matchRegExp(
+                        ctx.vName,
+                        `^${sign}([1-9]\\d*|0)(\\.\\d+)?$`
+                    )
+                ]);
             }
 
             case 1: {
 
-                return this._lang.matchRegExp(
-                    ctx.vName,
-                    `^${sign}\\d{${params[0]}}$`
-                );
+                return this._lang.and([
+                    this._lang.isString(ctx.vName, true),
+                    this._lang.matchRegExp(
+                        ctx.vName,
+                        `^${sign}([1-9]\\d*|0)(\\.\\d+)?$`
+                    ),
+                    this._lang.ifElseOp(
+                        this._lang.instr(ctx.vName, this._lang.literal(".")),
+                        this._lang.lte(
+                            this._lang.stringLength(ctx.vName),
+                            params[0] + 1
+                        ),
+                        this._lang.lte(
+                            this._lang.stringLength(ctx.vName),
+                            params[0]
+                        )
+                    )
+                ]);
             }
 
             case 2: {
@@ -558,15 +579,29 @@ implements C.IBuiltInTypeCompiler {
 
                 if (params[1] === 0) {
 
-                    return this._lang.matchRegExp(
-                        ctx.vName,
-                        `^${sign}\\d{${params[0]}}$`
-                    );
+                    return this._lang.and([
+                        this._lang.isString(ctx.vName, true),
+                        this._lang.matchRegExp(
+                            ctx.vName,
+                            `^${sign}([1-9]\\d{0,${params[0] - 1}}|0)$`
+                        )
+                    ]);
+                }
+
+                if (params[0] === params[1]) {
+
+                    return this._lang.and([
+                        this._lang.isString(ctx.vName, true),
+                        this._lang.matchRegExp(
+                            ctx.vName,
+                            `^${sign}0\\.\\d{${params[1]}}$`
+                        )
+                    ]);
                 }
 
                 return this._lang.matchRegExp(
                     ctx.vName,
-                    `^${sign}\\d{${params[0] - params[1]}}\\.\\d{${params[1]}}$`
+                    `^${sign}([1-9]\\d{0,${params[0] - params[1] - 1}}|0)\\.\\d{${params[1]}}$`
                 );
             }
         }
@@ -687,7 +722,7 @@ implements C.IBuiltInTypeCompiler {
                     this._lang.isString(ctx.vName, true),
                     this._lang.matchRegExp(
                         ctx.vName,
-                        `^${elementRegExp}$`
+                        `^${elementRegExp}*$`
                     )
                 ]) : this._lang.isString(ctx.vName, true);
             }

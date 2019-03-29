@@ -8,6 +8,8 @@ export const AND: string = `${C.MODIFIER_PREFIX}and`;
 
 export const MAP: string = `${C.MODIFIER_PREFIX}map`;
 
+export const LIST: string = `${C.MODIFIER_PREFIX}list`;
+
 export const ARRAY: string = `${C.MODIFIER_PREFIX}array`;
 
 export const DICT: string = `${C.MODIFIER_PREFIX}dict`;

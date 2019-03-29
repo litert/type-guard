@@ -87,7 +87,7 @@ export class CheckerCompiler {
 
                 return this._lang.and([
                     this._compileModifiedRule(ctx, [
-                        Modifers.ARRAY,
+                        Modifers.LIST,
                         rule.substr(0, regResult.index)
                     ]),
                     this._lang.eq(
@@ -99,7 +99,7 @@ export class CheckerCompiler {
             else {
 
                 return this._compileModifiedRule(ctx, [
-                    Modifers.ARRAY,
+                    Modifers.LIST,
                     rule.substr(0, regResult.index)
                 ]);
             }
@@ -368,7 +368,7 @@ export class CheckerCompiler {
 
                 return this._compileModifierAND(ctx, rules.slice(1));
             }
-            case Modifers.ARRAY: {
+            case Modifers.LIST: {
 
                 return this._compileModifierARRAY(ctx, rules.slice(1));
             }
@@ -493,7 +493,7 @@ export class CheckerCompiler {
         ctx.vName = this._lang.varName(ctx.vCursor++);
 
         const result = this._lang.and([
-            this._lang.isDict(CLOSURE_ARG, true),
+            this._lang.isStrucutre(CLOSURE_ARG, true),
             this._lang.closure(
                 [CLOSURE_PARAM],
                 [CLOSURE_ARG],
@@ -519,7 +519,7 @@ export class CheckerCompiler {
         const strict = !!ctx.flags[C.EFlags.STRICT];
 
         const result: string[] = [
-            this._lang.isDict(ctx.vName, true)
+            this._lang.isStrucutre(ctx.vName, true)
         ];
 
         for (let k in rules) {

@@ -47,6 +47,14 @@ implements C.ILanguageBuilder {
         return Array.from(new Set(conds));
     }
 
+    public ifElseOp(
+        cond: string,
+        a: string | number,
+        b: string | number
+    ): string {
+        return `(${cond}) ? ${a} : ${b}`;
+    }
+
     public or(conditions: string[]): string {
 
         if (conditions.length === 1) {
@@ -126,15 +134,6 @@ implements C.ILanguageBuilder {
         return `${a} % ${b}`;
     }
 
-    private _escape(s: string): string {
-
-        return s.replace(/\\/g, "\\\\")
-                .replace(/"/g, "\\\"")
-                .replace(/'/g, "\\\'")
-                .replace(/\r/g, "\\r")
-                .replace(/\n/g, "\\n");
-    }
-
     public matchRegExp(
         expr: string,
         regExp: string
@@ -144,10 +143,10 @@ implements C.ILanguageBuilder {
 
         if (m) {
 
-            return `/${this._escape(m[1])}/${m[2]}.test(${expr})`;
+            return `/${m[1]}/${m[2] || ""}.test(${expr})`;
         }
 
-        return `/${this._escape(regExp)}/.test(${expr})`;
+        return `/${regExp}/.test(${expr})`;
     }
 
     public isNull(vn: string, positive: boolean = true): string {
@@ -175,7 +174,7 @@ implements C.ILanguageBuilder {
         return `typeof ${vn} ${this._equal(positive)} "string"`;
     }
 
-    public isDict(vn: string, positive: boolean = true): string {
+    public isStrucutre(vn: string, positive: boolean = true): string {
 
         return positive ?
             `(typeof ${vn} === "object" && ${vn} !== null && !Array.isArray(${vn}))` :
@@ -196,7 +195,19 @@ implements C.ILanguageBuilder {
 
     public isNumeric(vn: string, positive: boolean = true): string {
 
-        return `/^[+-]?\\d+(\\.\\d+)?$/.test(${vn}) ${this._equal(positive)} true`;
+        return positive ? this.or([
+            this.isNumber(vn, true),
+            this.and([
+                this.isString(vn, true),
+                this.matchRegExp(vn, "^[+-]?\\d+(\\.\\d+)?$")
+            ])
+        ]) : this.and([
+            this.isNumber(vn, false),
+            this.or([
+                this.isString(vn, false),
+                this.not(this.matchRegExp(vn, "^[+-]?\\d+(\\.\\d+)?$"))
+            ])
+        ]);
     }
 
     public isArray(vn: string, positive: boolean = true): string {

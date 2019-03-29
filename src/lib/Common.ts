@@ -85,15 +85,17 @@ export interface ILanguageBuilder {
 
     eq(a: string, b: string | number): string;
 
-    ne(a: string, b: string): string;
+    ifElseOp(cond: string, a: string | number, b: string | number): string;
 
-    gt(a: string, b: string): string;
+    ne(a: string, b: string | number): string;
 
-    gte(a: string, b: string): string;
+    gt(a: string, b: string | number): string;
 
-    lt(a: string, b: string): string;
+    gte(a: string, b: string | number): string;
 
-    lte(a: string, b: string): string;
+    lt(a: string, b: string | number): string;
+
+    lte(a: string, b: string | number): string;
 
     not(a: string): string;
 
@@ -181,12 +183,14 @@ export interface ILanguageBuilder {
     isString(expr: string, positive: boolean): string;
 
     /**
-     * Get the statement checking if an expression is a dictionary.
+     * Get the statement checking if an expression is a structure.
+     *
+     * > All `map`, `dict`, `object` should be of this type.
      *
      * @param expr      The expression to be checked.
      * @param positive  Assert positive or negative.
      */
-    isDict(expr: string, positive: boolean): string;
+    isStrucutre(expr: string, positive: boolean): string;
 
     /**
      * Get the statement checking if an expression is an integer value.

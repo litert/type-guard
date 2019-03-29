@@ -23,7 +23,7 @@ npm i @litert/typeguard --save
 
 ## Document
 
-- [简体中文版](./docs/zh-CN/index.md)
+- [简体中文版](./docs/zh-CN/README.md)
 
 ## License
 

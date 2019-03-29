@@ -1,6 +1,6 @@
 {
   "name": "@litert/typeguard",
-  "version": "0.3.1",
+  "version": "1.0.0-0",
   "description": "A type checking code \"JIT\" library.",
   "main": "lib/index.js",
   "scripts": {

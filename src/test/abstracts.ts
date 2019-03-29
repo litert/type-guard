@@ -31,9 +31,9 @@ export function defaultItemss(items: Record<string, boolean>): TestItem[] {
             "expectation": items["null"] || false
         },
         {
-            "inputName": "array",
+            "inputName": "empty array",
             "inputValue": [],
-            "expectation": items["array"] || false
+            "expectation": items["empty array"] || false
         },
         {
             "inputName": "string 'hello'",

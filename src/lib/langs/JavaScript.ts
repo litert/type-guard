@@ -3,11 +3,6 @@ import * as C from "../Common";
 class JavaScriptLanguage
 implements C.ILanguageBuilder {
 
-    private _isLiteralString(str: string): boolean {
-
-        return str[0] === "\"";
-    }
-
     public lowerCase(a: string): string {
 
         return `${a}.toLowerCase()`;

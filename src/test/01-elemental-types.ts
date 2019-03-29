@@ -226,7 +226,7 @@ const testItems: Record<string, TestItem[]> = {
             "object": true,
             "number 1": true,
             "string 'hello'": true,
-            "array": true
+            "empty array": true
         })
     ],
     "false_value": [
@@ -820,7 +820,7 @@ const testItems: Record<string, TestItem[]> = {
             "true": true,
             "false": true,
             "null": true,
-            "array": true,
+            "empty array": true,
             "string 'hello'": true,
             "empty string": true,
             "object": true,
@@ -834,8 +834,13 @@ const testItems: Record<string, TestItem[]> = {
         })
     ],
     "array": [
+        {
+            "inputName": "[string, number]",
+            "inputValue": ["-1.23", 123123],
+            "expectation": true
+        },
         ...defaultItemss({
-            "array": true
+            "empty array": true
         })
     ],
     "struct": [
@@ -1046,6 +1051,178 @@ const testItems: Record<string, TestItem[]> = {
             "expectation": false
         },
         ...defaultItemss({})
+    ],
+    "string{}": [
+        {
+            "inputName": JSON.stringify({
+                "a": "bbbb",
+                "b": "ccccc"
+            }),
+            "inputValue": {
+                "a": "bbbb",
+                "b": "ccccc"
+            },
+            "expectation": true
+        },
+        {
+            "inputName": JSON.stringify({
+                "a": "bbbb",
+                "b": 321
+            }),
+            "inputValue": {
+                "a": "bbbb",
+                "b": 321
+            },
+            "expectation": false
+        },
+        {
+            "inputName": "[string, string, string]",
+            "inputValue": ["a", "b", "c"],
+            "expectation": false
+        },
+        ...defaultItemss({
+            "object": true
+        })
+    ],
+    "string[]": [
+        {
+            "inputName": "[string, string]",
+            "inputValue": ["a", "123"],
+            "expectation": true
+        },
+        {
+            "inputName": "[string]",
+            "inputValue": ["a"],
+            "expectation": true
+        },
+        {
+            "inputName": "[string, number]",
+            "inputValue": ["a", 123],
+            "expectation": false
+        },
+        ...defaultItemss({
+            "empty array": true
+        })
+    ],
+    "string[0]": [
+        {
+            "inputName": "[string]",
+            "inputValue": ["a"],
+            "expectation": false
+        },
+        {
+            "inputName": "[string, number]",
+            "inputValue": ["a", 123],
+            "expectation": false
+        },
+        ...defaultItemss({
+            "empty array": true
+        })
+    ],
+    "string[3]": [
+        {
+            "inputName": "[string, string, string]",
+            "inputValue": ["a", "b", "c"],
+            "expectation": true
+        },
+        {
+            "inputName": "[string, string, number]",
+            "inputValue": ["a", "b", 123],
+            "expectation": false
+        },
+        {
+            "inputName": "[string, string]",
+            "inputValue": ["a", "b"],
+            "expectation": false
+        },
+        {
+            "inputName": "[string]",
+            "inputValue": ["a"],
+            "expectation": false
+        },
+        {
+            "inputName": "[string, number]",
+            "inputValue": ["a", 123],
+            "expectation": false
+        },
+        ...defaultItemss({})
+    ],
+    "string[0,3]": [
+        {
+            "inputName": "[string, string, string]",
+            "inputValue": ["a", "b", "c"],
+            "expectation": true
+        },
+        {
+            "inputName": "[string, string, number]",
+            "inputValue": ["a", "b", 123],
+            "expectation": false
+        },
+        {
+            "inputName": "[string, string]",
+            "inputValue": ["a", "b"],
+            "expectation": true
+        },
+        {
+            "inputName": "[string]",
+            "inputValue": ["a"],
+            "expectation": true
+        },
+        {
+            "inputName": "[string, number]",
+            "inputValue": ["a", 123],
+            "expectation": false
+        },
+        ...defaultItemss({
+            "empty array": true
+        })
+    ],
+    "string(1,5)[0,3]": [
+        {
+            "inputName": "[string, string, string]",
+            "inputValue": ["a", "b", "c"],
+            "expectation": true
+        },
+        {
+            "inputName": "[string, string, number]",
+            "inputValue": ["a", "b", 123],
+            "expectation": false
+        },
+        {
+            "inputName": "[string, string]",
+            "inputValue": ["a", "b"],
+            "expectation": true
+        },
+        {
+            "inputName": "[string, string, string(7)]",
+            "inputValue": ["a", "b", "aaabbbc"],
+            "expectation": false
+        },
+        {
+            "inputName": "[string]",
+            "inputValue": ["a"],
+            "expectation": true
+        },
+        {
+            "inputName": "[string, number]",
+            "inputValue": ["a", 123],
+            "expectation": false
+        },
+        ...defaultItemss({
+            "empty array": true
+        })
+    ],
+    "?string": [
+        {
+            "inputName": "string 'fine'",
+            "inputValue": "fine",
+            "expectation": true
+        },
+        ...defaultItemss({
+            "undefined": true,
+            "empty string": true,
+            "string 'hello'": true
+        })
     ]
 };
 

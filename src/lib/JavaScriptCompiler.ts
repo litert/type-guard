@@ -21,10 +21,10 @@ export function createJavaScriptCompiler(): <T>(rules: any) => TypeChecker<T> {
         const result = tgc.compile({
             rules
         });
-
+/*
         console.log(result.source);
         console.log("");
-
+*/
         return new Function(
             result.arguments[0].name,
             `return ${result.source}`

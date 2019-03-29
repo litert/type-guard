@@ -79,22 +79,38 @@ export class CheckerCompiler {
         let regResult: RegExpMatchArray | null;
 
         /**
-         * For rules like `xxx[123]`.
+         * For rules like `xxx[123]` or `xxx[1,5]`.
          */
-        if (regResult = rule.match(/\[(\d*)\]$/)) {
+        if (regResult = rule.match(/\[\s*(\d*|\d+\s*,\s*\d*)\s*\]$/)) {
 
             if (regResult[1]) {
 
-                return this._lang.and([
-                    this._compileModifiedRule(ctx, [
-                        Modifers.LIST,
+                let range = regResult[1].split(",").map((x) => parseInt(x.trim()));
+
+                if (range.length === 1) {
+
+                    return this._compileModifiedRule(ctx, [
+                        Modifers.ARRAY,
+                        range[0],
                         rule.substr(0, regResult.index)
-                    ]),
-                    this._lang.eq(
-                        this._lang.literal(parseInt(regResult[1])),
-                        this._lang.arrayLength(ctx.vName)
-                    )
-                ]);
+                    ]);
+                }
+                else if (Number.isNaN(range[1])) {
+
+                    return this._compileModifiedRule(ctx, [
+                        Modifers.ARRAY,
+                        [range[0]],
+                        rule.substr(0, regResult.index)
+                    ]);
+                }
+                else {
+
+                    return this._compileModifiedRule(ctx, [
+                        Modifers.ARRAY,
+                        range,
+                        rule.substr(0, regResult.index)
+                    ]);
+                }
             }
             else {
 
@@ -370,6 +386,10 @@ export class CheckerCompiler {
             }
             case Modifers.LIST: {
 
+                return this._compileModifierLIST(ctx, rules.slice(1));
+            }
+            case Modifers.ARRAY: {
+
                 return this._compileModifierARRAY(ctx, rules.slice(1));
             }
             case Modifers.MAP: {
@@ -423,7 +443,7 @@ export class CheckerCompiler {
         );
     }
 
-    private _compileModifierARRAY(ctx: C.IContext, rules: any[]): string {
+    private _compileModifierLIST(ctx: C.IContext, rules: any[]): string {
 
         ctx.trap();
 
@@ -453,6 +473,124 @@ export class CheckerCompiler {
         ctx.untrap();
 
         return result;
+    }
+
+    private _compileModifierARRAY(ctx: C.IContext, rules: any[]): string {
+
+        let a: number = 0;
+        let b: number = -1;
+
+        if (Number.isInteger(rules[0]) && rules[0] >= 0) {
+
+            a = rules[0];
+        }
+        else if (Array.isArray(rules[0])) {
+
+            switch (rules[0].length) {
+
+                default:
+                case 0: {
+
+                    throw new TypeError(`Invalid arguments "${
+                        JSON.stringify(rules[0])
+                    }" for array.`);
+                }
+                case 1: {
+
+                    a = rules[0][0];
+                    b = 0xFFFFFFFF;
+
+                    if (!Number.isInteger(a) || a < 0) {
+
+                        throw new TypeError(`Invalid arguments "${
+                            JSON.stringify(rules[0])
+                        }" for array.`);
+                    }
+                }
+                case 2: {
+
+                    a = rules[0][0];
+                    b = rules[0][1];
+
+                    if (
+                        (!Number.isInteger(a) || a < 0) ||
+                        (!Number.isInteger(b) || b < 0) ||
+                        a > b
+                    ) {
+
+                        throw new TypeError(`Invalid arguments "${
+                            JSON.stringify(rules[0])
+                        }" for array.`);
+                    }
+
+                    if (a === b) {
+
+                        b = -1;
+                    }
+                }
+            }
+        }
+        else {
+
+            throw new TypeError(`Invalid arguments "${
+                JSON.stringify(rules[0])
+            }" for array.`);
+        }
+
+        ctx.trap();
+
+        const CLOSURE_ARG = ctx.vName;
+
+        const CLOSURE_PARAM = this._lang.varName(ctx.vCursor++);
+
+        ctx.vName = this._lang.varName(ctx.vCursor++);
+
+        const result: string[] = [
+            this._lang.isArray(CLOSURE_ARG, true),
+        ];
+
+        switch (b) {
+            case -1: {
+
+                result.push(
+                    this._lang.eq(this._lang.arrayLength(CLOSURE_ARG), a)
+                );
+                break;
+            }
+            case 0xFFFFFFFF: {
+
+                result.push(
+                    this._lang.gte(this._lang.arrayLength(CLOSURE_ARG), a)
+                );
+                break;
+            }
+            default: {
+
+                result.push(
+                    this._lang.gte(this._lang.arrayLength(CLOSURE_ARG), a),
+                    this._lang.lte(this._lang.arrayLength(CLOSURE_ARG), b)
+                );
+                break;
+            }
+        }
+
+        result.push(this._lang.closure(
+            [CLOSURE_PARAM],
+            [CLOSURE_ARG],
+            this._lang.series([
+                this._lang.forEach(
+                    CLOSURE_PARAM, ctx.vName, this._lang.ifThen(
+                        this._lang.not(this._compile(ctx, rules.slice(1))),
+                        this._lang.returnValue(this._lang.literal(false))
+                    )
+                ),
+                this._lang.returnValue(this._lang.literal(true))
+            ])
+        ));
+
+        ctx.untrap();
+
+        return this._lang.and(result);
     }
 
     private _compileModifierTUPLE(ctx: C.IContext, rules: any[]): string {

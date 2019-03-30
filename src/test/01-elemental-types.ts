@@ -41,6 +41,53 @@ const testItems: ITestSuite = {
             ]
         },
         {
+            "name": "String contains at least 5 characters",
+            "rule": "string(5,)",
+            "items": [
+                {
+                    "inputName": "string 'world'",
+                    "inputValue": "world",
+                    "expect": true
+                },
+                {
+                    "inputName": "string 'hihi'",
+                    "inputValue": "hihi",
+                    "expect": false
+                },
+                {
+                    "inputName": "string 'logical'",
+                    "inputValue": "logical",
+                    "expect": true
+                },
+                ...defaultItemss({
+                    "string 'hello'": true,
+                    "empty string": false
+                })
+            ]
+        },
+        {
+            "name": "Wrong expression for string: string(,5)",
+            "rule": "string(,5)",
+            "items": [
+                {
+                    "inputName": "string 'any'",
+                    "inputValue": "any",
+                    "expect": "throw"
+                }
+            ]
+        },
+        {
+            "name": "Wrong expression for string: string(,)",
+            "rule": "string(,)",
+            "items": [
+                {
+                    "inputName": "string 'any'",
+                    "inputValue": "any",
+                    "expect": "throw"
+                }
+            ]
+        },
+        {
             "name": "String contains only ASCII characters.",
             "rule": "ascii_string",
             "items": [
@@ -300,6 +347,87 @@ const testItems: ITestSuite = {
                 {
                     "inputName": "number -1",
                     "inputValue": -1,
+                    "expect": true
+                },
+                {
+                    "inputName": "number 1.23",
+                    "inputValue": 1.23,
+                    "expect": false
+                },
+                ...defaultItemss({
+                    "number 0": true,
+                    "number 1": true
+                })
+            ]
+        },
+        {
+            "name": "Wrong expression for integer: int(,)",
+            "rule": "int(,)",
+            "items": [
+                {
+                    "inputName": "any",
+                    "inputValue": "any",
+                    "expect": "throw"
+                }
+            ]
+        },
+        {
+            "name": "Integer >= 10",
+            "rule": "int(10,)",
+            "items": [
+                {
+                    "inputName": "number 11",
+                    "inputValue": 11,
+                    "expect": true
+                },
+                {
+                    "inputName": "number 10",
+                    "inputValue": 10,
+                    "expect": true
+                },
+                {
+                    "inputName": "number -1",
+                    "inputValue": -1,
+                    "expect": false
+                },
+                {
+                    "inputName": "number 9",
+                    "inputValue": 9,
+                    "expect": false
+                },
+                {
+                    "inputName": "number 1.23",
+                    "inputValue": 1.23,
+                    "expect": false
+                },
+                ...defaultItemss({
+                    "number 0": false,
+                    "number 1": false
+                })
+            ]
+        },
+        {
+            "name": "Integer <= 10",
+            "rule": "int(,10)",
+            "items": [
+                {
+                    "inputName": "number 11",
+                    "inputValue": 11,
+                    "expect": false
+                },
+                {
+                    "inputName": "number 10",
+                    "inputValue": 10,
+                    "expect": true
+                },
+                {
+                    "inputName": "number -1",
+                    "inputValue": -1,
+                    "expect": true
+                },
+                {
+                    "inputName": "number 9",
+                    "inputValue": 9,
                     "expect": true
                 },
                 {
@@ -864,6 +992,147 @@ const testItems: ITestSuite = {
             ]
         },
         {
+            "name": "Number between 1.0, 10.0",
+            "rule": "number(1.0, 10.0)",
+            "items": [
+                {
+                    "inputName": "number -1",
+                    "inputValue": -1,
+                    "expect": false
+                },
+                {
+                    "inputName": "number 1",
+                    "inputValue": 1,
+                    "expect": true
+                },
+                {
+                    "inputName": "number 10",
+                    "inputValue": 10,
+                    "expect": true
+                },
+                {
+                    "inputName": "number 11",
+                    "inputValue": 11,
+                    "expect": false
+                },
+                {
+                    "inputName": "number 0",
+                    "inputValue": 0,
+                    "expect": false
+                },
+                {
+                    "inputName": "number 1.23",
+                    "inputValue": 1.23,
+                    "expect": true
+                },
+                {
+                    "inputName": "number -1.23",
+                    "inputValue": -1.23,
+                    "expect": false
+                },
+                ...defaultItemss({
+                    "number 0": false,
+                    "number 1": true
+                })
+            ]
+        },
+        {
+            "name": "Number larger than 1",
+            "rule": "number(1, )",
+            "items": [
+                {
+                    "inputName": "number -1",
+                    "inputValue": -1,
+                    "expect": false
+                },
+                {
+                    "inputName": "number 1",
+                    "inputValue": 1,
+                    "expect": true
+                },
+                {
+                    "inputName": "number 10",
+                    "inputValue": 10,
+                    "expect": true
+                },
+                {
+                    "inputName": "number 11",
+                    "inputValue": 11,
+                    "expect": true
+                },
+                {
+                    "inputName": "number 0",
+                    "inputValue": 0,
+                    "expect": false
+                },
+                {
+                    "inputName": "number 1.23",
+                    "inputValue": 1.23,
+                    "expect": true
+                },
+                {
+                    "inputName": "number -1.23",
+                    "inputValue": -1.23,
+                    "expect": false
+                },
+                ...defaultItemss({
+                    "number 0": false,
+                    "number 1": true
+                })
+            ]
+        },
+        {
+            "name": "Wrong expression for number: number(,)",
+            "rule": "number(,)",
+            "items": [
+                {
+                    "inputName": "any",
+                    "inputValue": "any",
+                    "expect": "throw"
+                },
+            ]
+        },
+        {
+            "name": "Number lower than -1",
+            "rule": "number(, -1)",
+            "items": [
+                {
+                    "inputName": "number -1",
+                    "inputValue": -1,
+                    "expect": true
+                },
+                {
+                    "inputName": "number 1",
+                    "inputValue": 1,
+                    "expect": false
+                },
+                {
+                    "inputName": "number -0.3",
+                    "inputValue": -0.3,
+                    "expect": false
+                },
+                {
+                    "inputName": "number -11",
+                    "inputValue": -11,
+                    "expect": true
+                },
+                {
+                    "inputName": "number 0",
+                    "inputValue": 0,
+                    "expect": false
+                },
+                {
+                    "inputName": "number -1.23",
+                    "inputValue": -1.23,
+                    "expect": true
+                },
+                ...defaultItemss({
+                    "number 0": false,
+                    "number 1": false
+                })
+            ]
+        },
+        {
             "name": "Numeric value",
             "rule": "numeric",
             "items": [
@@ -973,6 +1242,84 @@ const testItems: ITestSuite = {
                 ...defaultItemss({
                     "empty array": true
                 })
+            ]
+        },
+        {
+            "name": "Array with 1 element",
+            "rule": "array(1)",
+            "items": [
+                {
+                    "inputName": "[string, number]",
+                    "inputValue": ["-1.23", 123123],
+                    "expect": false
+                },
+                {
+                    "inputName": "[string]",
+                    "inputValue": ["-1.23"],
+                    "expect": true
+                },
+                ...defaultItemss({
+                    "empty array": false
+                })
+            ]
+        },
+        {
+            "name": "Array with 1 ~ 3 elements",
+            "rule": "array(1,3)",
+            "items": [
+                {
+                    "inputName": "[string, number, boolean]",
+                    "inputValue": ["-1.23", 123123, true],
+                    "expect": true
+                },
+                {
+                    "inputName": "[string, number]",
+                    "inputValue": ["-1.23", 123123],
+                    "expect": true
+                },
+                {
+                    "inputName": "[string]",
+                    "inputValue": ["-1.23"],
+                    "expect": true
+                },
+                {
+                    "inputName": "[string, number, boolean, string]",
+                    "inputValue": ["-1.23", 123123, true, "fff"],
+                    "expect": false
+                },
+                ...defaultItemss({
+                    "empty array": false
+                })
+            ]
+        },
+        {
+            "name": "Array with at least 1 element",
+            "rule": "array(1,)",
+            "items": [
+                {
+                    "inputName": "[string, number]",
+                    "inputValue": ["-1.23", 123123],
+                    "expect": true
+                },
+                {
+                    "inputName": "[string]",
+                    "inputValue": ["-1.23"],
+                    "expect": true
+                },
+                ...defaultItemss({
+                    "empty array": false
+                })
+            ]
+        },
+        {
+            "name": "Wrong expression for array: array(,)",
+            "rule": "array(,)",
+            "items": [
+                {
+                    "inputName": "any",
+                    "inputValue": "any",
+                    "expect": "throw"
+                },
             ]
         },
         {

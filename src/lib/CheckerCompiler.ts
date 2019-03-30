@@ -172,7 +172,7 @@ implements C.ICompiler {
          * - `string`
          * - `int(12, 34)`
          */
-        if (regResult = rule.match(/^(\w+)(\(\s*(-?\d+(\.\d+)?)?(\s*,\s*(-?\d+(\.\d+)?))*\s*\))?$/)) {
+        if (regResult = rule.match(/^(\w+)(\(\s*(-?\d+(\.\d+)?)?\s*,?\s*(-?\d+(\.\d+)?)?\s*\))?$/)) {
 
             if (regResult[2]) {
 

@@ -600,32 +600,56 @@ implements C.IBuiltInTypeCompiler {
             }
             case 1: {
 
+                if (!Number.isInteger(params[0]) || params[0] < 0) {
+
+                    throw new Error(`Invalid argument "${params[0]}" for array.`);
+                }
+
                 return this._lang.and([
                     this._lang.isArray(ctx.vName, true),
                     this._lang.eq(
                         this._lang.arrayLength(ctx.vName),
-                        this._lang.literal(params[0])
+                        params[0]
                     )
                 ]);
             }
             case 2: {
 
-                if (params[0] > params[1]) {
+                if (!Number.isInteger(params[0]) || params[0] < 0) {
 
-                    throw new RangeError(`Arg 0 should not be larger than arg 1 for array.`);
+                    throw new Error(`Invalid argument "${params[0]}" for array.`);
                 }
 
-                return this._lang.and([
+                const result: string[] = [
+
                     this._lang.isArray(ctx.vName, true),
                     this._lang.gte(
                         this._lang.arrayLength(ctx.vName),
-                        this._lang.literal(params[0])
-                    ),
-                    this._lang.lte(
-                        this._lang.arrayLength(ctx.vName),
-                        this._lang.literal(params[1])
+                        params[0]
                     )
-                ]);
+                ];
+
+                if (this._checkValidUInteger(
+                    params[1],
+                    `Invalid argument "${params[1]}" for array.`
+                )) {
+
+                    if (params[0] > params[1]) {
+
+                        throw new RangeError(
+                            `Arg 0 should not be larger than arg 1 for array.`
+                        );
+                    }
+
+                    result.push(
+                        this._lang.lte(
+                            this._lang.arrayLength(ctx.vName),
+                            params[1]
+                        )
+                    );
+                }
+
+                return this._lang.and(result);
             }
         }
     }
@@ -639,11 +663,6 @@ implements C.IBuiltInTypeCompiler {
                 return this._lang.isNumber(ctx.vName, true);
             }
             case 2: {
-
-                if (params[0] > params[1]) {
-
-                    throw new RangeError(`Arg 0 should not be larger than arg 1 for number.`);
-                }
 
                 const result: string[] = [
                     this._lang.isNumber(ctx.vName, true)
@@ -659,10 +678,22 @@ implements C.IBuiltInTypeCompiler {
 
                 if (this._checkValidNumber(params[1], `Invalid argument "${params[1]}".`)) {
 
+                    if (params[0] > params[1]) {
+
+                        throw new RangeError(`Arg 0 should not be larger than arg 1 for number.`);
+                    }
+
                     result.push(this._lang.lte(
                         ctx.vName,
                         params[1]
                     ));
+                }
+
+                if (result.length === 1) {
+
+                    throw new SyntaxError(
+                        `Invalid syntax of integer.`
+                    );
                 }
 
                 return this._lang.and(result);
@@ -725,29 +756,44 @@ implements C.IBuiltInTypeCompiler {
             }
             case 2: {
 
-                if (params[0] > params[1]) {
-
-                    throw new RangeError(`Arg 0 should not be larger than arg 1 for number.`);
-                }
-
                 const result: string[] = [
                     this._lang.isInteger(ctx.vName, true)
                 ];
 
-                if (this._checkValidInteger(params[0], `Invalid argument "${params[0]}".`)) {
+                if (this._checkValidInteger(
+                    params[0],
+                    `Invalid argument "${params[0]}" for integer.`
+                )) {
 
                     result.push(this._lang.gte(
                         ctx.vName,
-                        this._lang.literal(params[0])
+                        params[0]
                     ));
                 }
 
-                if (this._checkValidInteger(params[1], `Invalid argument "${params[1]}".`)) {
+                if (this._checkValidInteger(
+                    params[1],
+                    `Invalid argument "${params[1]}" for integer.`
+                )) {
+
+                    if (params[0] > params[1]) {
+
+                        throw new RangeError(
+                            `Arg 0 should not be larger than arg 1 for number.`
+                        );
+                    }
 
                     result.push(this._lang.lte(
                         ctx.vName,
-                        this._lang.literal(params[1])
+                        params[1]
                     ));
+                }
+
+                if (result.length === 1) {
+
+                    throw new SyntaxError(
+                        `Invalid syntax of integer.`
+                    );
                 }
 
                 return this._lang.and(result);
@@ -777,6 +823,11 @@ implements C.IBuiltInTypeCompiler {
 
             case 1: {
 
+                if (!Number.isInteger(params[0]) || params[0] < 0) {
+
+                    throw new Error(`Invalid argument "${params[0]}" for string.`);
+                }
+
                 return this._lang.and([
                     this._lang.isString(ctx.vName, true),
                     elementRegExp ? this._lang.matchRegExp(
@@ -784,40 +835,88 @@ implements C.IBuiltInTypeCompiler {
                         `^${elementRegExp}{${params[0]}}$`
                     ) : this._lang.eq(
                         this._lang.stringLength(ctx.vName),
-                        this._lang.literal(params[0])
+                        params[0]
                     )
                 ]);
             }
 
             case 2: {
 
-                if (params[0] > params[1]) {
+                if (!Number.isInteger(params[0]) || params[0] < 0) {
 
-                    throw new RangeError(`Arg 0 should not be larger than arg 1 for string.`);
+                    throw new Error(`Invalid argument "${params[0]}" for string.`);
                 }
+
+                const result: string[] = [
+
+                    this._lang.isString(ctx.vName, true)
+                ];
 
                 if (elementRegExp) {
 
-                    return this._lang.and([
-                        this._lang.isString(ctx.vName, true),
-                        this._lang.matchRegExp(
+                    if (this._checkValidUInteger(
+                        params[1],
+                        `Invalid argument "${params[1]}" for string.`
+                    )) {
+
+                        if (params[0] > params[1]) {
+
+                            throw new RangeError(
+                                `Arg 0 should not be larger than arg 1 for string.`
+                            );
+                        }
+
+                        result.push(this._lang.matchRegExp(
                             ctx.vName,
                             `^${elementRegExp}{${params[0]},${params[1]}}$`
-                        )
-                    ]);
+                        ));
+                    }
+                    else {
+
+                        result.push(this._lang.matchRegExp(
+                            ctx.vName,
+                            `^${elementRegExp}{${params[0]},}}$`
+                        ));
+                    }
+                }
+                else {
+
+                    if (this._checkValidUInteger(
+                        params[1],
+                        `Invalid argument "${params[1]}" for string.`
+                    )) {
+
+                        if (params[0] > params[1]) {
+
+                            throw new RangeError(
+                                `Arg 0 should not be larger than arg 1 for string.`
+                            );
+                        }
+
+                        result.push(
+                            this._lang.gte(
+                                this._lang.stringLength(ctx.vName),
+                                params[0]
+                            ),
+                            this._lang.lte(
+                                this._lang.stringLength(ctx.vName),
+                                params[1]
+                            )
+                        );
+                    }
+                    else {
+
+                        result.push(
+                            this._lang.gte(
+                                this._lang.stringLength(ctx.vName),
+                                this._lang.literal(params[0])
+                            )
+                        );
+                    }
+
                 }
 
-                return this._lang.and([
-                    this._lang.isString(ctx.vName, true),
-                    this._lang.gte(
-                        this._lang.stringLength(ctx.vName),
-                        this._lang.literal(params[0])
-                    ),
-                    this._lang.lte(
-                        this._lang.stringLength(ctx.vName),
-                        this._lang.literal(params[1])
-                    )
-                ]);
+                return this._lang.and(result);
             }
         }
     }

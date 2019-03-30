@@ -37,6 +37,11 @@ export interface ICompileResult {
     "arguments": ICompileOutputArgument[];
 
     /**
+     * The variable name of pre-defined type checkers.
+     */
+    "typeSlotName": string;
+
+    /**
      * The source code of checker.
      */
     "source": string;
@@ -46,6 +51,11 @@ export interface ICompileResult {
      * `true`.
      */
     "tracePoints": string[];
+
+    /**
+     * The predefined types used by this type.
+     */
+    "referredTypes": string[];
 
     /**
      * Extra data.
@@ -58,14 +68,7 @@ export interface ICompileOptions {
     /**
      * The rules to be compiled.
      */
-    "rules": any;
-
-    /**
-     * Add a breakpoint at the entry of checker code.
-     *
-     * @default false
-     */
-    "stopOnEntry"?: boolean;
+    "rule": any;
 
     /**
      * Throw an exception while check failed, instead of return FALSE.
@@ -76,6 +79,8 @@ export interface ICompileOptions {
 }
 
 export interface ILanguageBuilder {
+
+    call(fnName: string, ...args: string[]): string;
 
     varName(index: number | string): string;
 
@@ -354,7 +359,9 @@ export interface IFilterCompiler {
 
 export interface ICompiler {
 
-    compileChecker(options: ICompileOptions): ICompileResult;
+    getPredefinedType(name: string): ICompileResult | null;
+
+    compile(options: ICompileOptions): ICompileResult;
 }
 
 export const MODIFIER_PREFIX = "$.";
@@ -399,7 +406,11 @@ export interface IContext extends IContextData {
 
     vCursor: number;
 
-    stack: IContextData[];
+    readonly stack: IContextData[];
+
+    readonly typeSlotName: string;
+
+    readonly referredTypes: Record<string, boolean>;
 
     trap(): void;
 

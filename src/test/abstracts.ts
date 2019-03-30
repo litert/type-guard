@@ -14,7 +14,7 @@ export interface ITestRule {
 
     name: string;
 
-    rule: string;
+    rule: any;
 
     items: ITestItem[];
 }
@@ -23,7 +23,7 @@ export interface ITestSuite {
 
     name: string;
 
-    rules: ITestRule[];
+    sections: ITestRule[];
 }
 
 export function defaultItemss(items: Record<string, boolean>): ITestItem[] {
@@ -82,36 +82,40 @@ export function defaultItemss(items: Record<string, boolean>): ITestItem[] {
     ];
 }
 
+const compiler = TypeGuard.createJavaScriptJIT();
+
 export function createTestDefinition(suite: ITestSuite) {
 
     return function(): void {
 
         describe(suite.name, function() {
 
-            const compile = TypeGuard.createJavaScriptCompiler();
+            for (let section of suite.sections) {
 
-            for (let rule of suite.rules) {
-
-                describe(rule.name, function() {
+                describe(section.name, function() {
 
                     if (
-                        rule.items.length === 1 &&
-                        rule.items[0].expect === "throw"
+                        section.items.length === 1 &&
+                        section.items[0].expect === "throw"
                     ) {
 
                         it(`Throws exception.`, function() {
 
                             assert.throws(() => {
 
-                                compile<any>(rule.rule);
+                                compiler.compile<any>({
+                                    "rule": section.rule
+                                });
                             });
                         });
                         return;
                     }
 
-                    const check = compile<any>(rule.rule);
+                    const check = compiler.compile<any>({
+                        "rule": section.rule
+                    });
 
-                    for (let item of rule.items.sort((a, b) => a.expect ? -1 : 1)) {
+                    for (let item of section.items.sort((a, b) => a.expect ? -1 : 1)) {
 
                         it(`${
                             item.expect ? "OK" : "FAILED"

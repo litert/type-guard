@@ -2,17 +2,38 @@ import * as C from "./Common";
 import * as Modifers from "./Modifiers";
 import { Context } from "./Context";
 
-export class CheckerCompiler {
+export class Compiler
+implements C.ICompiler {
+
+    private _defTypes: Record<string, C.ICompileResult>;
 
     public constructor(
         private _lang: C.ILanguageBuilder,
         private _builtInTypes: C.IBuiltInTypeCompiler,
         private _filters: C.IFilterCompiler
-    ) { }
+    ) {
+        this._defTypes = {};
+    }
+
+    public getPredefinedType(name: string): C.ICompileResult | null {
+
+        if (this._defTypes[name]) {
+
+            return this._defTypes[name];
+        }
+
+        return null;
+    }
 
     public compile(options: C.ICompileOptions): C.ICompileResult {
 
-        const ctx: C.IContext = new Context(this._lang.varName("entry"));
+        const referredTypes: Record<string, true> = {};
+
+        const ctx: C.IContext = new Context(
+            this._lang.varName("entry"),
+            this._lang.varName("types"),
+            referredTypes
+        );
 
         const ret: C.ICompileResult = {
 
@@ -21,11 +42,15 @@ export class CheckerCompiler {
                 "name": ctx.vName,
                 "type": "unknown"
             }],
+            typeSlotName: ctx.typeSlotName,
+            referredTypes: [],
             extras: {},
             tracePoints: []
         };
 
-        ret.source = this._compile(ctx, options.rules);
+        ret.source = this._compile(ctx, options.rule);
+
+        ret.referredTypes = Object.keys(ctx.referredTypes);
 
         return ret;
     }
@@ -134,6 +159,11 @@ export class CheckerCompiler {
             ]);
         }
 
+        if (rule[0] === "@") {
+
+            return this._usePredefinedType(ctx, rule.slice(1));
+        }
+
         /**
          * For built-in-type rules like:
          *
@@ -169,7 +199,7 @@ export class CheckerCompiler {
             return this._filters.compile(rule, ctx);
         }
 
-        const strAssert = this._compileStringAssert(ctx, rule);
+        const strAssert = this._useStringAssert(ctx, rule);
 
         if (strAssert !== false) {
 
@@ -182,7 +212,25 @@ export class CheckerCompiler {
         throw new TypeError(`Unknown type "${rule}".`);
     }
 
-    private _compileStringAssert(
+    private _usePredefinedType(
+        ctx: C.IContext,
+        typeName: string
+    ): string {
+
+        this._validateTypeName(typeName);
+
+        ctx.referredTypes[typeName] = true;
+
+        return this._lang.call(
+            this._lang.fieldIndex(
+                ctx.typeSlotName,
+                this._lang.literal(typeName)
+            ),
+            ctx.vName
+        );
+    }
+
+    private _useStringAssert(
         ctx: C.IContext,
         rule: string
     ): string | false {
@@ -401,6 +449,10 @@ export class CheckerCompiler {
                 ctx.flags[C.EFlags.FROM_STRING] = C.EFlagValue.INHERIT;
                 return this._compileModifiedRule(ctx, rules.slice(1));
             }
+            case Modifers.TYPE: {
+
+                return this._compileModifierTYPE(ctx, rules.slice(1));
+            }
             case Modifers.STRICT: {
 
                 ctx.flags[C.EFlags.STRICT] = C.EFlagValue.YES;
@@ -607,6 +659,32 @@ export class CheckerCompiler {
         }
 
         return this._lang.and(result);
+    }
+
+    private _validateTypeName(name: unknown): void {
+
+        if (typeof name !== "string" || !/^\w+$/.test(name)) {
+
+            throw new TypeError(`Invalid name ${
+                JSON.stringify(name)
+            } for a pre-defined type.`);
+        }
+    }
+
+    private _compileModifierTYPE(ctx: C.IContext, rules: any[]): string {
+
+        this._validateTypeName(rules[0]);
+
+        if (this._defTypes[rules[0]]) {
+
+            throw new Error(`Dplicated name ${JSON.stringify(rules[0])} for a pre-defined type.`);
+        }
+
+        this._defTypes[rules[0]] = this.compile({
+            rule: rules.slice(1)
+        });
+
+        return this._usePredefinedType(ctx, rules[0]);
     }
 
     private _compileModifierMAP(ctx: C.IContext, rules: any[]): string {

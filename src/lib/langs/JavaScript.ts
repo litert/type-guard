@@ -16,6 +16,11 @@ implements C.ILanguageBuilder {
         return `${expr}.includes(${match})`;
     }
 
+    public call(fnName: string, ...args: string[]): string {
+
+        return `${fnName}(${args.join(",")})`;
+    }
+
     public startsWith(
         expr: string,
         match: string

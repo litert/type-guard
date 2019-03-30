@@ -15,7 +15,9 @@ export class Context implements C.IContext {
     public flags: Record<string, C.EFlagValue>;
 
     public constructor(
-        vName: string
+        vName: string,
+        public readonly typeSlotName: string,
+        public readonly referredTypes: Record<string, boolean>
     ) {
         this.vName = vName;
 

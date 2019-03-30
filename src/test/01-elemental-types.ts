@@ -3,7 +3,7 @@ import { createTestDefinition, defaultItemss, ITestSuite } from "./abstracts";
 const testItems: ITestSuite = {
 
     name: "Elememetal Types",
-    rules: [
+    sections: [
 
         {
             "name": "String",

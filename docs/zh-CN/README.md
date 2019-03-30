@@ -174,42 +174,42 @@ string(12, 32){}[3,]
 /**
  * 被校验的值必须大于等于 1 且小于等于 199
  */
-compiler.compile("|value between 1 199");
+tgc.compile("|value between 1 199");
 
 /**
  * 被校验的值必须大于 1
  */
-compiler.compile("|value gt 1");
+tgc.compile("|value gt 1");
 
 /**
  * 被校验的值必须大于等于 1
  */
-compiler.compile("|value ge 1");
+tgc.compile("|value ge 1");
 
 /**
  * 被校验的值必须小于 1
  */
-compiler.compile("|value lt 1");
+tgc.compile("|value lt 1");
 
 /**
  * 被校验的值必须小于等于 1
  */
-compiler.compile("|value le 1");
+tgc.compile("|value le 1");
 
 /**
  * 被校验的值必须不等于 1
  */
-compiler.compile("|value ne 1");
+tgc.compile("|value ne 1");
 
 /**
  * 被校验的值必须等于 1
  */
-compiler.compile("|value eq 1");
+tgc.compile("|value eq 1");
 
 /**
  * 被校验的值必须是整数且是 10 的倍数
  */
-compiler.compile("|uint timesof 10");
+tgc.compile("|uint timesof 10");
 ```
 
 ### 1.3. 字符串专用校验器
@@ -263,10 +263,10 @@ Expression                  | Description
 > 只支持 `null`，`number`，`boolean` 类型的字面量。
 
 ```ts
-compiler.compile(123);      // 被校验的变量必须为数值 123（类型上完全匹配）
-compiler.compile(null);     // 被校验的变量必须为 null （类型上完全匹配）
-compiler.compile(true);     // 被校验的变量必须为布尔值 true （类型上完全匹配）
-compiler.compile(false);    // 被校验的变量必须为布尔值 false （类型上完全匹配）
+tgc.compile(123);      // 被校验的变量必须为数值 123（类型上完全匹配）
+tgc.compile(null);     // 被校验的变量必须为 null （类型上完全匹配）
+tgc.compile(true);     // 被校验的变量必须为布尔值 true （类型上完全匹配）
+tgc.compile(false);    // 被校验的变量必须为布尔值 false （类型上完全匹配）
 ```
 
 ## 3. 对象校验
@@ -843,4 +843,45 @@ string[]
 
 `$.equal` 的作用和 `$.strict` 完全一样，除了一点：它对属性子对象也生效。
 
+## 4.11. `$.type` 修饰符——命名类型
 
+如果有一个稍微有点复杂的类型，在一个结构内到处引用，那么可以将之定义为“预定义类型”。
+
+例如：
+
+```ts
+tgc.compile({
+    "a": ["$.type", "MyType", "string[32]"],
+    "b": "@MyType",
+    "c": "@MyType"
+});
+```
+
+这段代码注册了一个名为 `MyType` 的预定义类型。然后通过 @ 符号加预定义类型名称引用这个类型。
+
+预定义类型有几个注意事项：
+
+1.  必须先定义后使用，比如下面这样是不行的：
+
+    ```ts
+    tgc.compile({
+        "b": "@MyType",
+        "a": ["$.type", "MyType", "string[32]"],
+        "c": "@MyType"
+    });
+    ```
+
+2.  定义后可以在多次编译过程中反复使用：
+
+    ```ts
+    tgc.compile(["$.type", "MyType", "string[32]"]);
+
+    tgc.compile({
+        "a": "@MyType",
+        "b": "@MyType",
+        "c": "@MyType"
+    });
+    ```
+
+3.  类型名称不能为空字符串，只能包含字母、数字、下划线，且严格区分大小写。
+4.  同一个类型名称不得重复定义。

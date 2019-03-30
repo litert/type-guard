@@ -12,19 +12,38 @@ export interface IJITCompileOptions extends C.ICompileOptions {
     "stopOnEntry"?: boolean;
 }
 
-export interface IJavaScriptJITC {
+export interface IJavaScriptJIT {
 
+    /**
+     * Compile the rule and wrap the result into a JavaScript function, so that
+     * it could be invoked directly.
+     *
+     * @param options The options of compilation.
+     */
     compile<T>(options: IJITCompileOptions): C.TypeChecker<T>;
 
+    /**
+     * Get the type-checker of a pre-defined type.
+     *
+     * @param name The name of the pre-defined type.
+     */
     getPredefinedType<T>(name: string): C.TypeChecker<T>;
 
+    /**
+     * Check if a pre-defined type is compiled.
+     *
+     * @param name The name of the pre-defined type.
+     */
     hasPredefinedType(name: string): boolean;
 
+    /**
+     * Get the names list of undefined pre-defined types.
+     */
     detectUndefinedTypes(): string[];
 }
 
 class JavaScriptJIT
-implements IJavaScriptJITC {
+implements IJavaScriptJIT {
 
     private _defTypes: Record<string, C.TypeChecker<any>>;
 
@@ -123,7 +142,7 @@ implements IJavaScriptJITC {
     }
 }
 
-export function createJavaScriptJIT(): IJavaScriptJITC {
+export function createJavaScriptJIT(): IJavaScriptJIT {
 
     return new JavaScriptJIT();
 }

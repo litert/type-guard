@@ -80,6 +80,16 @@ export interface ICompileOptions {
 
 export interface ILanguageBuilder {
 
+    array(v: any[]): string;
+
+    /**
+     * Check if an array is belong to a set.
+     *
+     * @param a The array
+     * @param b The set.
+     */
+    arrayInSet(a: string, b: string): string;
+
     call(fnName: string, ...args: string[]): string;
 
     varName(index: number | string): string;
@@ -386,9 +396,25 @@ export enum EFlags {
 
 export enum EFlagValue {
 
+    /**
+     * Disabled.
+     */
     NO,
+
+    /**
+     * Enabled but not inheritable.
+     */
     YES,
-    INHERIT
+
+    /**
+     * Enabled and inheritable if not deep into sub element.
+     */
+    INHERIT,
+
+    /**
+     * Enabled and inheritable even deep into sub element.
+     */
+    ELEMENT_INHERIT
 }
 
 export interface IContextData {
@@ -412,7 +438,7 @@ export interface IContext extends IContextData {
 
     readonly referredTypes: Record<string, boolean>;
 
-    trap(): void;
+    trap(subjChanged?: boolean): void;
 
     untrap(): void;
 }

@@ -444,6 +444,14 @@ implements C.ICompiler {
 
                 return this._compileModifierTUPLE(ctx, rules.slice(1));
             }
+            case Modifers.EQUAL: {
+
+                return this._compileModifierEQUAL(ctx, rules.slice(1));
+            }
+            case Modifers.STRICT: {
+
+                return this._compileModifierSTRICT(ctx, rules.slice(1));
+            }
             case Modifers.STRING: {
 
                 ctx.flags[C.EFlags.FROM_STRING] = C.EFlagValue.INHERIT;
@@ -452,16 +460,6 @@ implements C.ICompiler {
             case Modifers.TYPE: {
 
                 return this._compileModifierTYPE(ctx, rules.slice(1));
-            }
-            case Modifers.STRICT: {
-
-                ctx.flags[C.EFlags.STRICT] = C.EFlagValue.YES;
-                return this._compileModifiedRule(ctx, rules.slice(1));
-            }
-            case Modifers.EQUAL: {
-
-                ctx.flags[C.EFlags.STRICT] = C.EFlagValue.INHERIT;
-                return this._compileModifiedRule(ctx, rules.slice(1));
             }
         }
 
@@ -493,7 +491,7 @@ implements C.ICompiler {
 
     private _compileModifierLIST(ctx: C.IContext, rules: any[]): string {
 
-        ctx.trap();
+        ctx.trap(true);
 
         const CLOSURE_ARG = ctx.vName;
 
@@ -585,7 +583,7 @@ implements C.ICompiler {
             }" for array.`);
         }
 
-        ctx.trap();
+        ctx.trap(true);
 
         const CLOSURE_ARG = ctx.vName;
 
@@ -650,7 +648,7 @@ implements C.ICompiler {
 
         for (let i = 0; i < rules.length; i++) {
 
-            ctx.trap();
+            ctx.trap(true);
 
             ctx.vName = this._lang.arrayIndex(ctx.vName, i);
             result.push(this._compile(ctx, rules[i]));
@@ -687,6 +685,30 @@ implements C.ICompiler {
         return this._usePredefinedType(ctx, rules[0]);
     }
 
+    private _compileModifierSTRICT(ctx: C.IContext, rules: any[]): string {
+
+        if (rules.length === 1) {
+
+            rules = rules[0];
+        }
+
+        ctx.flags[C.EFlags.STRICT] = C.EFlagValue.INHERIT;
+
+        return this._compile(ctx, rules);
+    }
+
+    private _compileModifierEQUAL(ctx: C.IContext, rules: any[]): string {
+
+        if (rules.length === 1) {
+
+            rules = rules[0];
+        }
+
+        ctx.flags[C.EFlags.STRICT] = C.EFlagValue.ELEMENT_INHERIT;
+
+        return this._compile(ctx, rules);
+    }
+
     private _compileModifierMAP(ctx: C.IContext, rules: any[]): string {
 
         if (rules.length === 1) {
@@ -694,7 +716,7 @@ implements C.ICompiler {
             rules = rules[0];
         }
 
-        ctx.trap();
+        ctx.trap(true);
 
         const CLOSURE_ARG = ctx.vName;
 
@@ -734,6 +756,8 @@ implements C.ICompiler {
             this._lang.isStrucutre(ctx.vName, true)
         ];
 
+        const keys: string[] = [];
+
         for (let k in rules) {
 
             let rule = rules[k];
@@ -746,7 +770,7 @@ implements C.ICompiler {
                 k = k.slice(0, -1);
             }
 
-            ctx.trap();
+            ctx.trap(true);
 
             if (k.endsWith(C.KEY_ARRAY_SUFFIX)) {
 
@@ -776,11 +800,24 @@ implements C.ICompiler {
                 }
             }
 
+            keys.push(k);
             ctx.vName = this._lang.fieldIndex(ctx.vName, this._lang.literal(k));
 
             result.push(this._compile(ctx, rule));
 
             ctx.untrap();
+        }
+
+        if (strict && keys.length) {
+
+            result.splice(
+                1,
+                -1,
+                this._lang.arrayInSet(
+                    this._lang.keys(ctx.vName),
+                    this._lang.array(keys)
+                )
+            );
         }
 
         return this._lang.and(result);

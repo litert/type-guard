@@ -8,6 +8,18 @@ implements C.ILanguageBuilder {
         return `${a}.toLowerCase()`;
     }
 
+    public array(v: any[]): string {
+
+        return JSON.stringify(v);
+    }
+
+    public arrayInSet(a: string, b: string): string {
+
+        return `(function(a, b) {
+            return Array.from(new Set(a.concat(b))).length === b.length;
+        })(${a}, ${b})`;
+    }
+
     public instr(
         expr: string,
         match: string

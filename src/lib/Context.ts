@@ -32,7 +32,7 @@ export class Context implements C.IContext {
         this.trace = false;
     }
 
-    public trap(): void {
+    public trap(subjChanged: boolean = false): void {
 
         this.stack.push({
             vName: this.vName,
@@ -45,7 +45,17 @@ export class Context implements C.IContext {
 
         for (const key in prevFlags) {
 
-            if (prevFlags[key] === C.EFlagValue.INHERIT) {
+            if (subjChanged) {
+
+                if (prevFlags[key] === C.EFlagValue.ELEMENT_INHERIT) {
+
+                    this.flags[key] = prevFlags[key];
+                }
+            }
+            else if (
+                prevFlags[key] === C.EFlagValue.INHERIT ||
+                prevFlags[key] === C.EFlagValue.ELEMENT_INHERIT
+            ) {
 
                 this.flags[key] = prevFlags[key];
             }

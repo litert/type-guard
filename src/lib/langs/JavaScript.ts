@@ -51,7 +51,7 @@ implements C.ILanguageBuilder {
 
     public varName(index: number | string): string {
 
-        return `var_${index}`;
+        return `v_${index}`;
     }
 
     private _dereplicate(conds: string[]): string[] {

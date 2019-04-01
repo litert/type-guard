@@ -257,12 +257,24 @@ implements C.IBuiltInTypeCompiler {
         const fromString = !!(ctx.flags[C.EFlags.FROM_STRING] &&
                             this.isBuiltInType(type) && (
                                 BUILT_IN_TYPES[type].kind === "number" ||
-                                BUILT_IN_TYPES[type].kind === "boolean"
+                                BUILT_IN_TYPES[type].kind === "boolean" ||
+                                BUILT_IN_TYPES[type].kind === "null"
                             ));
 
         switch (type) {
 
             case B.NULL: {
+
+                if (fromString) {
+
+                    return this._lang.or([
+                        this._lang.isNull(ctx.vName, true),
+                        this._lang.eq(
+                            ctx.vName,
+                            this._lang.literal("null")
+                        )
+                    ]);
+                }
 
                 return this._lang.isNull(ctx.vName, true);
             }
@@ -300,10 +312,7 @@ implements C.IBuiltInTypeCompiler {
             }
             case B.UFLOAT: {
 
-                return this._lang.and([
-                    this._lang.isNumber(ctx.vName, true),
-                    this._lang.gte(ctx.vName, "0")
-                ]);
+                return this._isNumber(ctx, [0, NaN], fromString);
             }
             case B.FLOAT:
             case B.NUMBER: {

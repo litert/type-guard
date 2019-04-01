@@ -879,10 +879,10 @@ const testItems: ITestSuite = {
                 })
             ]
         },
-            {
-                "name": "Accuracy safe integer",
-                "rule": "safe_int",
-                "items": [
+        {
+            "name": "Accuracy safe integer",
+            "rule": "safe_int",
+            "items": [
                 {
                     "inputName": "number -1",
                     "inputValue": -1,
@@ -1222,6 +1222,141 @@ const testItems: ITestSuite = {
                 {
                     "inputName": "number 1.23",
                     "inputValue": 1.23,
+                    "expect": true
+                },
+                {
+                    "inputName": "number -1.23",
+                    "inputValue": -1.23,
+                    "expect": true
+                },
+                ...defaultItemss({
+                    "number 0": true,
+                    "number 1": true
+                })
+            ]
+        },
+        {
+            "name": "Numeric value between 10 and 100",
+            "rule": "numeric(10,100)",
+            "items": [
+                {
+                    "inputName": "string '50'",
+                    "inputValue": "50",
+                    "expect": true
+                },
+                {
+                    "inputName": "string '22.23'",
+                    "inputValue": "22.23",
+                    "expect": true
+                },
+                {
+                    "inputName": "string '2.23.4'",
+                    "inputValue": "2.23.4",
+                    "expect": false
+                },
+                {
+                    "inputName": "number -1",
+                    "inputValue": -1,
+                    "expect": false
+                },
+                {
+                    "inputName": "number 120312",
+                    "inputValue": 120312,
+                    "expect": false
+                },
+                {
+                    "inputName": "number 11.23",
+                    "inputValue": 11.23,
+                    "expect": true
+                },
+                {
+                    "inputName": "number -1.23",
+                    "inputValue": -1.23,
+                    "expect": false
+                },
+                ...defaultItemss({
+                    "number 0": false,
+                    "number 1": false
+                })
+            ]
+        },
+        {
+            "name": "Numeric value not lower than 10",
+            "rule": "numeric(10,)",
+            "items": [
+                {
+                    "inputName": "string '50'",
+                    "inputValue": "50",
+                    "expect": true
+                },
+                {
+                    "inputName": "string '22.23'",
+                    "inputValue": "22.23",
+                    "expect": true
+                },
+                {
+                    "inputName": "string '2.23.4'",
+                    "inputValue": "2.23.4",
+                    "expect": false
+                },
+                {
+                    "inputName": "number -1",
+                    "inputValue": -1,
+                    "expect": false
+                },
+                {
+                    "inputName": "number 120312",
+                    "inputValue": 120312,
+                    "expect": true
+                },
+                {
+                    "inputName": "number 11.23",
+                    "inputValue": 11.23,
+                    "expect": true
+                },
+                {
+                    "inputName": "number -1.23",
+                    "inputValue": -1.23,
+                    "expect": false
+                },
+                ...defaultItemss({
+                    "number 0": false,
+                    "number 1": false
+                })
+            ]
+        },
+        {
+            "name": "Numeric value not lower than 10",
+            "rule": "numeric(,100)",
+            "items": [
+                {
+                    "inputName": "string '50'",
+                    "inputValue": "50",
+                    "expect": true
+                },
+                {
+                    "inputName": "string '22.23'",
+                    "inputValue": "22.23",
+                    "expect": true
+                },
+                {
+                    "inputName": "string '2.23.4'",
+                    "inputValue": "2.23.4",
+                    "expect": false
+                },
+                {
+                    "inputName": "number -1",
+                    "inputValue": -1,
+                    "expect": true
+                },
+                {
+                    "inputName": "number 120312",
+                    "inputValue": 120312,
+                    "expect": false
+                },
+                {
+                    "inputName": "number 11.23",
+                    "inputValue": 11.23,
                     "expect": true
                 },
                 {

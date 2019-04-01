@@ -113,6 +113,17 @@ implements C.ICompiler {
             }
             else if (rules === null) {
 
+                if (ctx.flags[C.EFlags.FROM_STRING]) {
+
+                    return this._lang.or([
+                        this._lang.isNull(ctx.vName, true),
+                        this._lang.eq(
+                            ctx.vName,
+                            this._lang.literal("null")
+                        )
+                    ]);
+                }
+
                 return this._lang.isNull(ctx.vName, true);
             }
 

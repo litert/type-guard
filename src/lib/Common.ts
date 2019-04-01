@@ -90,6 +90,12 @@ export interface ILanguageBuilder {
      */
     arrayInSet(a: string, b: string): string;
 
+    /**
+     * Get the statement of calling a function.
+     *
+     * @param fnName    The name of function to be called.
+     * @param args      The arguments for function.
+     */
     call(fnName: string, ...args: string[]): string;
 
     varName(index: number | string): string;

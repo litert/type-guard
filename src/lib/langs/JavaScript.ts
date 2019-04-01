@@ -136,7 +136,7 @@ implements C.ILanguageBuilder {
         return `!(${a})`;
     }
 
-    public literal(val: string): string {
+    public literal(val: string | boolean | number): string {
 
         return JSON.stringify(val);
     }
@@ -297,6 +297,21 @@ implements C.ILanguageBuilder {
     ): string {
 
         return `${o}[${k}]`;
+    }
+
+    public str2Int(expr: string): string {
+
+        return `parseInt(${expr})`;
+    }
+
+    public str2Float(expr: string): string {
+
+        return `parseFloat(${expr})`;
+    }
+
+    public str2Bool(expr: string): string {
+
+        return `(${expr} === "true" ? true : (${expr} === "false" ? false : null))`;
     }
 
     public arraySlice(

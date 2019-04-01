@@ -1,6 +1,7 @@
 import * as C from "./Common";
 import * as Modifers from "./Modifiers";
 import { Context } from "./Context";
+import * as B from "./BuiltInTypes";
 
 export class Compiler
 implements C.ICompiler {
@@ -63,7 +64,41 @@ implements C.ICompiler {
             return this._compileStringRule(ctx, rules);
 
         case "boolean":
+
+            if (ctx.flags[C.EFlags.FROM_STRING]) {
+
+                return this._lang.or([
+                    this._lang.eq(
+                        ctx.vName,
+                        this._lang.literal(rules)
+                    ),
+                    this._lang.eq(
+                        this._lang.str2Bool(ctx.vName),
+                        this._lang.literal(rules)
+                    )
+                ]);
+            }
+
+            return this._lang.eq(
+                ctx.vName,
+                this._lang.literal(rules)
+            );
+
         case "number":
+
+            if (ctx.flags[C.EFlags.FROM_STRING]) {
+
+                return this._lang.or([
+                    this._lang.eq(
+                        ctx.vName,
+                        this._lang.literal(rules)
+                    ),
+                    this._lang.eq(
+                        this._lang.str2Float(ctx.vName),
+                        this._lang.literal(rules)
+                    )
+                ]);
+            }
 
             return this._lang.eq(
                 ctx.vName,
@@ -96,7 +131,7 @@ implements C.ICompiler {
         if (rule[0] === C.IMPLICIT_SYMBOL) {
 
             return this._lang.or([
-                this._builtInTypes.compile("void", ctx, []),
+                this._builtInTypes.compile(B.VOID, ctx, []),
                 this._compileStringRule(ctx, rule.slice(1))
             ]);
         }
@@ -454,7 +489,7 @@ implements C.ICompiler {
             }
             case Modifers.STRING: {
 
-                ctx.flags[C.EFlags.FROM_STRING] = C.EFlagValue.INHERIT;
+                ctx.flags[C.EFlags.FROM_STRING] = C.EFlagValue.ELEMENT_INHERIT;
                 return this._compileModifiedRule(ctx, rules.slice(1));
             }
             case Modifers.TYPE: {
@@ -508,7 +543,7 @@ implements C.ICompiler {
 
         ctx.vName = this._lang.varName(ctx.vCursor++);
 
-        if (rules[0] !== "any") {
+        if (rules[0] !== B.ANY) {
 
             result.push(this._lang.closure(
                 [CLOSURE_PARAM],
@@ -636,7 +671,7 @@ implements C.ICompiler {
             }
         }
 
-        if (rules[1] !== "any") {
+        if (rules[1] !== B.ANY) {
 
             result.push(this._lang.closure(
                 [CLOSURE_PARAM],
@@ -888,7 +923,7 @@ implements C.ICompiler {
             if (k.endsWith(C.KEY_LIST_SUFFIX)) {
 
                 k = k.slice(0, -C.KEY_LIST_SUFFIX.length);
-                rule = ["$.list", rule];
+                rule = [Modifers.LIST, rule];
             }
             else if (k.endsWith(C.KEY_MAP_SUFFIX)) {
 
@@ -916,7 +951,7 @@ implements C.ICompiler {
                     if (matchResult[3]) {
 
                         rule = [
-                            "$.array",
+                            Modifers.ARRAY,
                             [
                                 parseInt(matchResult[1]),
                                 parseInt(matchResult[3])
@@ -926,11 +961,11 @@ implements C.ICompiler {
                     }
                     else if (matchResult[2]) {
 
-                        rule = ["$.array", [parseInt(matchResult[1])], rule];
+                        rule = [Modifers.ARRAY, [parseInt(matchResult[1])], rule];
                     }
                     else {
 
-                        rule = ["$.array", parseInt(matchResult[1]), rule];
+                        rule = [Modifers.ARRAY, parseInt(matchResult[1]), rule];
                     }
                 }
             }
@@ -939,11 +974,11 @@ implements C.ICompiler {
 
                 if (this._isOrRule(rule)) {
 
-                    rule.push("void");
+                    rule.push(B.VOID);
                 }
                 else {
 
-                    rule = ["void", rule];
+                    rule = [B.VOID, rule];
                 }
             }
 

@@ -10,17 +10,13 @@ export class Context implements C.IContext {
 
     public stack: C.IContextData[];
 
-    public vName: string;
-
     public flags: Record<string, C.EFlagValue>;
 
     public constructor(
-        vName: string,
+        public vName: string,
         public readonly typeSlotName: string,
         public readonly referredTypes: Record<string, boolean>
     ) {
-        this.vName = vName;
-
         this.stack = [];
 
         this.vCursor = 0;

@@ -1,263 +1,227 @@
 import * as C from "./Common";
+import * as B from "./BuiltInTypes";
 
 interface ITypeInfo {
 
     elemental: boolean;
 
-    forcedString: boolean;
-
-    numeric: boolean;
-
-    hasLength: boolean;
-
     constructed: boolean;
+
+    string: boolean;
+
+    kind: string;
 }
 
 const BUILT_IN_TYPES: Record<string, ITypeInfo> = {
-    "string": {
-        "elemental": true,
-        "forcedString": false,
-        "numeric": false,
-        "hasLength": true,
-        "constructed": false
+    [B.STRING]: {
+        "kind": "string",
+        "string": true,
+        "constructed": false,
+        "elemental": true
     },
-    "ascii_string": {
-        "elemental": true,
-        "forcedString": false,
-        "numeric": false,
-        "hasLength": true,
-        "constructed": false
+    [B.ASCII_STRING]: {
+        "kind": "string",
+        "string": true,
+        "constructed": false,
+        "elemental": true
     },
-    "hex_string": {
-        "elemental": true,
-        "forcedString": false,
-        "numeric": false,
-        "hasLength": true,
-        "constructed": false
+    [B.HEX_STRING]: {
+        "kind": "string",
+        "string": true,
+        "constructed": false,
+        "elemental": true
     },
-    "latin_string": {
-        "elemental": true,
-        "forcedString": false,
-        "numeric": false,
-        "hasLength": true,
-        "constructed": false
+    [B.LATIN_STRING]: {
+        "kind": "string",
+        "string": true,
+        "constructed": false,
+        "elemental": true
     },
-    "numeric": {
-        "elemental": true,
-        "forcedString": true,
-        "numeric": false,
-        "hasLength": false,
-        "constructed": false
+    [B.NUMERIC]: {
+        "kind": "number",
+        "string": true,
+        "constructed": false,
+        "elemental": true
     },
-    "safe_int": {
-        "elemental": true,
-        "forcedString": true,
-        "numeric": false,
-        "hasLength": false,
-        "constructed": false
+    [B.SAFE_INT]: {
+        "kind": "number",
+        "string": false,
+        "constructed": false,
+        "elemental": true
     },
-    "int": {
-        "elemental": true,
-        "forcedString": true,
-        "numeric": false,
-        "hasLength": false,
-        "constructed": false
+    [B.INT]: {
+        "kind": "number",
+        "string": false,
+        "constructed": false,
+        "elemental": true
     },
-    "int8": {
-        "elemental": true,
-        "forcedString": true,
-        "numeric": false,
-        "hasLength": false,
-        "constructed": false
+    [B.INT8]: {
+        "kind": "number",
+        "string": false,
+        "constructed": false,
+        "elemental": true
     },
-    "int16": {
-        "elemental": true,
-        "forcedString": true,
-        "numeric": false,
-        "hasLength": false,
-        "constructed": false
+    [B.INT16]: {
+        "kind": "number",
+        "string": false,
+        "constructed": false,
+        "elemental": true
     },
-    "int32": {
-        "elemental": true,
-        "forcedString": true,
-        "numeric": false,
-        "hasLength": false,
-        "constructed": false
+    [B.INT32]: {
+        "kind": "number",
+        "string": false,
+        "constructed": false,
+        "elemental": true
     },
-    "int64": {
-        "elemental": true,
-        "forcedString": true,
-        "numeric": false,
-        "hasLength": false,
-        "constructed": false
+    [B.INT64]: {
+        "kind": "number",
+        "string": false,
+        "constructed": false,
+        "elemental": true
     },
-    "safe_uint": {
-        "elemental": true,
-        "forcedString": true,
-        "numeric": false,
-        "hasLength": false,
-        "constructed": false
+    [B.SAFE_UINT]: {
+        "kind": "number",
+        "string": false,
+        "constructed": false,
+        "elemental": true
     },
-    "uint": {
-        "elemental": true,
-        "forcedString": true,
-        "numeric": false,
-        "hasLength": false,
-        "constructed": false
+    [B.UINT]: {
+        "kind": "number",
+        "string": false,
+        "constructed": false,
+        "elemental": true
     },
-    "uint8": {
-        "elemental": true,
-        "forcedString": true,
-        "numeric": false,
-        "hasLength": false,
-        "constructed": false
+    [B.UINT8]: {
+        "kind": "number",
+        "string": false,
+        "constructed": false,
+        "elemental": true
     },
-    "uint16": {
-        "elemental": true,
-        "forcedString": true,
-        "numeric": false,
-        "hasLength": false,
-        "constructed": false
+    [B.UINT16]: {
+        "kind": "number",
+        "string": false,
+        "constructed": false,
+        "elemental": true
     },
-    "uint32": {
-        "elemental": true,
-        "forcedString": true,
-        "numeric": false,
-        "hasLength": false,
-        "constructed": false
+    [B.UINT32]: {
+        "kind": "number",
+        "string": false,
+        "constructed": false,
+        "elemental": true
     },
-    "uint64": {
-        "elemental": true,
-        "forcedString": true,
-        "numeric": false,
-        "hasLength": false,
-        "constructed": false
+    [B.UINT64]: {
+        "kind": "number",
+        "string": false,
+        "constructed": false,
+        "elemental": true
     },
-    "boolean": {
-        "elemental": true,
-        "forcedString": false,
-        "numeric": false,
-        "hasLength": false,
-        "constructed": false
+    [B.BOOLEAN]: {
+        "kind": "boolean",
+        "string": false,
+        "constructed": false,
+        "elemental": true
     },
-    "array": {
-        "elemental": false,
-        "forcedString": false,
-        "numeric": false,
-        "hasLength": true,
-        "constructed": true
+    [B.ARRAY]: {
+        "kind": "array",
+        "string": false,
+        "constructed": true,
+        "elemental": false
     },
-    "any": {
-        "elemental": false,
-        "forcedString": false,
-        "numeric": false,
-        "hasLength": false,
-        "constructed": false
+    [B.ANY]: {
+        "kind": "unknown",
+        "string": false,
+        "constructed": false,
+        "elemental": false
     },
-    "struct": {
-        "elemental": false,
-        "forcedString": false,
-        "numeric": false,
-        "hasLength": false,
-        "constructed": true
+    [B.STRUCT]: {
+        "kind": "struct",
+        "string": false,
+        "constructed": true,
+        "elemental": false
     },
-    "null": {
-        "elemental": false,
-        "forcedString": false,
-        "numeric": false,
-        "hasLength": false,
-        "constructed": false
+    [B.NULL]: {
+        "kind": "null",
+        "string": false,
+        "constructed": false,
+        "elemental": false
     },
-    "undefined": {
-        "elemental": false,
-        "forcedString": false,
-        "numeric": false,
-        "hasLength": false,
-        "constructed": false
+    [B.UNDEFINED]: {
+        "kind": "void",
+        "string": false,
+        "constructed": false,
+        "elemental": false
     },
-    "void": {
-        "elemental": false,
-        "forcedString": false,
-        "numeric": false,
-        "hasLength": false,
-        "constructed": false
+    [B.VOID]: {
+        "kind": "void",
+        "string": false,
+        "constructed": false,
+        "elemental": false
     },
-    "false": {
-        "elemental": true,
-        "forcedString": false,
-        "numeric": false,
-        "hasLength": false,
-        "constructed": false
+    [B.FALSE]: {
+        "kind": "boolean",
+        "string": false,
+        "constructed": false,
+        "elemental": true
     },
-    "true": {
-        "elemental": true,
-        "forcedString": false,
-        "numeric": false,
-        "hasLength": false,
-        "constructed": false
+    [B.TRUE]: {
+        "kind": "boolean",
+        "string": false,
+        "constructed": false,
+        "elemental": true
     },
-    "false_value": {
-        "elemental": true,
-        "forcedString": false,
-        "numeric": false,
-        "hasLength": false,
-        "constructed": false
+    [B.FALSE_VALUE]: {
+        "kind": "unknown",
+        "string": false,
+        "constructed": false,
+        "elemental": false
     },
-    "true_value": {
-        "elemental": true,
-        "forcedString": false,
-        "numeric": false,
-        "hasLength": false,
-        "constructed": false
+    [B.TRUE_VALUE]: {
+        "kind": "unknown",
+        "string": false,
+        "constructed": false,
+        "elemental": false
     },
-    "optional": {
-        "elemental": false,
-        "forcedString": false,
-        "numeric": false,
-        "hasLength": false,
-        "constructed": false
+    [B.OPTIONAL]: {
+        "kind": "void",
+        "string": false,
+        "constructed": false,
+        "elemental": false
     },
-    "required": {
-        "elemental": false,
-        "forcedString": false,
-        "numeric": false,
-        "hasLength": false,
-        "constructed": false
+    [B.REQUIRED]: {
+        "kind": "unknown",
+        "string": false,
+        "constructed": false,
+        "elemental": false
     },
-    "decimal": {
-        "elemental": true,
-        "forcedString": false,
-        "numeric": true,
-        "hasLength": true,
-        "constructed": false
+    [B.DECIMAL]: {
+        "kind": "number",
+        "string": true,
+        "constructed": false,
+        "elemental": true
     },
-    "number": {
-        "elemental": true,
-        "forcedString": true,
-        "numeric": false,
-        "hasLength": false,
-        "constructed": false
+    [B.NUMBER]: {
+        "kind": "number",
+        "string": false,
+        "constructed": false,
+        "elemental": true
     },
-    "float": {
-        "elemental": true,
-        "forcedString": true,
-        "numeric": false,
-        "hasLength": false,
-        "constructed": false
+    [B.FLOAT]: {
+        "kind": "number",
+        "string": false,
+        "constructed": false,
+        "elemental": true
     },
-    "udecimal": {
-        "elemental": true,
-        "forcedString": false,
-        "numeric": true,
-        "hasLength": true,
-        "constructed": false
+    [B.UDECIMAL]: {
+        "kind": "number",
+        "string": true,
+        "constructed": false,
+        "elemental": true
     },
-    "ufloat": {
-        "elemental": true,
-        "forcedString": true,
-        "numeric": false,
-        "hasLength": false,
-        "constructed": false
+    [B.UFLOAT]: {
+        "kind": "number",
+        "string": false,
+        "constructed": false,
+        "elemental": true
     }
 };
 
@@ -268,14 +232,9 @@ implements C.IBuiltInTypeCompiler {
         private _lang: C.ILanguageBuilder
     ) {}
 
-    public isNumberType(type: string): boolean {
+    public isStringType(type: string): boolean {
 
-        return this.isBuiltInType(type) && BUILT_IN_TYPES[type].forcedString;
-    }
-
-    public isForcedStringType(type: string): boolean {
-
-        return this.isBuiltInType(type) && BUILT_IN_TYPES[type].forcedString;
+        return this.isBuiltInType(type) && BUILT_IN_TYPES[type].string;
     }
 
     public isConstructed(type: string): boolean {
@@ -288,11 +247,6 @@ implements C.IBuiltInTypeCompiler {
         return this.isBuiltInType(type) && BUILT_IN_TYPES[type].elemental;
     }
 
-    public hasLength(type: string): boolean {
-
-        return this.isBuiltInType(type) && BUILT_IN_TYPES[type].hasLength;
-    }
-
     public isBuiltInType(type: string): boolean {
 
         return BUILT_IN_TYPES[type] !== undefined;
@@ -300,25 +254,31 @@ implements C.IBuiltInTypeCompiler {
 
     public compile(type: string, ctx: C.IContext, args: number[]): string {
 
+        const fromString = !!(ctx.flags[C.EFlags.FROM_STRING] &&
+                            this.isBuiltInType(type) && (
+                                BUILT_IN_TYPES[type].kind === "number" ||
+                                BUILT_IN_TYPES[type].kind === "boolean"
+                            ));
+
         switch (type) {
 
-            case "null": {
+            case B.NULL: {
 
                 return this._lang.isNull(ctx.vName, true);
             }
-            case "any": {
+            case B.ANY: {
 
                 return this._lang.literal(true);
             }
-            case "array": {
+            case B.ARRAY: {
 
                 return this._isArray(ctx, args);
             }
-            case "string": {
+            case B.STRING: {
 
                 return this._isString(ctx, args);
             }
-            case "ascii_string": {
+            case B.ASCII_STRING: {
 
                 return this._isString(
                     ctx,
@@ -326,7 +286,7 @@ implements C.IBuiltInTypeCompiler {
                     "[\\u0000-\\u007F]"
                 );
             }
-            case "latin_string": {
+            case B.LATIN_STRING: {
 
                 return this._isString(
                     ctx,
@@ -334,125 +294,151 @@ implements C.IBuiltInTypeCompiler {
                     "[\\u0000-\\u024F\\u2C60-\\u2C7F]"
                 );
             }
-            case "hex_string": {
+            case B.HEX_STRING: {
 
                 return this._isString(ctx, args, "[0-9A-Fa-f]");
             }
-            case "ufloat": {
+            case B.UFLOAT: {
 
                 return this._lang.and([
                     this._lang.isNumber(ctx.vName, true),
                     this._lang.gte(ctx.vName, "0")
                 ]);
             }
-            case "float":
-            case "number": {
+            case B.FLOAT:
+            case B.NUMBER: {
 
-                return this._isNumber(ctx, args);
+                return this._isNumber(ctx, args, fromString);
             }
-            case "int": {
+            case B.INT: {
 
-                return this._isInteger(ctx, args);
+                return this._isInteger(ctx, args, fromString);
             }
-            case "int64": {
+            case B.INT64: {
 
-                return this._lang.isInteger(ctx.vName, true);
+                return this._isInteger(ctx, [], fromString);
             }
-            case "int8": {
+            case B.INT8: {
 
-                return this._lang.and([
-                    this._lang.isInteger(ctx.vName, true),
-                    this._lang.gte(ctx.vName, "-0x80"),
-                    this._lang.lte(ctx.vName, "0x7F")
-                ]);
+                return this._isInteger(ctx, [-0x80, 0x7F], fromString);
             }
-            case "int16": {
+            case B.INT16: {
 
-                return this._lang.and([
-                    this._lang.isInteger(ctx.vName, true),
-                    this._lang.gte(ctx.vName, "-0x8000"),
-                    this._lang.lte(ctx.vName, "0x7FFF")
-                ]);
+                return this._isInteger(ctx, [-0x8000, 0x7FFF], fromString);
             }
-            case "int32": {
+            case B.INT32: {
 
-                return this._lang.and([
-                    this._lang.isInteger(ctx.vName, true),
-                    this._lang.gte(ctx.vName, "-0x80000000"),
-                    this._lang.lte(ctx.vName, "0x7FFFFFFF")
-                ]);
+                return this._isInteger(
+                    ctx,
+                    [-0x80000000, 0x7FFFFFFF],
+                    fromString
+                );
             }
-            case "safe_int": {
+            case B.SAFE_INT: {
 
-                return this._lang.and([
-                    this._lang.isInteger(ctx.vName, true),
-                    this._lang.gte(ctx.vName, this._lang.minSafeInteger),
-                    this._lang.lte(ctx.vName, this._lang.maxSafeInteger)
-                ]);
+                return this._isInteger(
+                    ctx,
+                    [this._lang.minSafeInteger, this._lang.maxSafeInteger],
+                    fromString
+                );
             }
-            case "uint":
-            case "uint64": {
+            case B.UINT:
+            case B.UINT64: {
 
-                return this._lang.and([
-                    this._lang.isInteger(ctx.vName, true),
-                    this._lang.gte(ctx.vName, "0")
-                ]);
+                return this._isInteger(
+                    ctx,
+                    [0, NaN],
+                    fromString
+                );
             }
-            case "uint8": {
+            case B.UINT8: {
 
-                return this._lang.and([
-                    this._lang.isInteger(ctx.vName, true),
-                    this._lang.gte(ctx.vName, "0"),
-                    this._lang.lte(ctx.vName, "0xFF")
-                ]);
+                return this._isInteger(
+                    ctx,
+                    [0, 0xFF],
+                    fromString
+                );
             }
-            case "uint16": {
+            case B.UINT16: {
 
-                return this._lang.and([
-                    this._lang.isInteger(ctx.vName, true),
-                    this._lang.gte(ctx.vName, "0"),
-                    this._lang.lte(ctx.vName, "0xFFFF")
-                ]);
+                return this._isInteger(
+                    ctx,
+                    [0, 0xFFFF],
+                    fromString
+                );
             }
-            case "uint32": {
+            case B.UINT32: {
 
-                return this._lang.and([
-                    this._lang.isInteger(ctx.vName, true),
-                    this._lang.gte(ctx.vName, "0"),
-                    this._lang.lte(ctx.vName, "0xFFFFFFFF")
-                ]);
+                return this._isInteger(
+                    ctx,
+                    [0, 0xFFFFFFFF],
+                    fromString
+                );
             }
-            case "safe_uint": {
+            case B.SAFE_UINT: {
 
-                return this._lang.and([
-                    this._lang.isInteger(ctx.vName, true),
-                    this._lang.gte(ctx.vName, "0"),
-                    this._lang.lte(ctx.vName, this._lang.maxSafeInteger)
-                ]);
+                return this._isInteger(
+                    ctx,
+                    [0, this._lang.maxSafeInteger],
+                    fromString
+                );
             }
-            case "boolean": {
+            case B.BOOLEAN: {
+
+                if (fromString) {
+
+                    return this._lang.or([
+                        this._lang.isBoolean(ctx.vName, true),
+                        this._lang.isBoolean(
+                            this._lang.str2Bool(ctx.vName),
+                            true
+                        )
+                    ]);
+                }
 
                 return this._lang.isBoolean(ctx.vName, true);
             }
-            case "true": {
+            case B.TRUE: {
+
+                if (fromString) {
+
+                    return this._lang.or([
+                        this._lang.eq(ctx.vName, this._lang.literal(true)),
+                        this._lang.eq(
+                            this._lang.str2Bool(ctx.vName),
+                            this._lang.literal(true)
+                        )
+                    ]);
+                }
 
                 return this._lang.eq(ctx.vName, this._lang.literal(true));
             }
-            case "false": {
+            case B.FALSE: {
+
+                if (fromString) {
+
+                    return this._lang.or([
+                        this._lang.eq(ctx.vName, this._lang.literal(false)),
+                        this._lang.eq(
+                            this._lang.str2Bool(ctx.vName),
+                            this._lang.literal(false)
+                        )
+                    ]);
+                }
 
                 return this._lang.eq(ctx.vName, this._lang.literal(false));
             }
-            case "true_value": {
+            case B.TRUE_VALUE: {
 
                 return this._lang.isTrueValue(ctx.vName);
             }
-            case "false_value": {
+            case B.FALSE_VALUE: {
 
                 return this._lang.isFalseValue(ctx.vName);
             }
-            case "void":
-            case "optional":
-            case "undefined": {
+            case B.VOID:
+            case B.OPTIONAL:
+            case B.UNDEFINED: {
 
                 if (ctx.flags[C.EFlags.REQUIRED]) {
 
@@ -470,7 +456,7 @@ implements C.IBuiltInTypeCompiler {
 
                 return this._lang.isUndefined(ctx.vName, true);
             }
-            case "required": {
+            case B.REQUIRED: {
 
                 if (ctx.flags[C.EFlags.OPTIONAL]) {
 
@@ -488,19 +474,24 @@ implements C.IBuiltInTypeCompiler {
 
                 return this._lang.isUndefined(ctx.vName, false);
             }
-            case "struct": {
+            case B.STRUCT: {
 
                 return this._lang.isStrucutre(ctx.vName, true);
             }
-            case "numeric": {
+            case B.NUMERIC: {
+
+                if (args.length) {
+
+                    return this._isNumber(ctx, args, true);
+                }
 
                 return this._lang.isNumeric(ctx.vName, true);
             }
-            case "decimal": {
+            case B.DECIMAL: {
 
                 return this._isDecimal(ctx, args);
             }
-            case "udecimal": {
+            case B.UDECIMAL: {
 
                 return this._isDecimal(ctx, args, true);
             }
@@ -654,24 +645,47 @@ implements C.IBuiltInTypeCompiler {
         }
     }
 
-    private _isNumber(ctx: C.IContext, params: number[]): string {
+    private _isNumber(
+        ctx: C.IContext,
+        params: number[],
+        fromString: boolean
+    ): string {
+
+        const result: string[] = [
+            this._lang.isNumber(ctx.vName, true)
+        ];
 
         switch (params.length) {
             default:
             case 0: {
 
-                return this._lang.isNumber(ctx.vName, true);
+                if (fromString) {
+
+                    result.push(this._lang.and([
+                        this._lang.isString(ctx.vName, true),
+                        this._lang.matchRegExp(
+                            ctx.vName,
+                            "^[-+]?\\d+(\\.\\d+)?$"
+                        )
+                    ]));
+                }
+
+                return this._lang.or(result);
             }
             case 2: {
 
-                const result: string[] = [
-                    this._lang.isNumber(ctx.vName, true)
-                ];
+                let vName = ctx.vName;
+
+                if (fromString) {
+
+                    ctx.trap(true);
+                    vName = this._lang.varName(ctx.vCursor++);
+                }
 
                 if (this._checkValidNumber(params[0], `Invalid argument "${params[0]}".`)) {
 
                     result.push(this._lang.gte(
-                        ctx.vName,
+                        vName,
                         params[0]
                     ));
                 }
@@ -684,7 +698,7 @@ implements C.IBuiltInTypeCompiler {
                     }
 
                     result.push(this._lang.lte(
-                        ctx.vName,
+                        vName,
                         params[1]
                     ));
                 }
@@ -694,6 +708,31 @@ implements C.IBuiltInTypeCompiler {
                     throw new SyntaxError(
                         `Invalid syntax of integer.`
                     );
+                }
+
+                if (fromString) {
+
+                    ctx.untrap();
+
+                    return this._lang.and([
+                        this._lang.or([
+                            result[0],
+                            this._lang.and([
+                                this._lang.isString(ctx.vName, true),
+                                this._lang.matchRegExp(
+                                    ctx.vName,
+                                    "^[-+]?\\d+(\\.\\d+)?$"
+                                )
+                            ])
+                        ]),
+                        result.length === 3 ? this._lang.closure(
+                            [vName],
+                            [this._lang.str2Float(ctx.vName)],
+                            this._lang.returnValue(
+                                this._lang.and(result.slice(1))
+                            )
+                        ) : result[1].replace(vName, this._lang.str2Float(ctx.vName))
+                    ]);
                 }
 
                 return this._lang.and(result);
@@ -716,7 +755,12 @@ implements C.IBuiltInTypeCompiler {
         throw new TypeError(msg);
     }
 
-    private _checkValidInteger(v: number, msg: string): boolean {
+    private _checkValidInteger(v: number | string, msg: string): boolean {
+
+        if (typeof v === "string") {
+
+            v = parseFloat(v);
+        }
 
         if (Number.isNaN(v)) {
 
@@ -746,19 +790,42 @@ implements C.IBuiltInTypeCompiler {
         throw new TypeError(msg);
     }
 
-    private _isInteger(ctx: C.IContext, params: number[]): string {
+    private _isInteger(
+        ctx: C.IContext,
+        params: Array<string | number>,
+        fromString: boolean
+    ): string {
+
+        const result: string[] = [
+            this._lang.isInteger(ctx.vName, true)
+        ];
 
         switch (params.length) {
             default:
             case 0: {
 
-                return this._lang.isInteger(ctx.vName, true);
+                if (fromString) {
+
+                    result.push(this._lang.and([
+                        this._lang.isString(ctx.vName, true),
+                        this._lang.matchRegExp(
+                            ctx.vName,
+                            "^[-+]?\\d+$"
+                        )
+                    ]));
+                }
+
+                return this._lang.or(result);
             }
             case 2: {
 
-                const result: string[] = [
-                    this._lang.isInteger(ctx.vName, true)
-                ];
+                let vName = ctx.vName;
+
+                if (fromString) {
+
+                    ctx.trap(true);
+                    vName = this._lang.varName(ctx.vCursor++);
+                }
 
                 if (this._checkValidInteger(
                     params[0],
@@ -766,7 +833,7 @@ implements C.IBuiltInTypeCompiler {
                 )) {
 
                     result.push(this._lang.gte(
-                        ctx.vName,
+                        vName,
                         params[0]
                     ));
                 }
@@ -784,7 +851,7 @@ implements C.IBuiltInTypeCompiler {
                     }
 
                     result.push(this._lang.lte(
-                        ctx.vName,
+                        vName,
                         params[1]
                     ));
                 }
@@ -794,6 +861,31 @@ implements C.IBuiltInTypeCompiler {
                     throw new SyntaxError(
                         `Invalid syntax of integer.`
                     );
+                }
+
+                if (fromString) {
+
+                    ctx.untrap();
+
+                    return this._lang.and([
+                        this._lang.or([
+                            result[0],
+                            this._lang.and([
+                                this._lang.isString(ctx.vName, true),
+                                this._lang.matchRegExp(
+                                    ctx.vName,
+                                    "^[-+]?\\d+$"
+                                )
+                            ])
+                        ]),
+                        result.length === 3 ? this._lang.closure(
+                            [vName],
+                            [this._lang.str2Int(ctx.vName)],
+                            this._lang.returnValue(
+                                this._lang.and(result.slice(1))
+                            )
+                        ) : result[1].replace(vName, this._lang.str2Int(ctx.vName))
+                    ]);
                 }
 
                 return this._lang.and(result);

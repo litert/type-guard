@@ -331,6 +331,12 @@ export interface ILanguageBuilder {
      */
     isFalseValue(expr: string): string;
 
+    str2Int(expr: string): string;
+
+    str2Float(expr: string): string;
+
+    str2Bool(expr: string): string;
+
     returnValue(expr: string): string;
 
     series(statements: string[]): string;
@@ -348,20 +354,11 @@ export interface IBuiltInTypeCompiler {
     compile(type: string, ctx: IContext, args: number[]): string;
 
     /**
-     * Check if a type is number type.
+     * Check if a type is string type.
      *
      * @param type The type to be checked.
      */
-    isNumberType(type: string): boolean;
-
-    /**
-     * Check if a type has length property.
-     *
-     * @param type The type to be checked.
-     */
-    hasLength(type: string): boolean;
-
-    isForcedStringType(type: string): boolean;
+    isStringType(type: string): boolean;
 
     isConstructed(type: string): boolean;
 

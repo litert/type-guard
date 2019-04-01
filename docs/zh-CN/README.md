@@ -80,7 +80,7 @@ null                | NULL值
 
 部分基本类型支持增强校验
 
-- int/float/number/numberic
+- `int`/`float`/`number`/`numeric`
 
 这些数值类型支持**取值范围校验**。
 
@@ -97,7 +97,7 @@ number(,-1000.123)       // 取值为 -∞ ~ -1000.123 的实数
 numeric(-1234,2222)     // 取值为 -1234 ~ 2222 的数值
 ```
 
-- string/hex_string/latin_string/ascii_string
+- `string`/`hex_string`/`latin_string`/`ascii_string`
 
 这些字符串类型支持**长度校验**
 

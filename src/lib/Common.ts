@@ -388,9 +388,13 @@ export const IMPLICIT_SYMBOL = "?";
 
 export const KEY_MAP_SUFFIX = "->{}";
 
-export const KEY_ARRAY_SUFFIX = "->[]";
+export const KEY_LIST_SUFFIX = "->[]";
 
-export const KEY_STRICT_SUFFIX = "->(=)";
+export const KEY_ARRAY_SUFFIX = /->\[\s*(\d+)(\s*,\s*(\d+)?)?\s*\]$/;
+
+export const KEY_STRICT_SUFFIX = "->()";
+
+export const KEY_EQUAL_SUFFIX = "->(=)";
 
 export enum EFlags {
 

@@ -4,7 +4,22 @@ import * as TypeGuard from "../lib";
 const tgc = TypeGuard.createJavaScriptJIT();
 
 const check1 = tgc.compile({
-    rule: ["$.tuple", "string", "int", "...4", "string", "...2", "int", "..."]
+    "rule": {
+        "data->(=)": {
+            "a": "string",
+            "b": {
+                "c": "string"
+            }
+        }
+    }
 });
 
-console.log(check1(["aaa", 123, 312, 222, 333, "fff", "ccc", 444]));
+console.log(check1({
+    "data": {
+        "a": "fff",
+        "b": {
+            "c": "ccc",
+            "x": 123,
+        }
+    }
+}));

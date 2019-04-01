@@ -885,10 +885,10 @@ implements C.ICompiler {
 
             ctx.trap(true);
 
-            if (k.endsWith(C.KEY_ARRAY_SUFFIX)) {
+            if (k.endsWith(C.KEY_LIST_SUFFIX)) {
 
-                k = k.slice(0, -C.KEY_ARRAY_SUFFIX.length);
-                rule = ["$.array", rule];
+                k = k.slice(0, -C.KEY_LIST_SUFFIX.length);
+                rule = ["$.list", rule];
             }
             else if (k.endsWith(C.KEY_MAP_SUFFIX)) {
 
@@ -899,6 +899,40 @@ implements C.ICompiler {
 
                 k = k.slice(0, -C.KEY_STRICT_SUFFIX.length);
                 rule = [Modifers.STRICT, rule];
+            }
+            else if (k.endsWith(C.KEY_EQUAL_SUFFIX)) {
+
+                k = k.slice(0, -C.KEY_STRICT_SUFFIX.length);
+                rule = [Modifers.EQUAL, rule];
+            }
+            else {
+
+                const matchResult = k.match(C.KEY_ARRAY_SUFFIX);
+
+                if (matchResult) {
+
+                    k = k.slice(0, matchResult.index);
+
+                    if (matchResult[3]) {
+
+                        rule = [
+                            "$.array",
+                            [
+                                parseInt(matchResult[1]),
+                                parseInt(matchResult[3])
+                            ],
+                            rule
+                        ];
+                    }
+                    else if (matchResult[2]) {
+
+                        rule = ["$.array", [parseInt(matchResult[1])], rule];
+                    }
+                    else {
+
+                        rule = ["$.array", parseInt(matchResult[1]), rule];
+                    }
+                }
             }
 
             if (optional) {
@@ -914,6 +948,7 @@ implements C.ICompiler {
             }
 
             keys.push(k);
+
             ctx.vName = this._lang.fieldIndex(ctx.vName, this._lang.literal(k));
 
             result.push(this._compile(ctx, rule));

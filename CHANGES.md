@@ -1,5 +1,91 @@
 # Changes Logs
 
+## v1.0.0
+
+- A full refactor, with a better and simple code generation.
+
+- New modifier `$.type` for pre-defined type supports.
+
+    > e.g.
+    >
+    > ```json
+    > {
+    >   "a": ["$.type", "test", "string"],
+    >   "b": "@test",
+    >   "c": "@test"
+    > }
+    > ```
+    >
+    > Register a pre-defined type `test`, and refers it by `@test`.
+
+- New modifier `$.string` for value in string form.
+
+- Improved tuple, add omittable dots `...` supports.
+
+    > e.g. `["$.tuple", "string", "...3", "int", "..."]`
+
+- Replace `$.array` with `$.list`.
+
+- Renamed modifier `$.struct` to `$.strict`.
+
+- New modifier `$.equal` for recursive edition of `$.strict`.
+
+- Now `$.array` is used for length-fixed or length-variable array.
+
+    > e.g.
+    > - `["$.array", 3, "string"]` means 3 elements
+    > - `["$.array", [3], "string"]` means at least 3 elements
+    > - `["$.array", [3, 5], "string"]` means 3 ~ 5 elements
+
+- Added range arguments for built-in types.
+
+    > e.g.
+    > - `string(1, 5)` means length 1 ~ 5
+    > - `int(, -10)` means not larget than `-10`
+
+- Added length arguments for array types.
+
+    > e.g.
+    > - `string[1, 5]` means 1 ~ 5 elements
+    > - `string[1,]` means at least 1 element
+
+- Added built-in types:
+
+    - `safe_int`
+    - `safe_uint`
+    - `ufloat`
+    - `decimal`
+    - `udecimal`
+    - `struct`
+    - `hex_string`
+    - `required`
+
+- Removed built-in types:
+
+    - `object`
+    - `valid_object`
+
+- Improved the string assert expressions with following features:
+
+    - equal
+    - not-equal
+    - equal (case-insensitive)
+    - not-equal (case-insensitive)
+    - include
+    - not-include
+    - include (case-insensitive)
+    - not-include (case-insensitive)
+    - start-with
+    - not-start-with
+    - start-with (case-insensitive)
+    - not-start-with (case-insensitive)
+    - end-with
+    - not-end-with
+    - end-with (case-insensitive)
+    - not-end-with (case-insensitive)
+    - match (RegExp)
+    - not-match (RegExp)
+
 ## v0.3.1
 
 - Fixed the `undefined` detection.

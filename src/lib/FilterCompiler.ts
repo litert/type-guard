@@ -61,6 +61,7 @@ implements C.IFilterCompiler {
 
             break;
 
+        case "ge":
         case "gte":
         case ">=":
 
@@ -83,6 +84,7 @@ implements C.IFilterCompiler {
 
             break;
 
+        case "le":
         case "lte":
         case "<=":
 

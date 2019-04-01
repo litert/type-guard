@@ -552,6 +552,8 @@ implements C.ICompiler {
                             JSON.stringify(rules[0])
                         }" for array.`);
                     }
+
+                    break;
                 }
                 case 2: {
 

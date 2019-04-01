@@ -6,6 +6,64 @@ const testItems: ITestSuite = {
     sections: [
 
         {
+            "name": "Literal number 2113",
+            "rule": 2113,
+            "items": [
+                {
+                    "inputName": "number 2113",
+                    "inputValue": 2113,
+                    "expect": true
+                },
+                {
+                    "inputName": "string '2113'",
+                    "inputValue": "2113",
+                    "expect": false
+                }
+            ]
+        },
+        {
+            "name": "Literal null",
+            "rule": null,
+            "items": [
+                {
+                    "inputName": "string 'null'",
+                    "inputValue": "null",
+                    "expect": false
+                },
+                ...defaultItemss({
+                    "null": true
+                })
+            ]
+        },
+        {
+            "name": "Literal boolean value true",
+            "rule": true,
+            "items": [
+                {
+                    "inputName": "string 'true'",
+                    "inputValue": "true",
+                    "expect": false
+                },
+                ...defaultItemss({
+                    "true": true
+                })
+            ]
+        },
+        {
+            "name": "Literal boolean value false",
+            "rule": false,
+            "items": [
+                {
+                    "inputName": "string 'true'",
+                    "inputValue": "true",
+                    "expect": false
+                },
+                ...defaultItemss({
+                    "false": true
+                })
+            ]
+        },
+        {
             "name": "String",
             "rule": "string",
             "items": [

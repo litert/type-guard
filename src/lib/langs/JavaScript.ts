@@ -299,6 +299,20 @@ implements C.ILanguageBuilder {
         return `${o}[${k}]`;
     }
 
+    public arraySlice(
+        arrayName: string,
+        start: string | number,
+        end?: string | number
+    ): string {
+
+        if (end !== undefined) {
+
+            return `${arrayName}.slice(${start}, ${end})`;
+        }
+
+        return `${arrayName}.slice(${start})`;
+    }
+
     public arrayIndex(
         a: string,
         i: string | number

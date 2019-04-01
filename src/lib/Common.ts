@@ -297,6 +297,12 @@ export interface ILanguageBuilder {
         index: string | number
     ): string;
 
+    arraySlice(
+        arrayName: string,
+        start: string | number,
+        end?: string | number
+    ): string;
+
     closure(
         params: string[],
         args: string[],
@@ -391,7 +397,8 @@ export enum EFlags {
     FROM_STRING,
     STRICT,
     OPTIONAL,
-    REQUIRED
+    REQUIRED,
+    ARRAY
 }
 
 export enum EFlagValue {

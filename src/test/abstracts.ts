@@ -115,7 +115,7 @@ export function createTestDefinition(suite: ITestSuite) {
                         "rule": section.rule
                     });
 
-                    for (let item of section.items.sort((a, b) => a.expect ? -1 : 1)) {
+                    for (let item of section.items.sort((a, b) => a.expect === b.expect ? 0 : (a.expect ? -1 : 1))) {
 
                         it(`${
                             item.expect ? "OK" : "FAILED"

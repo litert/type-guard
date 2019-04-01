@@ -491,6 +491,15 @@ implements C.ICompiler {
 
     private _compileModifierLIST(ctx: C.IContext, rules: any[]): string {
 
+        const result: string[] = [];
+
+        if (!ctx.flags[C.EFlags.ARRAY]) {
+
+            result.push(this._lang.isArray(ctx.vName, true));
+
+            ctx.flags[C.EFlags.ARRAY] = C.EFlagValue.INHERIT;
+        }
+
         ctx.trap(true);
 
         const CLOSURE_ARG = ctx.vName;
@@ -499,9 +508,9 @@ implements C.ICompiler {
 
         ctx.vName = this._lang.varName(ctx.vCursor++);
 
-        const result = this._lang.and([
-            this._lang.isArray(CLOSURE_ARG, true),
-            this._lang.closure(
+        if (rules[0] !== "any") {
+
+            result.push(this._lang.closure(
                 [CLOSURE_PARAM],
                 [CLOSURE_ARG],
                 this._lang.series([
@@ -513,12 +522,12 @@ implements C.ICompiler {
                     ),
                     this._lang.returnValue(this._lang.literal(true))
                 ])
-            )
-        ]);
+            ));
+        }
 
         ctx.untrap();
 
-        return result;
+        return this._lang.and(result);
     }
 
     private _compileModifierARRAY(ctx: C.IContext, rules: any[]): string {
@@ -585,6 +594,15 @@ implements C.ICompiler {
             }" for array.`);
         }
 
+        const result: string[] = [];
+
+        if (!ctx.flags[C.EFlags.ARRAY]) {
+
+            result.push(this._lang.isArray(ctx.vName, true));
+
+            ctx.flags[C.EFlags.ARRAY] = C.EFlagValue.INHERIT;
+        }
+
         ctx.trap(true);
 
         const CLOSURE_ARG = ctx.vName;
@@ -592,10 +610,6 @@ implements C.ICompiler {
         const CLOSURE_PARAM = this._lang.varName(ctx.vCursor++);
 
         ctx.vName = this._lang.varName(ctx.vCursor++);
-
-        const result: string[] = [
-            this._lang.isArray(CLOSURE_ARG, true),
-        ];
 
         switch (b) {
             case -1: {
@@ -622,19 +636,22 @@ implements C.ICompiler {
             }
         }
 
-        result.push(this._lang.closure(
-            [CLOSURE_PARAM],
-            [CLOSURE_ARG],
-            this._lang.series([
-                this._lang.forEach(
-                    CLOSURE_PARAM, ctx.vName, this._lang.ifThen(
-                        this._lang.not(this._compile(ctx, rules.slice(1))),
-                        this._lang.returnValue(this._lang.literal(false))
-                    )
-                ),
-                this._lang.returnValue(this._lang.literal(true))
-            ])
-        ));
+        if (rules[1] !== "any") {
+
+            result.push(this._lang.closure(
+                [CLOSURE_PARAM],
+                [CLOSURE_ARG],
+                this._lang.series([
+                    this._lang.forEach(
+                        CLOSURE_PARAM, ctx.vName, this._lang.ifThen(
+                            this._lang.not(this._compile(ctx, rules.slice(1))),
+                            this._lang.returnValue(this._lang.literal(false))
+                        )
+                    ),
+                    this._lang.returnValue(this._lang.literal(true))
+                ])
+            ));
+        }
 
         ctx.untrap();
 
@@ -643,19 +660,113 @@ implements C.ICompiler {
 
     private _compileModifierTUPLE(ctx: C.IContext, rules: any[]): string {
 
-        const result: string[] = [
-            this._lang.isArray(ctx.vName, true),
-            this._lang.eq(this._lang.arrayLength(ctx.vName), rules.length)
-        ];
+        const result: string[] = [];
 
-        for (let i = 0; i < rules.length; i++) {
+        if (!ctx.flags[C.EFlags.ARRAY]) {
 
-            ctx.trap(true);
+            result.push(this._lang.isArray(ctx.vName, true));
 
-            ctx.vName = this._lang.arrayIndex(ctx.vName, i);
-            result.push(this._compile(ctx, rules[i]));
+            ctx.flags[C.EFlags.ARRAY] = C.EFlagValue.INHERIT;
+        }
+
+        let type!: any;
+        let dots: string;
+        let i: number = 0;
+
+        const types = rules.slice();
+        let tupleLength = 0;
+
+        while (1) {
+
+            type = types.shift();
+
+            if (type === undefined) {
+
+                break;
+            }
+
+            if (typeof type === "string" && type.startsWith("...")) {
+
+                throw new TypeError(`Invalid syntax for tuple: ${JSON.stringify(rules)}`);
+            }
+
+            if (typeof types[0] === "string" && types[0].startsWith("...")) {
+
+                ctx.trap();
+
+                dots = types.shift();
+
+                if (dots === "...") {
+
+                    /**
+                     * No more elements because "..." means all rest elements.
+                     */
+                    if (types.length) {
+
+                        throw new TypeError(`Invalid syntax for tuple: ${JSON.stringify(rules)}`);
+                    }
+
+                    ctx.vName = this._lang.arraySlice(ctx.vName, i);
+
+                    if (type !== "any") {
+
+                        result.push(this._compileModifierLIST(
+                            ctx, type
+                        ));
+                    }
+
+                    tupleLength = -1;
+                }
+                else if (!/^\d+$/.test(dots.slice(3))) {
+
+                    throw new TypeError(`Invalid syntax for tuple: ${dots}`);
+                }
+                else {
+
+                    const length = parseInt(dots.slice(3));
+
+                    if (length <= 3) {
+
+                        const vName = ctx.vName;
+
+                        for (let j = 0; j < length; j++) {
+
+                            ctx.vName = this._lang.arrayIndex(vName, i++);
+                            result.push(this._compile(ctx, type));
+                        }
+                    }
+                    else {
+
+                        ctx.vName = this._lang.arraySlice(ctx.vName, i, i + length);
+
+                        result.push(this._compileModifierARRAY(
+                            ctx, [length, type]
+                        ));
+
+                        i += length;
+                    }
+
+                    tupleLength += length;
+                }
+            }
+            else {
+
+                ctx.trap(true);
+
+                ctx.vName = this._lang.arrayIndex(ctx.vName, i++);
+                result.push(this._compile(ctx, type));
+                tupleLength++;
+            }
 
             ctx.untrap();
+        }
+
+        if (tupleLength >= 0) {
+
+            result.splice(1, -1, this._lang.eq(
+                this._lang.arrayLength(ctx.vName),
+                tupleLength
+            ));
         }
 
         return this._lang.and(result);

@@ -139,12 +139,27 @@ implements C.ICompiler {
 
     private _compileStringRule(ctx: C.IContext, rule: string): string {
 
+        const strAssert = this._useStringAssert(ctx, rule);
+
+        if (strAssert !== false) {
+
+            return this._lang.and([
+                this._lang.isString(ctx.vName, true),
+                strAssert
+            ]);
+        }
+
         if (rule[0] === C.IMPLICIT_SYMBOL) {
 
             return this._lang.or([
                 this._builtInTypes.compile(B.VOID, ctx, []),
                 this._compileStringRule(ctx, rule.slice(1))
             ]);
+        }
+
+        if (rule[0] === C.NEGATIVE_SYMBOL) {
+
+            return this._lang.not(this._compileStringRule(ctx, rule.slice(1)));
         }
 
         let regResult: RegExpMatchArray | null;
@@ -243,16 +258,6 @@ implements C.ICompiler {
         if (rule[0] === C.FILTER_PREFIX) {
 
             return this._filters.compile(rule, ctx);
-        }
-
-        const strAssert = this._useStringAssert(ctx, rule);
-
-        if (strAssert !== false) {
-
-            return this._lang.and([
-                this._lang.isString(ctx.vName, true),
-                strAssert
-            ]);
         }
 
         throw new TypeError(`Unknown type "${rule}".`);
@@ -466,6 +471,13 @@ implements C.ICompiler {
         }
 
         switch (rules[0]) {
+            case M.NOT: {
+
+                return this._lang.not(this._compileModifiedRule(
+                    ctx,
+                    rules.slice(1)
+                ));
+            }
             case M.OR: {
 
                 return this._compileModifierOR(ctx, rules.slice(1));

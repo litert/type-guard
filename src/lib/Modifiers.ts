@@ -2,6 +2,8 @@ import * as C from "./Common";
 
 export const PREFIX: string = C.MODIFIER_PREFIX;
 
+export const NOT: string = `${C.MODIFIER_PREFIX}not`;
+
 export const OR: string = `${C.MODIFIER_PREFIX}or`;
 
 export const AND: string = `${C.MODIFIER_PREFIX}and`;

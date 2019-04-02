@@ -26,58 +26,61 @@ export interface ITestSuite {
     sections: ITestRule[];
 }
 
-export function defaultItemss(items: Record<string, boolean>): ITestItem[] {
+export function defaultItemss(
+    items: Record<string, boolean>,
+    defaultValue: boolean = false
+): ITestItem[] {
 
     return [
         {
             "inputName": "true",
             "inputValue": true,
-            "expect": items["true"] || false
+            "expect": items["true"] === undefined ? defaultValue : items["true"]
         },
         {
             "inputName": "false",
             "inputValue": false,
-            "expect": items["false"] || false
+            "expect": items["false"] === undefined ? defaultValue : items["false"]
         },
         {
             "inputName": "undefined",
             "inputValue": undefined,
-            "expect": items["undefined"] || false
+            "expect": items["undefined"] === undefined ? defaultValue : items["undefined"]
         },
         {
             "inputName": "null",
             "inputValue": null,
-            "expect": items["null"] || false
+            "expect": items["null"] === undefined ? defaultValue : items["null"]
         },
         {
             "inputName": "empty array",
             "inputValue": [],
-            "expect": items["empty array"] || false
+            "expect": items["empty array"] === undefined ? defaultValue : items["empty array"]
         },
         {
             "inputName": "string 'hello'",
             "inputValue": "hello",
-            "expect": items["string 'hello'"] || false
+            "expect": items["string 'hello'"] === undefined ? defaultValue : items["string 'hello'"]
         },
         {
             "inputName": "empty string",
             "inputValue": "",
-            "expect": items["empty string"] || false
+            "expect": items["empty string"] === undefined ? defaultValue : items["empty string"]
         },
         {
             "inputName": "object",
             "inputValue": {},
-            "expect": items["object"] || false
+            "expect": items["object"] === undefined ? defaultValue : items["object"]
         },
         {
             "inputName": "number 0",
             "inputValue": 0,
-            "expect": items["number 0"] || false
+            "expect": items["number 0"] === undefined ? defaultValue : items["number 0"]
         },
         {
             "inputName": "number 1",
             "inputValue": 1,
-            "expect": items["number 1"] || false
+            "expect": items["number 1"] === undefined ? defaultValue : items["number 1"]
         }
     ];
 }

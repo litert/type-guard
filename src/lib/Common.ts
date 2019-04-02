@@ -407,6 +407,8 @@ export const FILTER_PREFIX = "|";
 
 export const IMPLICIT_SYMBOL = "?";
 
+export const NEGATIVE_SYMBOL = "!";
+
 export const KEY_MAP_SUFFIX = "->{}";
 
 export const KEY_LIST_SUFFIX = "->[]";

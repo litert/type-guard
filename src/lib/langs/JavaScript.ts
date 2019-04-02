@@ -3,6 +3,21 @@ import * as C from "../Common";
 class JavaScriptLanguage
 implements C.ILanguageBuilder {
 
+    public switchCase(expr: string, cases: string[]): string {
+
+        return `switch (${expr}) { ${cases.join("")} }`;
+    }
+
+    public caseIf(cond: string[], expr: string): string {
+
+        return `${cond.map((x) => `case ${x}:`).join(" ")} { ${expr} break; }`;
+    }
+
+    public caseDefault(expr: string): string {
+
+        return `default: { ${expr} break; }`;
+    }
+
     public lowerCase(a: string): string {
 
         return `${a}.toLowerCase()`;

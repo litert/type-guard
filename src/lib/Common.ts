@@ -80,6 +80,24 @@ export interface ICompileOptions {
 
 export interface ILanguageBuilder {
 
+    /**
+     * Produce a switch-case statement.
+     *
+     * @param expr  The switch base value
+     * @param cases The cases
+     */
+    switchCase(expr: string, cases: string[]): string;
+
+    /**
+     * Produce a `case "x": {}` statement.
+     *
+     * @param cond The conditions
+     * @param expr The statements
+     */
+    caseIf(cond: string[], expr: string): string;
+
+    caseDefault(expr: string): string;
+
     array(v: any[]): string;
 
     /**

@@ -1,5 +1,5 @@
 import * as C from "./Common";
-import * as Modifers from "./Modifiers";
+import * as M from "./Modifiers";
 import { Context } from "./Context";
 import * as B from "./BuiltInTypes";
 
@@ -161,7 +161,7 @@ implements C.ICompiler {
                 if (range.length === 1) {
 
                     return this._compileModifiedRule(ctx, [
-                        Modifers.ARRAY,
+                        M.ARRAY,
                         range[0],
                         rule.substr(0, regResult.index)
                     ]);
@@ -169,7 +169,7 @@ implements C.ICompiler {
                 else if (Number.isNaN(range[1])) {
 
                     return this._compileModifiedRule(ctx, [
-                        Modifers.ARRAY,
+                        M.ARRAY,
                         [range[0]],
                         rule.substr(0, regResult.index)
                     ]);
@@ -177,7 +177,7 @@ implements C.ICompiler {
                 else {
 
                     return this._compileModifiedRule(ctx, [
-                        Modifers.ARRAY,
+                        M.ARRAY,
                         range,
                         rule.substr(0, regResult.index)
                     ]);
@@ -186,7 +186,7 @@ implements C.ICompiler {
             else {
 
                 return this._compileModifiedRule(ctx, [
-                    Modifers.LIST,
+                    M.LIST,
                     rule.substr(0, regResult.index)
                 ]);
             }
@@ -199,7 +199,7 @@ implements C.ICompiler {
 
             return this._lang.and([
                 this._compileModifiedRule(ctx, [
-                    Modifers.MAP,
+                    M.MAP,
                     rule.slice(0, -2)
                 ])
             ]);
@@ -462,48 +462,48 @@ implements C.ICompiler {
                 return this._compile(ctx, rules[0]);
             }
 
-            rules.unshift(Modifers.OR);
+            rules.unshift(M.OR);
         }
 
         switch (rules[0]) {
-            case Modifers.OR: {
+            case M.OR: {
 
                 return this._compileModifierOR(ctx, rules.slice(1));
             }
-            case Modifers.AND: {
+            case M.AND: {
 
                 return this._compileModifierAND(ctx, rules.slice(1));
             }
-            case Modifers.LIST: {
+            case M.LIST: {
 
                 return this._compileModifierLIST(ctx, rules.slice(1));
             }
-            case Modifers.ARRAY: {
+            case M.ARRAY: {
 
                 return this._compileModifierARRAY(ctx, rules.slice(1));
             }
-            case Modifers.MAP: {
+            case M.MAP: {
 
                 return this._compileModifierMAP(ctx, rules.slice(1));
             }
-            case Modifers.TUPLE: {
+            case M.TUPLE: {
 
                 return this._compileModifierTUPLE(ctx, rules.slice(1));
             }
-            case Modifers.EQUAL: {
+            case M.EQUAL: {
 
                 return this._compileModifierEQUAL(ctx, rules.slice(1));
             }
-            case Modifers.STRICT: {
+            case M.STRICT: {
 
                 return this._compileModifierSTRICT(ctx, rules.slice(1));
             }
-            case Modifers.STRING: {
+            case M.STRING: {
 
                 ctx.flags[C.EFlags.FROM_STRING] = C.EFlagValue.ELEMENT_INHERIT;
                 return this._compileModifiedRule(ctx, rules.slice(1));
             }
-            case Modifers.TYPE: {
+            case M.TYPE: {
 
                 return this._compileModifierTYPE(ctx, rules.slice(1));
             }
@@ -907,7 +907,10 @@ implements C.ICompiler {
         return result;
     }
 
-    private _compileStructuredRule(ctx: C.IContext, rules: Record<string, any>): string {
+    private _compileSimpleStructure(
+        ctx: C.IContext,
+        rules: Record<string, any>
+    ): string {
 
         const strict = !!ctx.flags[C.EFlags.STRICT];
 
@@ -934,22 +937,22 @@ implements C.ICompiler {
             if (k.endsWith(C.KEY_LIST_SUFFIX)) {
 
                 k = k.slice(0, -C.KEY_LIST_SUFFIX.length);
-                rule = [Modifers.LIST, rule];
+                rule = [M.LIST, rule];
             }
             else if (k.endsWith(C.KEY_MAP_SUFFIX)) {
 
                 k = k.slice(0, -C.KEY_MAP_SUFFIX.length);
-                rule = [Modifers.MAP, rule];
+                rule = [M.MAP, rule];
             }
             else if (k.endsWith(C.KEY_STRICT_SUFFIX)) {
 
                 k = k.slice(0, -C.KEY_STRICT_SUFFIX.length);
-                rule = [Modifers.STRICT, rule];
+                rule = [M.STRICT, rule];
             }
             else if (k.endsWith(C.KEY_EQUAL_SUFFIX)) {
 
                 k = k.slice(0, -C.KEY_STRICT_SUFFIX.length);
-                rule = [Modifers.EQUAL, rule];
+                rule = [M.EQUAL, rule];
             }
             else {
 
@@ -962,7 +965,7 @@ implements C.ICompiler {
                     if (matchResult[3]) {
 
                         rule = [
-                            Modifers.ARRAY,
+                            M.ARRAY,
                             [
                                 parseInt(matchResult[1]),
                                 parseInt(matchResult[3])
@@ -972,11 +975,11 @@ implements C.ICompiler {
                     }
                     else if (matchResult[2]) {
 
-                        rule = [Modifers.ARRAY, [parseInt(matchResult[1])], rule];
+                        rule = [M.ARRAY, [parseInt(matchResult[1])], rule];
                     }
                     else {
 
-                        rule = [Modifers.ARRAY, parseInt(matchResult[1]), rule];
+                        rule = [M.ARRAY, parseInt(matchResult[1]), rule];
                     }
                 }
             }
@@ -1017,10 +1020,170 @@ implements C.ICompiler {
         return this._lang.and(result);
     }
 
+    private _compileStructuredRule(
+        ctx: C.IContext,
+        rules: Record<string, any>
+    ): string {
+
+        const mapSymbol = Object.keys(rules).filter((x) => x.startsWith(M.MAP));
+
+        if (mapSymbol.length > 1) {
+
+            throw new SyntaxError("Only one '$.map' is allowed as rest-mapping.");
+        }
+        else if (mapSymbol.length === 0) {
+
+            return this._compileSimpleStructure(ctx, rules);
+        }
+
+        const result: string[] = [
+            this._lang.isStrucutre(ctx.vName, true)
+        ];
+
+        ctx.trap(true);
+
+        const CLOSURE_ARG = ctx.vName;
+
+        const CLOSURE_PARAM = this._lang.varName(ctx.vCursor++);
+
+        const FOR_KEY = this._lang.varName(ctx.vCursor++);
+
+        ctx.vName = this._lang.varName(ctx.vCursor++);
+
+        const CASES: string[] = [];
+
+        const keys: string[] = [];
+
+        for (let k in rules) {
+
+            let rule = rules[k];
+
+            let optional = false;
+
+            if (k.endsWith(C.IMPLICIT_SYMBOL)) {
+
+                optional = true;
+                k = k.slice(0, -1);
+            }
+
+            if (k.endsWith(C.KEY_LIST_SUFFIX)) {
+
+                k = k.slice(0, -C.KEY_LIST_SUFFIX.length);
+                rule = [M.LIST, rule];
+            }
+            else if (k.endsWith(C.KEY_MAP_SUFFIX)) {
+
+                k = k.slice(0, -C.KEY_MAP_SUFFIX.length);
+                rule = [M.MAP, rule];
+            }
+            else if (k.endsWith(C.KEY_STRICT_SUFFIX)) {
+
+                k = k.slice(0, -C.KEY_STRICT_SUFFIX.length);
+                rule = [M.STRICT, rule];
+            }
+            else if (k.endsWith(C.KEY_EQUAL_SUFFIX)) {
+
+                k = k.slice(0, -C.KEY_STRICT_SUFFIX.length);
+                rule = [M.EQUAL, rule];
+            }
+            else {
+
+                const matchResult = k.match(C.KEY_ARRAY_SUFFIX);
+
+                if (matchResult) {
+
+                    k = k.slice(0, matchResult.index);
+
+                    if (matchResult[3]) {
+
+                        rule = [
+                            M.ARRAY,
+                            [
+                                parseInt(matchResult[1]),
+                                parseInt(matchResult[3])
+                            ],
+                            rule
+                        ];
+                    }
+                    else if (matchResult[2]) {
+
+                        rule = [M.ARRAY, [parseInt(matchResult[1])], rule];
+                    }
+                    else {
+
+                        rule = [M.ARRAY, parseInt(matchResult[1]), rule];
+                    }
+                }
+            }
+
+            if (k === M.MAP) {
+
+                CASES.push(this._lang.caseDefault(
+                    this._lang.ifThen(
+                        this._lang.not(this._compile(ctx, rule)),
+                        this._lang.returnValue(this._lang.literal(false))
+                    )
+                ));
+            }
+            else {
+
+                if (optional) {
+
+                    if (this._isOrRule(rule)) {
+
+                        rule.push(B.VOID);
+                    }
+                    else {
+
+                        rule = [B.VOID, rule];
+                    }
+                }
+                else {
+
+                    keys.push(k);
+                }
+
+                CASES.push(this._lang.caseIf(
+                    [this._lang.literal(k)],
+                    this._lang.ifThen(
+                        this._lang.not(this._compile(ctx, rule)),
+                        this._lang.returnValue(this._lang.literal(false))
+                    )
+                ));
+            }
+        }
+
+        if (keys.length) {
+
+            result.push(this._lang.arrayInSet(
+                this._lang.array(keys),
+                this._lang.keys(CLOSURE_ARG)
+            ));
+        }
+
+        result.push(this._lang.closure(
+            [CLOSURE_PARAM],
+            [CLOSURE_ARG],
+            this._lang.series([
+                this._lang.forIn(
+                    CLOSURE_PARAM,
+                    FOR_KEY,
+                    ctx.vName,
+                    this._lang.switchCase(FOR_KEY, CASES)
+                ),
+                this._lang.returnValue(this._lang.literal(true))
+            ])
+        ));
+
+        ctx.untrap();
+
+        return this._lang.and(result);
+    }
+
     private _isOrRule(rule: unknown): rule is any[] {
 
         return Array.isArray(rule) && (
-            rule[0] === Modifers.OR ||
+            rule[0] === M.OR ||
             typeof rule[0] !== "string" ||
             !rule[0].startsWith(C.MODIFIER_PREFIX)
         );

@@ -47,20 +47,9 @@ export interface ICompileResult {
     "source": string;
 
     /**
-     * The trace points list. Only available when the `traceable` is set to
-     * `true`.
-     */
-    "tracePoints": string[];
-
-    /**
      * The predefined types used by this type.
      */
     "referredTypes": string[];
-
-    /**
-     * Extra data.
-     */
-    "extras": Record<string, any>;
 }
 
 export interface ICompileOptions {
@@ -71,11 +60,9 @@ export interface ICompileOptions {
     "rule": any;
 
     /**
-     * Throw an exception while check failed, instead of return FALSE.
-     *
-     * @default false.
+     * Give this type a name, so it could be used as a pre-defined type.
      */
-    "traceable"?: boolean;
+    "name"?: string;
 }
 
 export interface ILanguageBuilder {
@@ -366,113 +353,19 @@ export interface ILanguageBuilder {
     series(statements: string[]): string;
 }
 
-export interface IBuiltInTypeCompiler {
-
-    /**
-     * Check if a type is a built-in type.
-     *
-     * @param type The type to be checked.
-     */
-    isBuiltInType(type: string): boolean;
-
-    compile(type: string, ctx: IContext, args: number[]): string;
-
-    /**
-     * Check if a type is string type.
-     *
-     * @param type The type to be checked.
-     */
-    isStringType(type: string): boolean;
-
-    isConstructed(type: string): boolean;
-
-    isElemental(type: string): boolean;
-}
-
-export interface IFilterCompiler {
-
-    compile(rule: string, ctx: IContext): string;
-}
-
 export interface ICompiler {
 
+    /**
+     * Get the pre-defined type compilation result.
+     *
+     * @param name The name of type.
+     */
     getPredefinedType(name: string): ICompileResult | null;
 
+    /**
+     * Compile the rule.
+     *
+     * @param options   The compile options.
+     */
     compile(options: ICompileOptions): ICompileResult;
-}
-
-export const MODIFIER_PREFIX = "$.";
-
-export const FILTER_PREFIX = "|";
-
-export const IMPLICIT_SYMBOL = "?";
-
-export const NEGATIVE_SYMBOL = "!";
-
-export const KEY_MAP_SUFFIX = "->{}";
-
-export const KEY_LIST_SUFFIX = "->[]";
-
-export const KEY_ARRAY_SUFFIX = /->\[\s*(\d+)(\s*,\s*(\d+)?)?\s*\]$/;
-
-export const KEY_STRICT_SUFFIX = "->()";
-
-export const KEY_EQUAL_SUFFIX = "->(=)";
-
-export enum EFlags {
-
-    FROM_STRING,
-    STRICT,
-    OPTIONAL,
-    REQUIRED,
-    ARRAY
-}
-
-export enum EFlagValue {
-
-    /**
-     * Disabled.
-     */
-    NO,
-
-    /**
-     * Enabled but not inheritable.
-     */
-    YES,
-
-    /**
-     * Enabled and inheritable if not deep into sub element.
-     */
-    INHERIT,
-
-    /**
-     * Enabled and inheritable even deep into sub element.
-     */
-    ELEMENT_INHERIT
-}
-
-export interface IContextData {
-
-    vName: string;
-
-    flags: Record<string, EFlagValue>;
-}
-
-export interface IContext extends IContextData {
-
-    trace: boolean;
-
-    tracePoint: number;
-
-    vCursor: number;
-
-    readonly stack: IContextData[];
-
-    readonly typeSlotName: string;
-
-    readonly referredTypes: Record<string, boolean>;
-
-    trap(subjChanged?: boolean): void;
-
-    untrap(): void;
 }

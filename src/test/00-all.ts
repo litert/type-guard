@@ -19,9 +19,15 @@ import testArrayAndList from "./02-array-and-list";
 import testTuple from "./03-tuple";
 import testFromString from "./04-from-string";
 import testStringAssert from "./05-string-asserts";
+import testStructure from "./06-structure";
+import testModifiers from "./07-modifiers";
+import testMapAndDict from "./08-map-and-dict";
 
 testElementalTypes();
 testArrayAndList();
 testTuple();
 testFromString();
 testStringAssert();
+testStructure();
+testModifiers();
+testMapAndDict();

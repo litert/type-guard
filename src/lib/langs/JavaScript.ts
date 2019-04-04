@@ -416,6 +416,9 @@ implements C.ILanguageBuilder {
     }
 }
 
+/**
+ * Create a language builder object for JavaScript.
+ */
 export function createJavaScriptLanguageBuilder(): C.ILanguageBuilder {
 
     return new JavaScriptLanguage();

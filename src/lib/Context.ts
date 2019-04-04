@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-import * as C from "./Common";
+import * as i from "./Internal";
 
-export class Context implements C.IContext {
+export class Context implements i.IContext {
 
     public trace: boolean;
 
@@ -24,9 +24,9 @@ export class Context implements C.IContext {
 
     public vCursor: number;
 
-    public stack: C.IContextData[];
+    public stack: i.IContextData[];
 
-    public flags: Record<string, C.EFlagValue>;
+    public flags: Record<string, i.EFlagValue>;
 
     public constructor(
         public vName: string,
@@ -59,14 +59,14 @@ export class Context implements C.IContext {
 
             if (subjChanged) {
 
-                if (prevFlags[key] === C.EFlagValue.ELEMENT_INHERIT) {
+                if (prevFlags[key] === i.EFlagValue.ELEMENT_INHERIT) {
 
                     this.flags[key] = prevFlags[key];
                 }
             }
             else if (
-                prevFlags[key] === C.EFlagValue.INHERIT ||
-                prevFlags[key] === C.EFlagValue.ELEMENT_INHERIT
+                prevFlags[key] === i.EFlagValue.INHERIT ||
+                prevFlags[key] === i.EFlagValue.ELEMENT_INHERIT
             ) {
 
                 this.flags[key] = prevFlags[key];

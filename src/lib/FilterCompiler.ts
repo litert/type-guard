@@ -15,16 +15,17 @@
  */
 
 import * as C from "./Common";
+import * as I from "./Internal";
 
 export class FilterCompiler
-implements C.IFilterCompiler {
+implements I.IFilterCompiler {
 
     public constructor(
         private _lang: C.ILanguageBuilder,
-        private _bitc: C.IBuiltInTypeCompiler
+        private _bitc: I.IBuiltInTypeCompiler
     ) {}
 
-    public compile(rule: string, ctx: C.IContext): string {
+    public compile(rule: string, ctx: I.IContext): string {
 
         let vName = ctx.vName;
 

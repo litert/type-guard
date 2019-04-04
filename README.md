@@ -6,7 +6,7 @@
 [![GitHub issues](https://img.shields.io/github/issues/litert/type-guard.svg)](https://github.com/litert/type-guard/issues)
 [![GitHub Releases](https://img.shields.io/github/release/litert/type-guard.svg)](https://github.com/litert/type-guard/releases "Stable Release")
 
-A type checking code "JIT"😄.
+An easy and powerful data validation code generator by JavaScript.
 
 ## Requirement
 

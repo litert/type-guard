@@ -101,7 +101,25 @@ export function defaultItemss(
     ];
 }
 
-const compiler = TypeGuard.createJavaScriptJIT();
+const compiler = TypeGuard.createInlineCompiler();
+
+export function assertItem(input: any, expect: boolean | "throw"): ITestItem {
+
+    return {
+        inputName: JSON.stringify(input),
+        inputValue: input,
+        expect
+    };
+}
+
+export function addRule(rule: any, items: ITestItem[]): ITestRule {
+
+    return {
+        name: JSON.stringify(rule),
+        rule,
+        items
+    };
+}
 
 export function createTestDefinition(suite: ITestSuite) {
 
@@ -137,7 +155,7 @@ export function createTestDefinition(suite: ITestSuite) {
                     for (let item of section.items.sort((a, b) => a.expect === b.expect ? 0 : (a.expect ? -1 : 1))) {
 
                         it(`${
-                            item.expect ? "OK" : "FAILED"
+                            item.expect ? "PASSED" : "REJECTED"
                         } when input ${
                             item.inputName
                         }.`, function() {

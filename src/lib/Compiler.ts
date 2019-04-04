@@ -14,20 +14,23 @@
  * limitations under the License.
  */
 
+import * as I from "./Internal";
 import * as C from "./Common";
 import * as M from "./Modifiers";
 import { Context } from "./Context";
 import * as B from "./BuiltInTypes";
+import { BuiltInTypeCompiler } from "./BuiltInTypeCompiler";
+import { FilterCompiler } from "./FilterCompiler";
 
-export class Compiler
+class Compiler
 implements C.ICompiler {
 
     private _defTypes: Record<string, C.ICompileResult>;
 
     public constructor(
         private _lang: C.ILanguageBuilder,
-        private _builtInTypes: C.IBuiltInTypeCompiler,
-        private _filters: C.IFilterCompiler
+        private _builtInTypes: I.IBuiltInTypeCompiler,
+        private _filters: I.IFilterCompiler
     ) {
         this._defTypes = {};
     }
@@ -46,7 +49,7 @@ implements C.ICompiler {
 
         const referredTypes: Record<string, true> = {};
 
-        const ctx: C.IContext = new Context(
+        const ctx: I.IContext = new Context(
             this._lang.varName("entry"),
             this._lang.varName("types"),
             referredTypes
@@ -60,19 +63,20 @@ implements C.ICompiler {
                 "type": "unknown"
             }],
             typeSlotName: ctx.typeSlotName,
-            referredTypes: [],
-            extras: {},
-            tracePoints: []
+            referredTypes: []
         };
 
-        ret.source = this._compile(ctx, options.rule);
+        ret.source = this._compile(
+            ctx,
+            options.name ? [M.TYPE, options.name, options.rule] : options.rule
+        );
 
         ret.referredTypes = Object.keys(ctx.referredTypes);
 
         return ret;
     }
 
-    private _compile(ctx: C.IContext, rules: any): string {
+    private _compile(ctx: I.IContext, rules: any): string {
 
         switch (typeof rules) {
         case "string":
@@ -81,7 +85,7 @@ implements C.ICompiler {
 
         case "boolean":
 
-            if (ctx.flags[C.EFlags.FROM_STRING]) {
+            if (ctx.flags[I.EFlags.FROM_STRING]) {
 
                 return this._lang.or([
                     this._lang.eq(
@@ -102,7 +106,7 @@ implements C.ICompiler {
 
         case "number":
 
-            if (ctx.flags[C.EFlags.FROM_STRING]) {
+            if (ctx.flags[I.EFlags.FROM_STRING]) {
 
                 return this._lang.or([
                     this._lang.eq(
@@ -129,7 +133,7 @@ implements C.ICompiler {
             }
             else if (rules === null) {
 
-                if (ctx.flags[C.EFlags.FROM_STRING]) {
+                if (ctx.flags[I.EFlags.FROM_STRING]) {
 
                     return this._lang.or([
                         this._lang.isNull(ctx.vName, true),
@@ -153,7 +157,7 @@ implements C.ICompiler {
         throw new TypeError("Unknwn rules.");
     }
 
-    private _compileStringRule(ctx: C.IContext, rule: string): string {
+    private _compileStringRule(ctx: I.IContext, rule: string): string {
 
         const strAssert = this._useStringAssert(ctx, rule);
 
@@ -165,7 +169,7 @@ implements C.ICompiler {
             ]);
         }
 
-        if (rule[0] === C.IMPLICIT_SYMBOL) {
+        if (rule[0] === I.IMPLICIT_SYMBOL) {
 
             return this._lang.or([
                 this._builtInTypes.compile(B.VOID, ctx, []),
@@ -173,7 +177,7 @@ implements C.ICompiler {
             ]);
         }
 
-        if (rule[0] === C.NEGATIVE_SYMBOL) {
+        if (rule[0] === I.NEGATIVE_SYMBOL) {
 
             return this._lang.not(this._compileStringRule(ctx, rule.slice(1)));
         }
@@ -226,7 +230,7 @@ implements C.ICompiler {
         /**
          * For rules like `xxx{}`.
          */
-        if (rule.endsWith("{}")) {
+        if (rule.endsWith(I.MAP_SUFFIX)) {
 
             return this._lang.and([
                 this._compileModifiedRule(ctx, [
@@ -236,7 +240,7 @@ implements C.ICompiler {
             ]);
         }
 
-        if (rule[0] === "@") {
+        if (rule[0] === I.PREDEF_TYPE_SYMBOL) {
 
             return this._usePredefinedType(ctx, rule.slice(1));
         }
@@ -271,7 +275,7 @@ implements C.ICompiler {
             );
         }
 
-        if (rule[0] === C.FILTER_PREFIX) {
+        if (rule[0] === I.FILTER_PREFIX) {
 
             return this._filters.compile(rule, ctx);
         }
@@ -280,7 +284,7 @@ implements C.ICompiler {
     }
 
     private _usePredefinedType(
-        ctx: C.IContext,
+        ctx: I.IContext,
         typeName: string
     ): string {
 
@@ -298,7 +302,7 @@ implements C.ICompiler {
     }
 
     private _useStringAssert(
-        ctx: C.IContext,
+        ctx: I.IContext,
         rule: string
     ): string | false {
 
@@ -463,7 +467,7 @@ implements C.ICompiler {
         return false;
     }
 
-    private _compileModifiedRule(ctx: C.IContext, rules: any[]): string {
+    private _compileModifiedRule(ctx: I.IContext, rules: any[]): string {
 
         if (!rules.length) {
 
@@ -475,7 +479,7 @@ implements C.ICompiler {
          */
         if (
             typeof rules[0] !== "string" ||
-            !rules[0].startsWith(C.MODIFIER_PREFIX)
+            !rules[0].startsWith(I.MODIFIER_PREFIX)
         ) {
 
             if (rules.length === 1) {
@@ -510,6 +514,10 @@ implements C.ICompiler {
 
                 return this._compileModifierARRAY(ctx, rules.slice(1));
             }
+            case M.DICT: {
+
+                return this._compileModifierDICT(ctx, rules.slice(1));
+            }
             case M.MAP: {
 
                 return this._compileModifierMAP(ctx, rules.slice(1));
@@ -528,8 +536,7 @@ implements C.ICompiler {
             }
             case M.STRING: {
 
-                ctx.flags[C.EFlags.FROM_STRING] = C.EFlagValue.ELEMENT_INHERIT;
-                return this._compileModifiedRule(ctx, rules.slice(1));
+                return this._compileModifierSTRING(ctx, rules.slice(1));
             }
             case M.TYPE: {
 
@@ -540,7 +547,20 @@ implements C.ICompiler {
         throw new TypeError(`Unknown modifier "${rules[0]}".`);
     }
 
-    private _compileModifierOR(ctx: C.IContext, rules: any[]): string {
+    private _compileModifierSTRING(ctx: I.IContext, rules: any[]): string {
+
+        ctx.trap();
+
+        ctx.flags[I.EFlags.FROM_STRING] = I.EFlagValue.ELEMENT_INHERIT;
+
+        const result = this._compileModifiedRule(ctx, rules);
+
+        ctx.untrap();
+
+        return result;
+    }
+
+    private _compileModifierOR(ctx: I.IContext, rules: any[]): string {
 
         let result: string[] = [];
 
@@ -556,22 +576,22 @@ implements C.ICompiler {
         return this._lang.or(result);
     }
 
-    private _compileModifierAND(ctx: C.IContext, rules: any[]): string {
+    private _compileModifierAND(ctx: I.IContext, rules: any[]): string {
 
         return this._lang.and(
             rules.map((rule) => this._compile(ctx, rule))
         );
     }
 
-    private _compileModifierLIST(ctx: C.IContext, rules: any[]): string {
+    private _compileModifierLIST(ctx: I.IContext, rules: any[]): string {
 
         const result: string[] = [];
 
-        if (!ctx.flags[C.EFlags.ARRAY]) {
+        if (!ctx.flags[I.EFlags.ARRAY]) {
 
             result.push(this._lang.isArray(ctx.vName, true));
 
-            ctx.flags[C.EFlags.ARRAY] = C.EFlagValue.INHERIT;
+            ctx.flags[I.EFlags.ARRAY] = I.EFlagValue.INHERIT;
         }
 
         ctx.trap(true);
@@ -604,7 +624,7 @@ implements C.ICompiler {
         return this._lang.and(result);
     }
 
-    private _compileModifierARRAY(ctx: C.IContext, rules: any[]): string {
+    private _compileModifierARRAY(ctx: I.IContext, rules: any[]): string {
 
         let a: number = 0;
         let b: number = -1;
@@ -670,11 +690,11 @@ implements C.ICompiler {
 
         const result: string[] = [];
 
-        if (!ctx.flags[C.EFlags.ARRAY]) {
+        if (!ctx.flags[I.EFlags.ARRAY]) {
 
             result.push(this._lang.isArray(ctx.vName, true));
 
-            ctx.flags[C.EFlags.ARRAY] = C.EFlagValue.INHERIT;
+            ctx.flags[I.EFlags.ARRAY] = I.EFlagValue.INHERIT;
         }
 
         ctx.trap(true);
@@ -732,15 +752,15 @@ implements C.ICompiler {
         return this._lang.and(result);
     }
 
-    private _compileModifierTUPLE(ctx: C.IContext, rules: any[]): string {
+    private _compileModifierTUPLE(ctx: I.IContext, rules: any[]): string {
 
         const result: string[] = [];
 
-        if (!ctx.flags[C.EFlags.ARRAY]) {
+        if (!ctx.flags[I.EFlags.ARRAY]) {
 
             result.push(this._lang.isArray(ctx.vName, true));
 
-            ctx.flags[C.EFlags.ARRAY] = C.EFlagValue.INHERIT;
+            ctx.flags[I.EFlags.ARRAY] = I.EFlagValue.INHERIT;
         }
 
         let type!: any;
@@ -856,7 +876,7 @@ implements C.ICompiler {
         }
     }
 
-    private _compileModifierTYPE(ctx: C.IContext, rules: any[]): string {
+    private _compileModifierTYPE(ctx: I.IContext, rules: any[]): string {
 
         this._validateTypeName(rules[0]);
 
@@ -872,31 +892,43 @@ implements C.ICompiler {
         return this._usePredefinedType(ctx, rules[0]);
     }
 
-    private _compileModifierSTRICT(ctx: C.IContext, rules: any[]): string {
+    private _compileModifierSTRICT(ctx: I.IContext, rules: any[]): string {
+
+        ctx.trap();
 
         if (rules.length === 1) {
 
             rules = rules[0];
         }
 
-        ctx.flags[C.EFlags.STRICT] = C.EFlagValue.INHERIT;
+        ctx.flags[I.EFlags.STRICT] = I.EFlagValue.INHERIT;
 
-        return this._compile(ctx, rules);
+        const ret = this._compile(ctx, rules);
+
+        ctx.untrap();
+
+        return ret;
     }
 
-    private _compileModifierEQUAL(ctx: C.IContext, rules: any[]): string {
+    private _compileModifierEQUAL(ctx: I.IContext, rules: any[]): string {
+
+        ctx.trap();
 
         if (rules.length === 1) {
 
             rules = rules[0];
         }
 
-        ctx.flags[C.EFlags.STRICT] = C.EFlagValue.ELEMENT_INHERIT;
+        ctx.flags[I.EFlags.STRICT] = I.EFlagValue.ELEMENT_INHERIT;
 
-        return this._compile(ctx, rules);
+        const ret = this._compile(ctx, rules);
+
+        ctx.untrap();
+
+        return ret;
     }
 
-    private _compileModifierMAP(ctx: C.IContext, rules: any[]): string {
+    private _compileModifierMAP(ctx: I.IContext, rules: any[]): string {
 
         if (rules.length === 1) {
 
@@ -935,12 +967,43 @@ implements C.ICompiler {
         return result;
     }
 
+    private _compileModifierDICT(ctx: I.IContext, rules: any[]): string {
+
+        if (rules.length < 2 || !Array.isArray(rules[0])) {
+
+            throw new SyntaxError(`Invalid dict ${JSON.stringify(rules)}.`);
+        }
+
+        let tmp: Record<string, string> = {};
+
+        const id = `${Date.now()}${Math.floor(Math.random() * Number.MAX_SAFE_INTEGER)}`;
+
+        this._compileModifierTYPE(ctx, [
+            this._lang.varName(id),
+            rules.slice(1)
+        ]);
+
+        const type = `${I.PREDEF_TYPE_SYMBOL}${this._lang.varName(id)}`;
+
+        for (let key of rules[0]) {
+
+            if (typeof key !== "string") {
+
+                throw new SyntaxError(`Invalid key ${JSON.stringify(key)} for dict.`);
+            }
+
+            tmp[key] = type;
+        }
+
+        return this._compileStructuredRule(ctx, tmp);
+    }
+
     private _compileSimpleStructure(
-        ctx: C.IContext,
+        ctx: I.IContext,
         rules: Record<string, any>
     ): string {
 
-        const strict = !!ctx.flags[C.EFlags.STRICT];
+        const strict = !!ctx.flags[I.EFlags.STRICT];
 
         const result: string[] = [
             this._lang.isStrucutre(ctx.vName, true)
@@ -954,7 +1017,7 @@ implements C.ICompiler {
 
             let optional = false;
 
-            if (k.endsWith(C.IMPLICIT_SYMBOL)) {
+            if (k.endsWith(I.IMPLICIT_SYMBOL)) {
 
                 optional = true;
                 k = k.slice(0, -1);
@@ -962,29 +1025,29 @@ implements C.ICompiler {
 
             ctx.trap(true);
 
-            if (k.endsWith(C.KEY_LIST_SUFFIX)) {
+            if (k.endsWith(I.KEY_LIST_SUFFIX)) {
 
-                k = k.slice(0, -C.KEY_LIST_SUFFIX.length);
+                k = k.slice(0, -I.KEY_LIST_SUFFIX.length);
                 rule = [M.LIST, rule];
             }
-            else if (k.endsWith(C.KEY_MAP_SUFFIX)) {
+            else if (k.endsWith(I.KEY_MAP_SUFFIX)) {
 
-                k = k.slice(0, -C.KEY_MAP_SUFFIX.length);
+                k = k.slice(0, -I.KEY_MAP_SUFFIX.length);
                 rule = [M.MAP, rule];
             }
-            else if (k.endsWith(C.KEY_STRICT_SUFFIX)) {
+            else if (k.endsWith(I.KEY_STRICT_SUFFIX)) {
 
-                k = k.slice(0, -C.KEY_STRICT_SUFFIX.length);
+                k = k.slice(0, -I.KEY_STRICT_SUFFIX.length);
                 rule = [M.STRICT, rule];
             }
-            else if (k.endsWith(C.KEY_EQUAL_SUFFIX)) {
+            else if (k.endsWith(I.KEY_EQUAL_SUFFIX)) {
 
-                k = k.slice(0, -C.KEY_STRICT_SUFFIX.length);
+                k = k.slice(0, -I.KEY_STRICT_SUFFIX.length);
                 rule = [M.EQUAL, rule];
             }
             else {
 
-                const matchResult = k.match(C.KEY_ARRAY_SUFFIX);
+                const matchResult = k.match(I.KEY_ARRAY_SUFFIX);
 
                 if (matchResult) {
 
@@ -1049,7 +1112,7 @@ implements C.ICompiler {
     }
 
     private _compileStructuredRule(
-        ctx: C.IContext,
+        ctx: I.IContext,
         rules: Record<string, any>
     ): string {
 
@@ -1068,7 +1131,7 @@ implements C.ICompiler {
             this._lang.isStrucutre(ctx.vName, true)
         ];
 
-        ctx.trap(true);
+        ctx.trap();
 
         const CLOSURE_ARG = ctx.vName;
 
@@ -1084,39 +1147,41 @@ implements C.ICompiler {
 
         for (let k in rules) {
 
+            ctx.trap(true);
+
             let rule = rules[k];
 
             let optional = false;
 
-            if (k.endsWith(C.IMPLICIT_SYMBOL)) {
+            if (k.endsWith(I.IMPLICIT_SYMBOL)) {
 
                 optional = true;
                 k = k.slice(0, -1);
             }
 
-            if (k.endsWith(C.KEY_LIST_SUFFIX)) {
+            if (k.endsWith(I.KEY_LIST_SUFFIX)) {
 
-                k = k.slice(0, -C.KEY_LIST_SUFFIX.length);
+                k = k.slice(0, -I.KEY_LIST_SUFFIX.length);
                 rule = [M.LIST, rule];
             }
-            else if (k.endsWith(C.KEY_MAP_SUFFIX)) {
+            else if (k.endsWith(I.KEY_MAP_SUFFIX)) {
 
-                k = k.slice(0, -C.KEY_MAP_SUFFIX.length);
+                k = k.slice(0, -I.KEY_MAP_SUFFIX.length);
                 rule = [M.MAP, rule];
             }
-            else if (k.endsWith(C.KEY_STRICT_SUFFIX)) {
+            else if (k.endsWith(I.KEY_STRICT_SUFFIX)) {
 
-                k = k.slice(0, -C.KEY_STRICT_SUFFIX.length);
+                k = k.slice(0, -I.KEY_STRICT_SUFFIX.length);
                 rule = [M.STRICT, rule];
             }
-            else if (k.endsWith(C.KEY_EQUAL_SUFFIX)) {
+            else if (k.endsWith(I.KEY_EQUAL_SUFFIX)) {
 
-                k = k.slice(0, -C.KEY_STRICT_SUFFIX.length);
+                k = k.slice(0, -I.KEY_STRICT_SUFFIX.length);
                 rule = [M.EQUAL, rule];
             }
             else {
 
-                const matchResult = k.match(C.KEY_ARRAY_SUFFIX);
+                const matchResult = k.match(I.KEY_ARRAY_SUFFIX);
 
                 if (matchResult) {
 
@@ -1179,6 +1244,8 @@ implements C.ICompiler {
                     )
                 ));
             }
+
+            ctx.untrap();
         }
 
         if (keys.length) {
@@ -1213,8 +1280,21 @@ implements C.ICompiler {
         return Array.isArray(rule) && (
             rule[0] === M.OR ||
             typeof rule[0] !== "string" ||
-            !rule[0].startsWith(C.MODIFIER_PREFIX)
+            !rule[0].startsWith(I.MODIFIER_PREFIX)
         );
     }
+}
 
+/**
+ * Create a compiler object.
+ *
+ * @param lang The language builder.
+ */
+export function createCompiler(lang: C.ILanguageBuilder): C.ICompiler {
+
+    const bitc = new BuiltInTypeCompiler(lang);
+
+    return new Compiler(
+        lang, bitc, new FilterCompiler(lang, bitc)
+    );
 }

@@ -1,0 +1,111 @@
+/**
+ * Copyright 2019 Angus.Fenying <fenying@litert.org>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+import { createTestDefinition, defaultItemss, ITestSuite } from "./abstracts";
+
+const testItems: ITestSuite = {
+
+    name: "Modifiers",
+    sections: [
+
+        {
+            "name": "$.string",
+            "rule": ["$.string", "uint32", {"a": "uint32"}],
+            "items": [
+                {
+                    inputName: JSON.stringify("123"),
+                    inputValue: "123",
+                    expect: true
+                },
+                {
+                    inputName: JSON.stringify({"a": 123}),
+                    inputValue: {"a": 123},
+                    expect: true
+                },
+                {
+                    inputName: JSON.stringify({"a": 123}),
+                    inputValue: {"a": 123},
+                    expect: true
+                },
+                ...defaultItemss({
+                    "number 1": true,
+                    "number 0": true
+                })
+            ]
+        },
+        {
+            "name": "$.string standalone",
+            "rule": ["$.and", ["$.string", "uint32"], "uint32"],
+            "items": [
+                {
+                    inputName: JSON.stringify("123"),
+                    inputValue: "123",
+                    expect: false
+                }
+            ]
+        },
+        {
+            "name": "$.strict standalone",
+            "rule": ["$.tuple", ["$.strict", {
+                "a": "string"
+            }], {
+                "a": "string"
+            }],
+            "items": [
+                {
+                    inputName: JSON.stringify([{"a": "x"}, {"a": "c", "b": "x"}]),
+                    inputValue: [{"a": "x"}, {"a": "c", "b": "x"}],
+                    expect: true
+                }
+            ]
+        },
+        {
+            "name": "$.equal standalone",
+            "rule": ["$.and", ["$.equal", {
+                "a": "any"
+            }], {
+                "a": {
+                    "b": "string"
+                }
+            }],
+            "items": [
+                {
+                    inputName: JSON.stringify({"a": {"b": "c", "d": "ccc"}}),
+                    inputValue: {"a": {"b": "c", "d": "ccc"}},
+                    expect: true
+                }
+            ]
+        },
+        {
+            "name": "$.not with string and literal 0",
+            "rule": ["$.not", "string", 0],
+            "items": [
+                {
+                    inputName: "string 'abc'",
+                    inputValue: "abc",
+                    expect: false
+                },
+                ...defaultItemss({
+                    "string 'hello'": false,
+                    "empty string": false,
+                    "number 0": false
+                }, true)
+            ]
+        },
+    ]
+};
+
+export default createTestDefinition(testItems);

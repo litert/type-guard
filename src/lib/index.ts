@@ -14,4 +14,7 @@
  * limitations under the License.
  */
 
-export * from "./JavaScriptCompiler";
+export * from "./InlineCompiler";
+export * from "./langs/JavaScript";
+export * from "./Compiler";
+export * from "./Common";

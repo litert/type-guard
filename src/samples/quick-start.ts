@@ -17,10 +17,13 @@
 // tslint:disable: no-console
 import * as TypeGuard from "../lib";
 
-const tgc = TypeGuard.createJavaScriptJIT();
+const tgc = TypeGuard.createInlineCompiler();
 
 const check1 = tgc.compile({
-    "rule": "!string"
+    "rule": ["$.equal", "$.dict", ["a", "b"], "string"]
 });
 
-console.log(check1("fff"));
+console.log(check1({
+    "a": "123",
+    "b": "321"
+}));

@@ -15,6 +15,7 @@
  */
 
 import * as C from "./Common";
+import * as I from "./Internal";
 import * as B from "./BuiltInTypes";
 
 interface ITypeInfo {
@@ -242,7 +243,7 @@ const BUILT_IN_TYPES: Record<string, ITypeInfo> = {
 };
 
 export class BuiltInTypeCompiler
-implements C.IBuiltInTypeCompiler {
+implements I.IBuiltInTypeCompiler {
 
     public constructor(
         private _lang: C.ILanguageBuilder
@@ -268,9 +269,9 @@ implements C.IBuiltInTypeCompiler {
         return BUILT_IN_TYPES[type] !== undefined;
     }
 
-    public compile(type: string, ctx: C.IContext, args: number[]): string {
+    public compile(type: string, ctx: I.IContext, args: number[]): string {
 
-        const fromString = !!(ctx.flags[C.EFlags.FROM_STRING] &&
+        const fromString = !!(ctx.flags[I.EFlags.FROM_STRING] &&
                             this.isBuiltInType(type) && (
                                 BUILT_IN_TYPES[type].kind === "number" ||
                                 BUILT_IN_TYPES[type].kind === "boolean" ||
@@ -465,37 +466,37 @@ implements C.IBuiltInTypeCompiler {
             case B.OPTIONAL:
             case B.UNDEFINED: {
 
-                if (ctx.flags[C.EFlags.REQUIRED]) {
+                if (ctx.flags[I.EFlags.REQUIRED]) {
 
                     throw new Error(
                         `Conflicted: Can not use "optional" with "required" type.`
                     );
                 }
 
-                if (ctx.flags[C.EFlags.OPTIONAL]) {
+                if (ctx.flags[I.EFlags.OPTIONAL]) {
 
                     return this._lang.literal(true);
                 }
 
-                ctx.flags[C.EFlags.OPTIONAL] = C.EFlagValue.YES;
+                ctx.flags[I.EFlags.OPTIONAL] = I.EFlagValue.YES;
 
                 return this._lang.isUndefined(ctx.vName, true);
             }
             case B.REQUIRED: {
 
-                if (ctx.flags[C.EFlags.OPTIONAL]) {
+                if (ctx.flags[I.EFlags.OPTIONAL]) {
 
                     throw new Error(
                         `Conflicted: Can not use "required" with "optional" type.`
                     );
                 }
 
-                if (ctx.flags[C.EFlags.REQUIRED]) {
+                if (ctx.flags[I.EFlags.REQUIRED]) {
 
                     return this._lang.literal(true);
                 }
 
-                ctx.flags[C.EFlags.REQUIRED] = C.EFlagValue.YES;
+                ctx.flags[I.EFlags.REQUIRED] = I.EFlagValue.YES;
 
                 return this._lang.isUndefined(ctx.vName, false);
             }
@@ -525,7 +526,7 @@ implements C.IBuiltInTypeCompiler {
         throw new TypeError(`Unknown type ${type}.`);
     }
 
-    private _isDecimal(ctx: C.IContext, params: number[], unsigned: boolean = false): string {
+    private _isDecimal(ctx: I.IContext, params: number[], unsigned: boolean = false): string {
 
         if (params[0] <= 0) {
 
@@ -606,7 +607,7 @@ implements C.IBuiltInTypeCompiler {
         }
     }
 
-    private _isArray(ctx: C.IContext, params: number[]): string {
+    private _isArray(ctx: I.IContext, params: number[]): string {
 
         switch (params.length) {
             default:
@@ -671,7 +672,7 @@ implements C.IBuiltInTypeCompiler {
     }
 
     private _isNumber(
-        ctx: C.IContext,
+        ctx: I.IContext,
         params: number[],
         fromString: boolean
     ): string {
@@ -816,7 +817,7 @@ implements C.IBuiltInTypeCompiler {
     }
 
     private _isInteger(
-        ctx: C.IContext,
+        ctx: I.IContext,
         params: Array<string | number>,
         fromString: boolean
     ): string {
@@ -919,7 +920,7 @@ implements C.IBuiltInTypeCompiler {
     }
 
     private _isString(
-        ctx: C.IContext,
+        ctx: I.IContext,
         params: number[],
         elementRegExp?: string
     ): string {

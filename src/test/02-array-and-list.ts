@@ -14,7 +14,13 @@
  * limitations under the License.
  */
 
-import { createTestDefinition, defaultItemss, ITestSuite } from "./abstracts";
+import {
+    createTestDefinition,
+    defaultItemss,
+    ITestSuite,
+    assertItem,
+    addRule
+} from "./abstracts";
 
 const testItems: ITestSuite = {
 
@@ -147,8 +153,45 @@ const testItems: ITestSuite = {
                 },
                 ...defaultItemss({})
             ]
-        }
-    ]
+        },
+        addRule({
+            "a->[]": "string"
+        }, [
+            assertItem([], false),
+            assertItem({"a": []}, true),
+            assertItem({"a": [1]}, false),
+            assertItem({"a": ["1"]}, true)
+        ]),
+        addRule({
+            "a->[3]": "string"
+        }, [
+            assertItem([], false),
+            assertItem({"a": []}, false),
+            assertItem({"a": [1, 1, 2]}, false),
+            assertItem({"a": ["1", "f", "c"]}, true),
+            assertItem({"a": ["1", "f", "c", "c"]}, false)
+        ]),
+        addRule({
+            "a->[3,]": "string"
+        }, [
+            assertItem([], false),
+            assertItem({"a": []}, false),
+            assertItem({"a": [1, 1, 2]}, false),
+            assertItem({"a": ["1", "f", "c"]}, true),
+            assertItem({"a": ["1", "f", "c", "c"]}, true)
+        ]),
+        addRule({
+            "a->[3,5]": "string"
+        }, [
+            assertItem([], false),
+            assertItem({"a": []}, false),
+            assertItem({"a": [1, 1, 2]}, false),
+            assertItem({"a": ["1", "f", "c"]}, true),
+            assertItem({"a": ["1", "f", "c", "c"]}, true),
+            assertItem({"a": ["1", "f", "c", "c", "5"]}, true),
+            assertItem({"a": ["1", "f", "c", "c", "5", "c"]}, false)
+        ])
+    ],
 };
 
 export default createTestDefinition(testItems);

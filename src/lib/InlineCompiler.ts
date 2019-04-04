@@ -14,13 +14,11 @@
  * limitations under the License.
  */
 
-import { Compiler } from "./CheckerCompiler";
+import { createCompiler } from "./Compiler";
 import { createJavaScriptLanguageBuilder } from "./langs/JavaScript";
-import { BuiltInTypeCompiler } from "./BuiltInTypeCompiler";
-import { FilterCompiler } from "./FilterCompiler";
 import * as C from "./Common";
 
-export interface IJITCompileOptions extends C.ICompileOptions {
+export interface IInlineCompileOptions extends C.ICompileOptions {
 
     /**
      * Added `debugger` statement before executing checking code.
@@ -28,7 +26,7 @@ export interface IJITCompileOptions extends C.ICompileOptions {
     "stopOnEntry"?: boolean;
 }
 
-export interface IJavaScriptJIT {
+export interface IInlineCompiler {
 
     /**
      * Compile the rule and wrap the result into a JavaScript function, so that
@@ -36,7 +34,7 @@ export interface IJavaScriptJIT {
      *
      * @param options The options of compilation.
      */
-    compile<T>(options: IJITCompileOptions): C.TypeChecker<T>;
+    compile<T>(options: IInlineCompileOptions): C.TypeChecker<T>;
 
     /**
      * Get the type-checker of a pre-defined type.
@@ -53,13 +51,13 @@ export interface IJavaScriptJIT {
     hasPredefinedType(name: string): boolean;
 
     /**
-     * Get the names list of undefined pre-defined types.
+     * Get the names list of undefined but referred pre-defined types.
      */
     detectUndefinedTypes(): string[];
 }
 
-class JavaScriptJIT
-implements IJavaScriptJIT {
+class InlineCompiler
+implements IInlineCompiler {
 
     private _defTypes: Record<string, C.TypeChecker<any>>;
 
@@ -75,16 +73,12 @@ implements IJavaScriptJIT {
 
         const lang = createJavaScriptLanguageBuilder();
 
-        const bitc = new BuiltInTypeCompiler(lang);
-
-        this._compiler = new Compiler(
-            lang,
-            bitc,
-            new FilterCompiler(lang, bitc)
+        this._compiler = createCompiler(
+            lang
         );
     }
 
-    public compile<T>(options: IJITCompileOptions): C.TypeChecker<T> {
+    public compile<T>(options: IInlineCompileOptions): C.TypeChecker<T> {
 
         const result = this._compiler.compile(options);
 
@@ -158,7 +152,10 @@ implements IJavaScriptJIT {
     }
 }
 
-export function createJavaScriptJIT(): IJavaScriptJIT {
+/**
+ * Create a compiler object that compiles the rule into JavaScript lambda code.
+ */
+export function createInlineCompiler(): IInlineCompiler {
 
-    return new JavaScriptJIT();
+    return new InlineCompiler();
 }

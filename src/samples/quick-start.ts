@@ -27,3 +27,20 @@ console.log(check1({
     "a": "123",
     "b": "321"
 }));
+
+const check2 = tgc.compile({
+    "rule": "==hello",
+    "name": "isHello"
+});
+
+console.log(check2("hello"));
+console.log(check2("world"));
+console.log(check2.toString());
+
+const check3 = tgc.compile({
+    "rule": "@isHello"
+});
+
+console.log(check3("hello"));
+console.log(check3("world"));
+console.log(check3.toString());

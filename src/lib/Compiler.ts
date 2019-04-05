@@ -55,25 +55,37 @@ implements C.ICompiler {
             referredTypes
         );
 
-        const ret: C.ICompileResult = {
+        if (options.name) {
 
-            source: "",
-            arguments: [{
-                "name": ctx.vName,
-                "type": "unknown"
-            }],
-            typeSlotName: ctx.typeSlotName,
-            referredTypes: []
-        };
+            this._compile(
+                ctx,
+                [M.TYPE, options.name, options.rule]
+            );
 
-        ret.source = this._compile(
-            ctx,
-            options.name ? [M.TYPE, options.name, options.rule] : options.rule
-        );
+            return this._defTypes[options.name];
+        }
+        else {
 
-        ret.referredTypes = Object.keys(ctx.referredTypes);
+            const ret: C.ICompileResult = {
 
-        return ret;
+                source: "",
+                arguments: [{
+                    "name": ctx.vName,
+                    "type": "unknown"
+                }],
+                typeSlotName: ctx.typeSlotName,
+                referredTypes: []
+            };
+
+            ret.source = this._compile(
+                ctx,
+                options.rule
+            );
+
+            ret.referredTypes = Object.keys(ctx.referredTypes);
+
+            return ret;
+        }
     }
 
     private _compile(ctx: I.IContext, rules: any): string {

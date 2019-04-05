@@ -24,13 +24,13 @@
     "rootDir": "src",
     "outDir": "./",
     "noImplicitAny": true,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
     "noUnusedLocals": true,
     "noImplicitReturns": true,
     "strictNullChecks": true,
+    "strictFunctionTypes": true,
     "lib": ["es2017"],
     "newLine": "LF",
+    "alwaysStrict": true,
     /* Strict Type-Checking Options */        
     "strict": true                            /* Enable all strict type-checking options. */
     // "noImplicitAny": true,                 /* Raise error on expressions and declarations with an implied 'any' type. */

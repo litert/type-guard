@@ -7,8 +7,8 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "[TypeGuard] Do tests",
-            "program": "${workspaceFolder}/src/samples/debug.ts",
+            "name": "[TypeGuard] Quick Start",
+            "program": "${workspaceFolder}/src/samples/quick-start.ts",
             "sourceMaps": true,
             "cwd": "${workspaceFolder}",
             "outFiles": [

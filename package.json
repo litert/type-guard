@@ -6,6 +6,7 @@
   "scripts": {
     "prepare": "npm run rebuild",
     "build": "tsc -v && tsc -p .",
+    "build-watch": "tsc -v && tsc -w -p .",
     "build-amd": "tsc -p tsconfig-amd.json",
     "build-systemjs": "tsc -p tsconfig-systemjs.json",
     "build-all": "npm run build & npm run build-amd & npm run build-systemjs",

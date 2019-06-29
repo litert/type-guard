@@ -4,26 +4,22 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "[TypeGuard] Build (Watching)",
-            "command": "tsc",
-            "type": "shell",
-            "args": [
-                "-w",
-                "-p",
-                "."
+            "label": "[TypeGuard.js] Build (Prefer Local Compiler)",
+            "type": "npm",
+            "script": "build",
+            "problemMatcher": [
+                "$tsc-watch"
             ],
-            "presentation": {
-                "echo": true,
-                "reveal": "never",
-                "focus": false,
-                "panel": "shared"
-            },
-            "isBackground": true,
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "problemMatcher": "$tsc-watch"
+            "isBackground": true
+        },
+        {
+            "label": "[TypeGuard.js] Build (Watching, Prefer Local Compiler)",
+            "type": "npm",
+            "script": "build-watch",
+            "problemMatcher": [
+                "$tsc-watch"
+            ],
+            "isBackground": true
         }
     ]
 }

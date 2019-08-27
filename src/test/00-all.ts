@@ -22,6 +22,7 @@ import testStringAssert from "./05-string-asserts";
 import testStructure from "./06-structure";
 import testModifiers from "./07-modifiers";
 import testMapAndDict from "./08-map-and-dict";
+import testExceptions from "./09-exceptions";
 
 testElementalTypes();
 testArrayAndList();
@@ -31,3 +32,4 @@ testStringAssert();
 testStructure();
 testModifiers();
 testMapAndDict();
+testExceptions();

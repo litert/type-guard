@@ -1,5 +1,9 @@
 # Changes Logs
 
+## v1.0.1
+
+- Fixed lack of positive expression when `any` or `true` is used.
+
 ## v1.0.0
 
 - A full refactor, with a better and simple code generation.

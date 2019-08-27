@@ -44,3 +44,9 @@ const check3 = tgc.compile({
 console.log(check3("hello"));
 console.log(check3("world"));
 console.log(check3.toString());
+
+console.log(tgc.compile({
+    rule: {
+        "test": "any"
+    }
+}).toString());

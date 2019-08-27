@@ -105,7 +105,12 @@ implements C.ILanguageBuilder {
             return conditions[0];
         }
 
-        conditions = this._dereplicate(conditions.filter((x) => x !== "true"));
+        if (conditions.includes("true")) {
+
+            return "true";
+        }
+
+        conditions = this._dereplicate(conditions);
 
         if (!conditions.length) {
 
@@ -122,7 +127,12 @@ implements C.ILanguageBuilder {
             return conditions[0];
         }
 
-        conditions = this._dereplicate(conditions.filter((x) => x !== "true"));
+        if (conditions.includes("false")) {
+
+            return "false";
+        }
+
+        conditions = this._dereplicate(conditions);
 
         if (!conditions.length) {
 

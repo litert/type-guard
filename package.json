@@ -1,6 +1,6 @@
 {
   "name": "@litert/typeguard",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "An easy and powerful data validation code generator by JavaScript.",
   "main": "lib/index.js",
   "scripts": {

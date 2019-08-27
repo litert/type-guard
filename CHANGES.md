@@ -1,5 +1,9 @@
 # Changes Logs
 
+## v1.0.2
+
+- Improved the output of `$.or` and `$.and`.
+
 ## v1.0.1
 
 - Fixed lack of positive expression when `any` or `true` is used.

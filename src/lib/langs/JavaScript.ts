@@ -110,7 +110,7 @@ implements C.ILanguageBuilder {
             return "true";
         }
 
-        conditions = this._dereplicate(conditions);
+        conditions = this._dereplicate(conditions.filter((x) => x === "false"));
 
         if (!conditions.length) {
 
@@ -132,7 +132,7 @@ implements C.ILanguageBuilder {
             return "false";
         }
 
-        conditions = this._dereplicate(conditions);
+        conditions = this._dereplicate(conditions.filter((x) => x === "true"));
 
         if (!conditions.length) {
 

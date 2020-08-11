@@ -40,6 +40,27 @@ const testItems: ITestSuite = {
                 }
             ]
         },
+        {
+            'name': JSON.stringify({ 'test': 'int8' }),
+            'rule': { 'test': 'int8' },
+            'items': [
+                {
+                    inputName: 'When test === 123',
+                    inputValue: {'test': 123},
+                    expect: true
+                },
+                {
+                    inputName: 'When test === 1234',
+                    inputValue: {'test': 1234},
+                    expect: false
+                },
+                {
+                    inputName: 'When test is omitted',
+                    inputValue: {},
+                    expect: false
+                }
+            ]
+        },
     ]
 };
 

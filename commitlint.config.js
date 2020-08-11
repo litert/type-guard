@@ -15,7 +15,7 @@ module.exports = {
             'compiler',
             'jslang',
             'rules',
-            'tests',
+            'test',
             'skeleton',
             'doc',
             'lint',

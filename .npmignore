@@ -6,5 +6,5 @@
 /.npmignore
 /tslint.json
 /tsconfig.json
-/samples/
+/examples/
 /test/

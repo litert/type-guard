@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 Angus.Fenying <fenying@litert.org>
+ * Copyright 2020 Angus.Fenying <fenying@litert.org>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,127 +20,127 @@ import {
     ITestSuite,
     assertItem,
     addRule
-} from "./abstracts";
+} from './abstracts';
 
 const testItems: ITestSuite = {
 
-    name: "Mappings & Dicts",
+    name: 'Mappings & Dicts',
     sections: [
 
         {
-            "name": JSON.stringify(["$.map", "string", "uint32"]),
-            "rule": ["$.map", "string", "uint32"],
-            "items": [
+            'name': JSON.stringify(['$.map', 'string', 'uint32']),
+            'rule': ['$.map', 'string', 'uint32'],
+            'items': [
                 {
-                    inputName: "all string object",
-                    inputValue: {"a": "123312312", "b": "ccc" },
+                    inputName: 'all string object',
+                    inputValue: {'a': '123312312', 'b': 'ccc' },
                     expect: true
                 },
                 {
-                    inputName: "all uint32 object",
-                    inputValue: {"a": 123312312, "b": 0xCCC },
+                    inputName: 'all uint32 object',
+                    inputValue: {'a': 123312312, 'b': 0xCCC },
                     expect: true
                 },
                 {
-                    inputName: "all uint32 & string object",
-                    inputValue: {"a": 123312312, "b": 0xCCC },
+                    inputName: 'all uint32 & string object',
+                    inputValue: {'a': 123312312, 'b': 0xCCC },
                     expect: true
                 },
                 {
-                    inputName: "all uint32 & boolean object",
-                    inputValue: {"a": 123312312, "b": false },
+                    inputName: 'all uint32 & boolean object',
+                    inputValue: {'a': 123312312, 'b': false },
                     expect: false
                 },
                 ...defaultItemss({
-                    "object": true
+                    'object': true
                 })
             ]
         },
         {
-            "name": JSON.stringify({
-                "a": "string",
-                "$.map": "number"
+            'name': JSON.stringify({
+                'a': 'string',
+                '$.map': 'number'
             }),
-            "rule": {
-                "a": "string",
-                "$.map": "number"
+            'rule': {
+                'a': 'string',
+                '$.map': 'number'
             },
-            "items": [
+            'items': [
                 assertItem(
-                    {"a": "123312312", "b": 123.3, c: 1232 },
+                    {'a': '123312312', 'b': 123.3, c: 1232 },
                     true
                 ),
                 assertItem(
-                    {"a": "123312312", "b": "ccc" },
+                    {'a': '123312312', 'b': 'ccc' },
                     false
                 ),
                 assertItem(
-                    {"a": 123312312, "b": 123.3 },
+                    {'a': 123312312, 'b': 123.3 },
                     false
                 ),
             ]
         },
         {
-            "name": JSON.stringify({
-                "a": "string",
-                "b->{}": "number"
+            'name': JSON.stringify({
+                'a': 'string',
+                'b->{}': 'number'
             }),
-            "rule": {
-                "a": "string",
-                "b->{}": "number"
+            'rule': {
+                'a': 'string',
+                'b->{}': 'number'
             },
-            "items": [
+            'items': [
                 assertItem(
-                    {"a": "123312312", "b": "ccc" },
+                    {'a': '123312312', 'b': 'ccc' },
                     false
                 ),
                 assertItem(
-                    {"a": 123312312, "b": 123.3 },
+                    {'a': 123312312, 'b': 123.3 },
                     false
                 ),
                 assertItem(
-                    {"a": "123312312", "b": {d: 123.3, c: 1232} },
+                    {'a': '123312312', 'b': {d: 123.3, c: 1232} },
                     true
                 ),
                 assertItem(
-                    {"a": "123312312", "b": { d: 123.3, c: "1232" } },
+                    {'a': '123312312', 'b': { d: 123.3, c: '1232' } },
                     false
                 ),
             ]
         },
-        addRule(["$.dict", ["a", "b"], "string"], [
+        addRule(['$.dict', ['a', 'b'], 'string'], [
             assertItem(
-                {"a": "123312312", "b": "ccc" },
+                {'a': '123312312', 'b': 'ccc' },
                 true
             ),
             assertItem(
-                {"a": "123312312", "b": "ccc", "c": 123 },
+                {'a': '123312312', 'b': 'ccc', 'c': 123 },
                 true
             ),
             assertItem(
-                {"a": "123312312" },
+                {'a': '123312312' },
                 false
             ),
             assertItem(
-                {"a": "123312312", "c": "ddd" },
+                {'a': '123312312', 'c': 'ddd' },
                 false
             ),
             assertItem(
-                {"a": "123312312", "b": 123.3 },
+                {'a': '123312312', 'b': 123.3 },
                 false
             )
         ]),
-        addRule(["$.strict", "$.dict", ["a", "b"], "string"], [
+        addRule(['$.strict', '$.dict', ['a', 'b'], 'string'], [
             assertItem(
-                {"a": "123312312", "b": "ccc" },
+                {'a': '123312312', 'b': 'ccc' },
                 true
             ),
             assertItem(
-                {"a": "123312312", "b": "ccc", "c": 123 },
+                {'a': '123312312', 'b': 'ccc', 'c': 123 },
                 false
             ),
             assertItem(
-                {"a": "123312312" },
+                {'a': '123312312' },
                 false
             ),
         ])

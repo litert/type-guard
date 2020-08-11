@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 Angus.Fenying <fenying@litert.org>
+ * Copyright 2020 Angus.Fenying <fenying@litert.org>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,24 +17,24 @@
 import {
     createTestDefinition,
     ITestSuite
-} from "./abstracts";
+} from './abstracts';
 
 const testItems: ITestSuite = {
 
-    name: "When optional with any",
+    name: 'When optional with any',
     sections: [
 
         {
-            "name": JSON.stringify({ "test?": "any" }),
-            "rule": { "test?": "any" },
-            "items": [
+            'name': JSON.stringify({ 'test?': 'any' }),
+            'rule': { 'test?': 'any' },
+            'items': [
                 {
-                    inputName: "When test === 'ffff'",
-                    inputValue: {"test": "ffff"},
+                    inputName: 'When test === \'ffff\'',
+                    inputValue: {'test': 'ffff'},
                     expect: true
                 },
                 {
-                    inputName: "When test is omitted",
+                    inputName: 'When test is omitted',
                     inputValue: {},
                     expect: true
                 }

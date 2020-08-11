@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 Angus.Fenying <fenying@litert.org>
+ * Copyright 2020 Angus.Fenying <fenying@litert.org>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,259 +14,259 @@
  * limitations under the License.
  */
 
-import { createTestDefinition, defaultItemss, ITestSuite } from "./abstracts";
+import { createTestDefinition, defaultItemss, ITestSuite } from './abstracts';
 
 const testItems: ITestSuite = {
 
-    name: "Structure",
+    name: 'Structure',
     sections: [
 
         {
-            "name": "Empty object",
-            "rule": {},
-            "items": [
+            'name': 'Empty object',
+            'rule': {},
+            'items': [
                 {
-                    inputName: "Empty object",
+                    inputName: 'Empty object',
                     inputValue: {},
                     expect: true
                 },
                 {
-                    inputName: "Object with one property",
-                    inputValue: {"a": 123},
+                    inputName: 'Object with one property',
+                    inputValue: {'a': 123},
                     expect: true
                 },
                 {
-                    inputName: "[int, string]",
-                    inputValue: [123, "fff"],
+                    inputName: '[int, string]',
+                    inputValue: [123, 'fff'],
                     expect: false
                 },
                 ...defaultItemss({
-                    "object": true
+                    'object': true
                 })
             ]
         },
         {
-            "name": "1 property object",
-            "rule": { "a": "uint32" },
-            "items": [
+            'name': '1 property object',
+            'rule': { 'a': 'uint32' },
+            'items': [
                 {
-                    inputName: "Empty object",
+                    inputName: 'Empty object',
                     inputValue: {},
                     expect: false
                 },
                 {
-                    inputName: "Object with one property",
-                    inputValue: {"a": 123},
+                    inputName: 'Object with one property',
+                    inputValue: {'a': 123},
                     expect: true
                 },
                 {
-                    inputName: "[int, string]",
-                    inputValue: [123, "fff"],
+                    inputName: '[int, string]',
+                    inputValue: [123, 'fff'],
                     expect: false
                 },
                 ...defaultItemss({
-                    "object": false
+                    'object': false
                 })
             ]
         },
         {
-            "name": "1 optional property object",
-            "rule": { "a?": "uint32" },
-            "items": [
+            'name': '1 optional property object',
+            'rule': { 'a?': 'uint32' },
+            'items': [
                 {
-                    inputName: "Empty object",
+                    inputName: 'Empty object',
                     inputValue: {},
                     expect: true
                 },
                 {
-                    inputName: "Object with one property",
-                    inputValue: {"a": 123},
+                    inputName: 'Object with one property',
+                    inputValue: {'a': 123},
                     expect: true
                 },
                 {
-                    inputName: "Object with one mismatch-type property",
-                    inputValue: {"a": "123"},
+                    inputName: 'Object with one mismatch-type property',
+                    inputValue: {'a': '123'},
                     expect: false
                 },
                 {
-                    inputName: "[int, string]",
-                    inputValue: [123, "fff"],
+                    inputName: '[int, string]',
+                    inputValue: [123, 'fff'],
                     expect: false
                 },
                 ...defaultItemss({
-                    "object": true
+                    'object': true
                 })
             ]
         },
         {
-            "name": "Nested object",
-            "rule": { "a?": "uint32", "b": { "c": "string" } },
-            "items": [
+            'name': 'Nested object',
+            'rule': { 'a?': 'uint32', 'b': { 'c': 'string' } },
+            'items': [
                 {
-                    inputName: "Empty object",
+                    inputName: 'Empty object',
                     inputValue: {},
                     expect: false
                 },
                 {
-                    inputName: "Object with one property",
-                    inputValue: {"a": 123},
+                    inputName: 'Object with one property',
+                    inputValue: {'a': 123},
                     expect: false
                 },
                 {
-                    inputName: "Object with mismatch-typed nest property",
-                    inputValue: {"a": 123, "b": { "c": 1232131 }},
+                    inputName: 'Object with mismatch-typed nest property',
+                    inputValue: {'a': 123, 'b': { 'c': 1232131 }},
                     expect: false
                 },
                 {
-                    inputName: "Object with one mismatch-typed property",
-                    inputValue: {"a": "123", "b": { "c": "ffff"} },
+                    inputName: 'Object with one mismatch-typed property',
+                    inputValue: {'a': '123', 'b': { 'c': 'ffff'} },
                     expect: false
                 },
                 {
-                    inputName: "Object with all corrected",
-                    inputValue: {"a": 123, "b": { "c": "ffff"} },
+                    inputName: 'Object with all corrected',
+                    inputValue: {'a': 123, 'b': { 'c': 'ffff'} },
                     expect: true
                 }
             ]
         },
         {
-            "name": "Strict object",
-            "rule": ["$.strict", {
-                "a": "uint"
+            'name': 'Strict object',
+            'rule': ['$.strict', {
+                'a': 'uint'
             }],
-            "items": [
+            'items': [
                 {
-                    inputName: "Empty object",
+                    inputName: 'Empty object',
                     inputValue: {},
                     expect: false
                 },
                 {
-                    inputName: "Object with one property",
-                    inputValue: {"a": 123},
+                    inputName: 'Object with one property',
+                    inputValue: {'a': 123},
                     expect: true
                 },
                 {
-                    inputName: "Object with one mismatch-typed property",
-                    inputValue: {"a": "123" },
+                    inputName: 'Object with one mismatch-typed property',
+                    inputValue: {'a': '123' },
                     expect: false
                 },
                 {
-                    inputName: "Object with 2 properties",
-                    inputValue: {"a": 123, "b": { "c": "ffff"} },
+                    inputName: 'Object with 2 properties',
+                    inputValue: {'a': 123, 'b': { 'c': 'ffff'} },
                     expect: false
                 }
             ]
         },
         {
-            "name": "Strict object with nested properties",
-            "rule": ["$.strict", {
-                "a": "uint",
-                "b": {
-                    "c": "uint"
+            'name': 'Strict object with nested properties',
+            'rule': ['$.strict', {
+                'a': 'uint',
+                'b': {
+                    'c': 'uint'
                 }
             }],
-            "items": [
+            'items': [
                 {
-                    inputName: "Object with one property",
-                    inputValue: {"a": 123},
+                    inputName: 'Object with one property',
+                    inputValue: {'a': 123},
                     expect: false
                 },
                 {
-                    inputName: "Object with wrong type in nest",
-                    inputValue: {"a": 123, "b": { "c": "ffff"} },
+                    inputName: 'Object with wrong type in nest',
+                    inputValue: {'a': 123, 'b': { 'c': 'ffff'} },
                     expect: false
                 },
                 {
-                    inputName: "Object with all correct",
-                    inputValue: {"a": 123, "b": { "c": 123 } },
+                    inputName: 'Object with all correct',
+                    inputValue: {'a': 123, 'b': { 'c': 123 } },
                     expect: true
                 },
                 {
-                    inputName: "Object with one more in nested",
-                    inputValue: {"a": 123, "b": { "c": 123, "d": "1213131" } },
+                    inputName: 'Object with one more in nested',
+                    inputValue: {'a': 123, 'b': { 'c': 123, 'd': '1213131' } },
                     expect: true
                 }
             ]
         },
         {
-            "name": "Recursively-Strict object with nested properties",
-            "rule": ["$.equal", {
-                "a": "uint",
-                "b": {
-                    "c": "uint"
+            'name': 'Recursively-Strict object with nested properties',
+            'rule': ['$.equal', {
+                'a': 'uint',
+                'b': {
+                    'c': 'uint'
                 }
             }],
-            "items": [
+            'items': [
                 {
-                    inputName: "Object with one property",
-                    inputValue: {"a": 123},
+                    inputName: 'Object with one property',
+                    inputValue: {'a': 123},
                     expect: false
                 },
                 {
-                    inputName: "Object with wrong type in nest",
-                    inputValue: {"a": 123, "b": { "c": "ffff"} },
+                    inputName: 'Object with wrong type in nest',
+                    inputValue: {'a': 123, 'b': { 'c': 'ffff'} },
                     expect: false
                 },
                 {
-                    inputName: "Object with all correct",
-                    inputValue: {"a": 123, "b": { "c": 123 } },
+                    inputName: 'Object with all correct',
+                    inputValue: {'a': 123, 'b': { 'c': 123 } },
                     expect: true
                 },
                 {
-                    inputName: "Object with one more in nested",
-                    inputValue: {"a": 123, "b": { "c": 123, "d": "1213131" } },
+                    inputName: 'Object with one more in nested',
+                    inputValue: {'a': 123, 'b': { 'c': 123, 'd': '1213131' } },
                     expect: false
                 }
             ]
         },
         {
-            "name": "Object with from-string modifier",
-            "rule": ["$.string", {
-                "a": "uint",
-                "b": {
-                    "c": "uint"
+            'name': 'Object with from-string modifier',
+            'rule': ['$.string', {
+                'a': 'uint',
+                'b': {
+                    'c': 'uint'
                 }
             }],
-            "items": [
+            'items': [
                 {
-                    inputName: "Object with all correct",
-                    inputValue: {"a": 123, "b": { "c": 123 } },
+                    inputName: 'Object with all correct',
+                    inputValue: {'a': 123, 'b': { 'c': 123 } },
                     expect: true
                 },
                 {
-                    inputName: "Object with string incorrect-value",
-                    inputValue: {"a": 123, "b": { "c": "123d" } },
+                    inputName: 'Object with string incorrect-value',
+                    inputValue: {'a': 123, 'b': { 'c': '123d' } },
                     expect: false
                 },
                 {
-                    inputName: "Object with string value",
-                    inputValue: {"a": "123312312", "b": { "c": "123" } },
+                    inputName: 'Object with string value',
+                    inputValue: {'a': '123312312', 'b': { 'c': '123' } },
                     expect: true
                 }
             ]
         },
         {
-            "name": "Object with from-string modifier",
-            "rule": ["$.string", {
-                "a": "uint",
-                "b": {
-                    "c": "uint"
+            'name': 'Object with from-string modifier',
+            'rule': ['$.string', {
+                'a': 'uint',
+                'b': {
+                    'c': 'uint'
                 }
             }],
-            "items": [
+            'items': [
                 {
-                    inputName: "Object with all correct",
-                    inputValue: {"a": 123, "b": { "c": 123 } },
+                    inputName: 'Object with all correct',
+                    inputValue: {'a': 123, 'b': { 'c': 123 } },
                     expect: true
                 },
                 {
-                    inputName: "Object with string incorrect-value",
-                    inputValue: {"a": 123, "b": { "c": "123d" } },
+                    inputName: 'Object with string incorrect-value',
+                    inputValue: {'a': 123, 'b': { 'c': '123d' } },
                     expect: false
                 },
                 {
-                    inputName: "Object with string value",
-                    inputValue: {"a": "123312312", "b": { "c": "123" } },
+                    inputName: 'Object with string value',
+                    inputValue: {'a': '123312312', 'b': { 'c': '123' } },
                     expect: true
                 }
             ]

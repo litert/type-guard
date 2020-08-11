@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 Angus.Fenying <fenying@litert.org>
+ * Copyright 2020 Angus.Fenying <fenying@litert.org>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-import testElementalTypes from "./01-elemental-types";
-import testArrayAndList from "./02-array-and-list";
-import testTuple from "./03-tuple";
-import testFromString from "./04-from-string";
-import testStringAssert from "./05-string-asserts";
-import testStructure from "./06-structure";
-import testModifiers from "./07-modifiers";
-import testMapAndDict from "./08-map-and-dict";
-import testExceptions from "./09-exceptions";
+import testElementalTypes from './01-elemental-types';
+import testArrayAndList from './02-array-and-list';
+import testTuple from './03-tuple';
+import testFromString from './04-from-string';
+import testStringAssert from './05-string-asserts';
+import testStructure from './06-structure';
+import testModifiers from './07-modifiers';
+import testMapAndDict from './08-map-and-dict';
+import testExceptions from './09-exceptions';
 
 testElementalTypes();
 testArrayAndList();

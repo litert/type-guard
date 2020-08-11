@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 Angus.Fenying <fenying@litert.org>
+ * Copyright 2020 Angus.Fenying <fenying@litert.org>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import * as C from "./Common";
-import * as I from "./Internal";
+import * as C from './Common';
+import * as I from './Internal';
 
 export class FilterCompiler
 implements I.IFilterCompiler {
@@ -29,128 +29,128 @@ implements I.IFilterCompiler {
 
         let vName = ctx.vName;
 
-        const filter = rule.slice(1).split(" ");
+        const filter = rule.slice(1).split(' ');
 
         if (filter.slice(2).length !== filter.slice(2).filter((x) => /^\d+(\.\d+)?$/.test(x)).length) {
 
-            throw new TypeError("Only number is allowed as filter arguments.");
+            throw new TypeError('Only number is allowed as filter arguments.');
         }
 
         let ret: string[] = [];
 
         switch (filter[0]) {
-        case "array.length":
-            ret.push(this._lang.isArray(vName, true));
-            vName = this._lang.arrayLength(vName);
-            break;
-        case "string.length":
-            ret.push(this._lang.isString(vName, true));
-            vName = this._lang.stringLength(vName);
-            break;
-        case "value":
-            ret.push(this._lang.isNumber(vName, true));
-            break;
-        default:
-            ret.push(this._bitc.compile(filter[0], ctx, []));
-            break;
+            case 'array.length':
+                ret.push(this._lang.isArray(vName, true));
+                vName = this._lang.arrayLength(vName);
+                break;
+            case 'string.length':
+                ret.push(this._lang.isString(vName, true));
+                vName = this._lang.stringLength(vName);
+                break;
+            case 'value':
+                ret.push(this._lang.isNumber(vName, true));
+                break;
+            default:
+                ret.push(this._bitc.compile(filter[0], ctx, []));
+                break;
         }
 
         switch (filter[1]) {
-        case "between":
+            case 'between':
 
-            if (filter.length !== 4) {
-                throw new TypeError(`Filter ${filter[1]} require 2 arguments.`);
-            }
+                if (filter.length !== 4) {
+                    throw new TypeError(`Filter ${filter[1]} require 2 arguments.`);
+                }
 
-            ret.push(this._lang.gte(vName, filter[2]));
-            ret.push(this._lang.lte(vName, filter[3]));
+                ret.push(this._lang.gte(vName, filter[2]));
+                ret.push(this._lang.lte(vName, filter[3]));
 
-            break;
+                break;
 
-        case "gt":
-        case ">":
+            case 'gt':
+            case '>':
 
-            if (filter.length !== 3) {
-                throw new TypeError(`Filter ${filter[1]} require 1 argument.`);
-            }
+                if (filter.length !== 3) {
+                    throw new TypeError(`Filter ${filter[1]} require 1 argument.`);
+                }
 
-            ret.push(this._lang.gt(vName, filter[2]));
+                ret.push(this._lang.gt(vName, filter[2]));
 
-            break;
+                break;
 
-        case "ge":
-        case "gte":
-        case ">=":
+            case 'ge':
+            case 'gte':
+            case '>=':
 
-            if (filter.length !== 3) {
-                throw new TypeError(`Filter ${filter[1]} require 1 argument.`);
-            }
+                if (filter.length !== 3) {
+                    throw new TypeError(`Filter ${filter[1]} require 1 argument.`);
+                }
 
-            ret.push(this._lang.gte(vName, filter[2]));
+                ret.push(this._lang.gte(vName, filter[2]));
 
-            break;
+                break;
 
-        case "lt":
-        case "<":
+            case 'lt':
+            case '<':
 
-            if (filter.length !== 3) {
-                throw new TypeError(`Filter ${filter[1]} require 1 argument.`);
-            }
+                if (filter.length !== 3) {
+                    throw new TypeError(`Filter ${filter[1]} require 1 argument.`);
+                }
 
-            ret.push(this._lang.lt(vName, filter[2]));
+                ret.push(this._lang.lt(vName, filter[2]));
 
-            break;
+                break;
 
-        case "le":
-        case "lte":
-        case "<=":
+            case 'le':
+            case 'lte':
+            case '<=':
 
-            if (filter.length !== 3) {
-                throw new TypeError(`Filter ${filter[1]} require 1 argument.`);
-            }
+                if (filter.length !== 3) {
+                    throw new TypeError(`Filter ${filter[1]} require 1 argument.`);
+                }
 
-            ret.push(this._lang.lte(vName, filter[2]));
+                ret.push(this._lang.lte(vName, filter[2]));
 
-            break;
+                break;
 
-        case "eq":
-        case "==":
+            case 'eq':
+            case '==':
 
-            if (filter.length !== 3) {
-                throw new TypeError(`Filter ${filter[1]} require 1 argument.`);
-            }
+                if (filter.length !== 3) {
+                    throw new TypeError(`Filter ${filter[1]} require 1 argument.`);
+                }
 
-            ret.push(this._lang.eq(vName, filter[2]));
+                ret.push(this._lang.eq(vName, filter[2]));
 
-            break;
+                break;
 
-        case "ne":
-        case "!=":
+            case 'ne':
+            case '!=':
 
-            if (filter.length !== 3) {
-                throw new TypeError(`Filter ${filter[1]} require 1 argument.`);
-            }
+                if (filter.length !== 3) {
+                    throw new TypeError(`Filter ${filter[1]} require 1 argument.`);
+                }
 
-            ret.push(this._lang.ne(vName, filter[2]));
+                ret.push(this._lang.ne(vName, filter[2]));
 
-            break;
+                break;
 
-        case "timesof":
+            case 'timesof':
 
-            if (filter.length !== 3) {
-                throw new TypeError(`Filter ${filter[1]} require 1 argument.`);
-            }
+                if (filter.length !== 3) {
+                    throw new TypeError(`Filter ${filter[1]} require 1 argument.`);
+                }
 
-            ret.push(this._lang.eq(
-                this._lang.modOf(vName, filter[2]),
-                "0"
-            ));
+                ret.push(this._lang.eq(
+                    this._lang.modOf(vName, filter[2]),
+                    '0'
+                ));
 
-            break;
+                break;
 
-        default:
+            default:
 
-            throw new TypeError(`Unknown filter type "${filter[1]}".`);
+                throw new TypeError(`Unknown filter type "${filter[1]}".`);
         }
 
         return this._lang.and(ret);

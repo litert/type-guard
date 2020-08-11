@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 Angus.Fenying <fenying@litert.org>
+ * Copyright 2020 Angus.Fenying <fenying@litert.org>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-export const MAP_SUFFIX = "{}";
+export const MAP_SUFFIX = '{}';
 
-export const LIST_SUFFIX = "[]";
+export const LIST_SUFFIX = '[]';
 
-export const MODIFIER_PREFIX = "$.";
+export const MODIFIER_PREFIX = '$.';
 
-export const FILTER_PREFIX = "|";
+export const FILTER_PREFIX = '|';
 
-export const IMPLICIT_SYMBOL = "?";
+export const IMPLICIT_SYMBOL = '?';
 
-export const PREDEF_TYPE_SYMBOL = "@";
+export const PREDEF_TYPE_SYMBOL = '@';
 
-export const NEGATIVE_SYMBOL = "!";
+export const NEGATIVE_SYMBOL = '!';
 
 export const KEY_MAP_SUFFIX = `->${MAP_SUFFIX}`;
 
@@ -34,9 +34,9 @@ export const KEY_LIST_SUFFIX = `->${LIST_SUFFIX}`;
 
 export const KEY_ARRAY_SUFFIX = /->\[\s*(\d+)(\s*,\s*(\d+)?)?\s*\]$/;
 
-export const KEY_STRICT_SUFFIX = "->()";
+export const KEY_STRICT_SUFFIX = '->()';
 
-export const KEY_EQUAL_SUFFIX = "->(=)";
+export const KEY_EQUAL_SUFFIX = '->(=)';
 
 export enum EFlags {
 

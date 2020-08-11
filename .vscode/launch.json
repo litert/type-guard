@@ -8,14 +8,14 @@
             "type": "node",
             "request": "launch",
             "name": "[TypeGuard] Quick Start",
-            "program": "${workspaceFolder}/src/samples/quick-start.ts",
+            "program": "${workspaceFolder}/src/examples/quick-start.ts",
             "sourceMaps": true,
             "cwd": "${workspaceFolder}",
             "outFiles": [
                 "${workspaceFolder}/lib/*.js",
                 "${workspaceFolder}/lib/**/*.js",
-                "${workspaceFolder}/samples/*.js",
-                "${workspaceFolder}/samples/**/*.js"
+                "${workspaceFolder}/examples/*.js",
+                "${workspaceFolder}/examples/**/*.js"
             ]
         }
     ]

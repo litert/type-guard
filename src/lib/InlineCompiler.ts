@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 Angus.Fenying <fenying@litert.org>
+ * Copyright 2020 Angus.Fenying <fenying@litert.org>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-import { createCompiler } from "./Compiler";
-import { createJavaScriptLanguageBuilder } from "./langs/JavaScript";
-import * as C from "./Common";
+import { createCompiler } from './Compiler';
+import { createJavaScriptLanguageBuilder } from './langs/JavaScript';
+import * as C from './Common';
 
 export interface IInlineCompileOptions extends C.ICompileOptions {
 
     /**
      * Added `debugger` statement before executing checking code.
      */
-    "stopOnEntry"?: boolean;
+    'stopOnEntry'?: boolean;
 }
 
 export interface IInlineCompiler {
@@ -140,7 +140,7 @@ implements IInlineCompiler {
         stopOnEntry: boolean = false
     ): C.TypeChecker<any> {
 
-        const soe = stopOnEntry ? "debugger;" : "";
+        const soe = stopOnEntry ? 'debugger;' : '';
 
         return (new Function(
             info.typeSlotName,

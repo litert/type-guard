@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 Angus.Fenying <fenying@litert.org>
+ * Copyright 2020 Angus.Fenying <fenying@litert.org>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-import * as I from "./Internal";
-import * as C from "./Common";
-import * as M from "./Modifiers";
-import { Context } from "./Context";
-import * as B from "./BuiltInTypes";
-import { BuiltInTypeCompiler } from "./BuiltInTypeCompiler";
-import { FilterCompiler } from "./FilterCompiler";
+import * as I from './Internal';
+import * as C from './Common';
+import * as M from './Modifiers';
+import { Context } from './Context';
+import * as B from './BuiltInTypes';
+import { BuiltInTypeCompiler } from './BuiltInTypeCompiler';
+import { FilterCompiler } from './FilterCompiler';
 
 class Compiler
 implements C.ICompiler {
@@ -50,8 +50,8 @@ implements C.ICompiler {
         const referredTypes: Record<string, true> = {};
 
         const ctx: I.IContext = new Context(
-            this._lang.varName("entry"),
-            this._lang.varName("types"),
+            this._lang.varName('entry'),
+            this._lang.varName('types'),
             referredTypes
         );
 
@@ -68,10 +68,10 @@ implements C.ICompiler {
 
             const ret: C.ICompileResult = {
 
-                source: "",
+                source: '',
                 arguments: [{
-                    "name": ctx.vName,
-                    "type": "unknown"
+                    'name': ctx.vName,
+                    'type': 'unknown'
                 }],
                 typeSlotName: ctx.typeSlotName,
                 referredTypes: []
@@ -91,82 +91,82 @@ implements C.ICompiler {
     private _compile(ctx: I.IContext, rules: any): string {
 
         switch (typeof rules) {
-        case "string":
+            case 'string':
 
-            return this._compileStringRule(ctx, rules);
+                return this._compileStringRule(ctx, rules);
 
-        case "boolean":
-
-            if (ctx.flags[I.EFlags.FROM_STRING]) {
-
-                return this._lang.or([
-                    this._lang.eq(
-                        ctx.vName,
-                        this._lang.literal(rules)
-                    ),
-                    this._lang.eq(
-                        this._lang.str2Bool(ctx.vName),
-                        this._lang.literal(rules)
-                    )
-                ]);
-            }
-
-            return this._lang.eq(
-                ctx.vName,
-                this._lang.literal(rules)
-            );
-
-        case "number":
-
-            if (ctx.flags[I.EFlags.FROM_STRING]) {
-
-                return this._lang.or([
-                    this._lang.eq(
-                        ctx.vName,
-                        this._lang.literal(rules)
-                    ),
-                    this._lang.eq(
-                        this._lang.str2Float(ctx.vName),
-                        this._lang.literal(rules)
-                    )
-                ]);
-            }
-
-            return this._lang.eq(
-                ctx.vName,
-                this._lang.literal(rules)
-            );
-
-        case "object":
-
-            if (Array.isArray(rules)) {
-
-                return this._compileModifiedRule(ctx, rules);
-            }
-            else if (rules === null) {
+            case 'boolean':
 
                 if (ctx.flags[I.EFlags.FROM_STRING]) {
 
                     return this._lang.or([
-                        this._lang.isNull(ctx.vName, true),
                         this._lang.eq(
                             ctx.vName,
-                            this._lang.literal("null")
+                            this._lang.literal(rules)
+                        ),
+                        this._lang.eq(
+                            this._lang.str2Bool(ctx.vName),
+                            this._lang.literal(rules)
                         )
                     ]);
                 }
 
-                return this._lang.isNull(ctx.vName, true);
-            }
+                return this._lang.eq(
+                    ctx.vName,
+                    this._lang.literal(rules)
+                );
 
-            return this._compileStructuredRule(ctx, rules);
+            case 'number':
 
-        case "undefined":
+                if (ctx.flags[I.EFlags.FROM_STRING]) {
 
-            return this._lang.isUndefined(ctx.vName, true);
+                    return this._lang.or([
+                        this._lang.eq(
+                            ctx.vName,
+                            this._lang.literal(rules)
+                        ),
+                        this._lang.eq(
+                            this._lang.str2Float(ctx.vName),
+                            this._lang.literal(rules)
+                        )
+                    ]);
+                }
+
+                return this._lang.eq(
+                    ctx.vName,
+                    this._lang.literal(rules)
+                );
+
+            case 'object':
+
+                if (Array.isArray(rules)) {
+
+                    return this._compileModifiedRule(ctx, rules);
+                }
+                else if (rules === null) {
+
+                    if (ctx.flags[I.EFlags.FROM_STRING]) {
+
+                        return this._lang.or([
+                            this._lang.isNull(ctx.vName, true),
+                            this._lang.eq(
+                                ctx.vName,
+                                this._lang.literal('null')
+                            )
+                        ]);
+                    }
+
+                    return this._lang.isNull(ctx.vName, true);
+                }
+
+                return this._compileStructuredRule(ctx, rules);
+
+            case 'undefined':
+
+                return this._lang.isUndefined(ctx.vName, true);
         }
 
-        throw new TypeError("Unknwn rules.");
+        throw new TypeError('Unknwn rules.');
     }
 
     private _compileStringRule(ctx: I.IContext, rule: string): string {
@@ -181,7 +181,7 @@ implements C.ICompiler {
             ]);
         }
 
-        if (rule[0] === I.IMPLICIT_SYMBOL) {
+        if (rule.startsWith(I.IMPLICIT_SYMBOL)) {
 
             return this._lang.or([
                 this._builtInTypes.compile(B.VOID, ctx, []),
@@ -189,21 +189,21 @@ implements C.ICompiler {
             ]);
         }
 
-        if (rule[0] === I.NEGATIVE_SYMBOL) {
+        if (rule.startsWith(I.NEGATIVE_SYMBOL)) {
 
             return this._lang.not(this._compileStringRule(ctx, rule.slice(1)));
         }
 
-        let regResult: RegExpMatchArray | null;
+        let regResult: RegExpMatchArray | null = /\[\s*(\d*|\d+\s*,\s*\d*)\s*\]$/.exec(rule);
 
         /**
          * For rules like `xxx[123]` or `xxx[1,5]`.
          */
-        if (regResult = rule.match(/\[\s*(\d*|\d+\s*,\s*\d*)\s*\]$/)) {
+        if (regResult) {
 
             if (regResult[1]) {
 
-                let range = regResult[1].split(",").map((x) => parseInt(x.trim()));
+                let range = regResult[1].split(',').map((x) => parseInt(x.trim()));
 
                 if (range.length === 1) {
 
@@ -252,10 +252,12 @@ implements C.ICompiler {
             ]);
         }
 
-        if (rule[0] === I.PREDEF_TYPE_SYMBOL) {
+        if (rule.startsWith(I.PREDEF_TYPE_SYMBOL)) {
 
             return this._usePredefinedType(ctx, rule.slice(1));
         }
+
+        regResult = /^(\w+)(\(\s*(-?\d+(\.\d+)?)?\s*,?\s*(-?\d+(\.\d+)?)?\s*\))?$/.exec(rule);
 
         /**
          * For built-in-type rules like:
@@ -265,11 +267,11 @@ implements C.ICompiler {
          * - `string`
          * - `int(12, 34)`
          */
-        if (regResult = rule.match(/^(\w+)(\(\s*(-?\d+(\.\d+)?)?\s*,?\s*(-?\d+(\.\d+)?)?\s*\))?$/)) {
+        if (regResult) {
 
             if (regResult[2]) {
 
-                const args = regResult[2].slice(1, -1).trim().split(",").map(
+                const args = regResult[2].slice(1, -1).trim().split(',').map(
                     (x) => parseFloat(x.trim())
                 );
 
@@ -287,7 +289,7 @@ implements C.ICompiler {
             );
         }
 
-        if (rule[0] === I.FILTER_PREFIX) {
+        if (rule.startsWith(I.FILTER_PREFIX)) {
 
             return this._filters.compile(rule, ctx);
         }
@@ -318,162 +320,162 @@ implements C.ICompiler {
         rule: string
     ): string | false {
 
-        const assertRule = rule.match(/^:([-\w]+):/);
+        const assertRule = /^:([-\w]+):/.exec(rule);
 
         const offset = assertRule ? assertRule[1].length + 2 : 2;
 
-        switch ((assertRule && assertRule[1]) || rule.substr(0, 2)) {
-        case "==":
-        case "equal":
+        switch ((assertRule?.[1]) ?? rule.substr(0, 2)) {
+            case '==':
+            case 'equal':
 
-            return this._lang.eq(
-                ctx.vName,
-                this._lang.literal(rule.slice(offset))
-            );
+                return this._lang.eq(
+                    ctx.vName,
+                    this._lang.literal(rule.slice(offset))
+                );
 
-        case "%=":
-        case "equal-i":
+            case '%=':
+            case 'equal-i':
 
-            return this._lang.eq(
-                this._lang.lowerCase(ctx.vName),
-                this._lang.literal(rule.slice(offset).toLowerCase())
-            );
+                return this._lang.eq(
+                    this._lang.lowerCase(ctx.vName),
+                    this._lang.literal(rule.slice(offset).toLowerCase())
+                );
 
-        case "!=":
-        case "not-equal":
+            case '!=':
+            case 'not-equal':
 
-            return this._lang.ne(
-                ctx.vName,
-                this._lang.literal(rule.slice(offset))
-            );
+                return this._lang.ne(
+                    ctx.vName,
+                    this._lang.literal(rule.slice(offset))
+                );
 
-        case "%!":
-        case "not-equal-i":
+            case '%!':
+            case 'not-equal-i':
 
-            return this._lang.ne(
-                this._lang.lowerCase(ctx.vName),
-                this._lang.literal(rule.slice(offset).toLowerCase())
-            );
+                return this._lang.ne(
+                    this._lang.lowerCase(ctx.vName),
+                    this._lang.literal(rule.slice(offset).toLowerCase())
+                );
 
-        case "~=":
-        case "match":
+            case '~=':
+            case 'match':
 
-            return this._lang.matchRegExp(
-                ctx.vName,
-                rule.slice(offset)
-            );
+                return this._lang.matchRegExp(
+                    ctx.vName,
+                    rule.slice(offset)
+                );
 
-        case "~!":
-        case "not-match":
+            case '~!':
+            case 'not-match':
 
-            return this._lang.not(this._lang.matchRegExp(
-                ctx.vName,
-                rule.slice(offset)
-            ));
+                return this._lang.not(this._lang.matchRegExp(
+                    ctx.vName,
+                    rule.slice(offset)
+                ));
 
-        case "?=":
-        case "include":
+            case '?=':
+            case 'include':
 
-            return this._lang.instr(
-                ctx.vName,
-                this._lang.literal(rule.slice(offset))
-            );
+                return this._lang.instr(
+                    ctx.vName,
+                    this._lang.literal(rule.slice(offset))
+                );
 
-        case "?!":
-        case "not-include":
+            case '?!':
+            case 'not-include':
 
-            return this._lang.not(this._lang.instr(
-                ctx.vName,
-                this._lang.literal(rule.slice(offset))
-            ));
+                return this._lang.not(this._lang.instr(
+                    ctx.vName,
+                    this._lang.literal(rule.slice(offset))
+                ));
 
-        case "*=":
-        case "include-i":
+            case '*=':
+            case 'include-i':
 
-            return this._lang.instr(
-                this._lang.lowerCase(ctx.vName),
-                this._lang.literal(rule.slice(offset).toLowerCase())
-            );
+                return this._lang.instr(
+                    this._lang.lowerCase(ctx.vName),
+                    this._lang.literal(rule.slice(offset).toLowerCase())
+                );
 
-        case "*!":
-        case "not-include-i":
+            case '*!':
+            case 'not-include-i':
 
-            return this._lang.not(this._lang.instr(
-                this._lang.lowerCase(ctx.vName),
-                this._lang.literal(rule.slice(offset).toLowerCase())
-            ));
+                return this._lang.not(this._lang.instr(
+                    this._lang.lowerCase(ctx.vName),
+                    this._lang.literal(rule.slice(offset).toLowerCase())
+                ));
 
-        case "^=":
-        case "start-with":
+            case '^=':
+            case 'start-with':
 
-            return this._lang.startsWith(
-                ctx.vName,
-                this._lang.literal(rule.slice(offset))
-            );
+                return this._lang.startsWith(
+                    ctx.vName,
+                    this._lang.literal(rule.slice(offset))
+                );
 
-        case "start-with-i":
+            case 'start-with-i':
 
-            return this._lang.startsWith(
-                this._lang.lowerCase(ctx.vName),
-                this._lang.literal(rule.slice(offset).toLowerCase())
-            );
+                return this._lang.startsWith(
+                    this._lang.lowerCase(ctx.vName),
+                    this._lang.literal(rule.slice(offset).toLowerCase())
+                );
 
-        case "^!":
-        case "not-start-with":
+            case '^!':
+            case 'not-start-with':
 
-            return this._lang.not(this._lang.startsWith(
-                ctx.vName,
-                this._lang.literal(rule.slice(offset))
-            ));
+                return this._lang.not(this._lang.startsWith(
+                    ctx.vName,
+                    this._lang.literal(rule.slice(offset))
+                ));
 
-        case "not-start-with-i":
+            case 'not-start-with-i':
 
-            return this._lang.not(this._lang.startsWith(
-                this._lang.lowerCase(ctx.vName),
-                this._lang.literal(rule.slice(offset).toLowerCase())
-            ));
+                return this._lang.not(this._lang.startsWith(
+                    this._lang.lowerCase(ctx.vName),
+                    this._lang.literal(rule.slice(offset).toLowerCase())
+                ));
 
-        case "$=":
-        case "end-with":
+            case '$=':
+            case 'end-with':
 
-            return this._lang.endsWith(
-                ctx.vName,
-                this._lang.literal(rule.slice(offset))
-            );
+                return this._lang.endsWith(
+                    ctx.vName,
+                    this._lang.literal(rule.slice(offset))
+                );
 
-        case "end-with-i":
+            case 'end-with-i':
 
-            return this._lang.endsWith(
-                this._lang.lowerCase(ctx.vName),
-                this._lang.literal(rule.slice(offset).toLowerCase())
-            );
+                return this._lang.endsWith(
+                    this._lang.lowerCase(ctx.vName),
+                    this._lang.literal(rule.slice(offset).toLowerCase())
+                );
 
-        case "$!":
-        case "not-end-with":
+            case '$!':
+            case 'not-end-with':
 
-            return this._lang.not(this._lang.endsWith(
-                ctx.vName,
-                this._lang.literal(rule.slice(offset))
-            ));
+                return this._lang.not(this._lang.endsWith(
+                    ctx.vName,
+                    this._lang.literal(rule.slice(offset))
+                ));
 
-        case "not-end-with-i":
+            case 'not-end-with-i':
 
-            return this._lang.not(this._lang.endsWith(
-                this._lang.lowerCase(ctx.vName),
-                this._lang.literal(rule.slice(offset).toLowerCase())
-            ));
+                return this._lang.not(this._lang.endsWith(
+                    this._lang.lowerCase(ctx.vName),
+                    this._lang.literal(rule.slice(offset).toLowerCase())
+                ));
 
-        default:
+            default:
 
-            if (rule.startsWith("=")) {
+                if (rule.startsWith('=')) {
 
-                return this._lang.eq(ctx.vName, this._lang.literal(rule.slice(1)));
-            }
+                    return this._lang.eq(ctx.vName, this._lang.literal(rule.slice(1)));
+                }
 
-            if (rule.startsWith("~")) {
+                if (rule.startsWith('~')) {
 
-                return this._lang.matchRegExp(ctx.vName, rule.slice(1));
-            }
+                    return this._lang.matchRegExp(ctx.vName, rule.slice(1));
+                }
         }
 
         return false;
@@ -483,14 +485,14 @@ implements C.ICompiler {
 
         if (!rules.length) {
 
-            throw new TypeError(`Unknwon type "[]".`);
+            throw new TypeError('Unknwon type "[]".');
         }
 
         /**
          * By default, use OR modifier.
          */
         if (
-            typeof rules[0] !== "string" ||
+            typeof rules[0] !== 'string' ||
             !rules[0].startsWith(I.MODIFIER_PREFIX)
         ) {
 
@@ -791,18 +793,18 @@ implements C.ICompiler {
                 break;
             }
 
-            if (typeof type === "string" && type.startsWith("...")) {
+            if (typeof type === 'string' && type.startsWith('...')) {
 
                 throw new TypeError(`Invalid syntax for tuple: ${JSON.stringify(rules)}`);
             }
 
-            if (typeof types[0] === "string" && types[0].startsWith("...")) {
+            if (typeof types[0] === 'string' && types[0].startsWith('...')) {
 
                 ctx.trap();
 
                 dots = types.shift();
 
-                if (dots === "...") {
+                if (dots === '...') {
 
                     /**
                      * No more elements because "..." means all rest elements.
@@ -814,7 +816,7 @@ implements C.ICompiler {
 
                     ctx.vName = this._lang.arraySlice(ctx.vName, i);
 
-                    if (type !== "any") {
+                    if (type !== 'any') {
 
                         result.push(this._compileModifierLIST(
                             ctx, type
@@ -880,7 +882,7 @@ implements C.ICompiler {
 
     private _validateTypeName(name: unknown): void {
 
-        if (typeof name !== "string" || !/^\w+$/.test(name)) {
+        if (typeof name !== 'string' || !/^\w+$/.test(name)) {
 
             throw new TypeError(`Invalid name ${
                 JSON.stringify(name)
@@ -999,7 +1001,7 @@ implements C.ICompiler {
 
         for (let key of rules[0]) {
 
-            if (typeof key !== "string") {
+            if (typeof key !== 'string') {
 
                 throw new SyntaxError(`Invalid key ${JSON.stringify(key)} for dict.`);
             }
@@ -1059,7 +1061,7 @@ implements C.ICompiler {
             }
             else {
 
-                const matchResult = k.match(I.KEY_ARRAY_SUFFIX);
+                const matchResult = I.KEY_ARRAY_SUFFIX.exec(k);
 
                 if (matchResult) {
 
@@ -1132,7 +1134,7 @@ implements C.ICompiler {
 
         if (mapSymbol.length > 1) {
 
-            throw new SyntaxError("Only one '$.map' is allowed as rest-mapping.");
+            throw new SyntaxError('Only one \'$.map\' is allowed as rest-mapping.');
         }
         else if (mapSymbol.length === 0) {
 
@@ -1193,7 +1195,7 @@ implements C.ICompiler {
             }
             else {
 
-                const matchResult = k.match(I.KEY_ARRAY_SUFFIX);
+                const matchResult = I.KEY_ARRAY_SUFFIX.exec(k);
 
                 if (matchResult) {
 
@@ -1291,7 +1293,7 @@ implements C.ICompiler {
 
         return Array.isArray(rule) && (
             rule[0] === M.OR ||
-            typeof rule[0] !== "string" ||
+            typeof rule[0] !== 'string' ||
             !rule[0].startsWith(I.MODIFIER_PREFIX)
         );
     }

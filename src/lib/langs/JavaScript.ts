@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 Angus.Fenying <fenying@litert.org>
+ * Copyright 2020 Angus.Fenying <fenying@litert.org>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-import * as C from "../Common";
+import * as C from '../Common';
 
 class JavaScriptLanguage
 implements C.ILanguageBuilder {
 
     public switchCase(expr: string, cases: string[]): string {
 
-        return `switch (${expr}) { ${cases.join("")} }`;
+        return `switch (${expr}) { ${cases.join('')} }`;
     }
 
     public caseIf(cond: string[], expr: string): string {
 
-        return `${cond.map((x) => `case ${x}:`).join(" ")} { ${expr} break; }`;
+        return `${cond.map((x) => `case ${x}:`).join(' ')} { ${expr} break; }`;
     }
 
     public caseDefault(expr: string): string {
@@ -61,7 +61,7 @@ implements C.ILanguageBuilder {
 
     public call(fnName: string, ...args: string[]): string {
 
-        return `${fnName}(${args.join(",")})`;
+        return `${fnName}(${args.join(',')})`;
     }
 
     public startsWith(
@@ -105,19 +105,19 @@ implements C.ILanguageBuilder {
             return conditions[0];
         }
 
-        if (conditions.includes("true")) {
+        if (conditions.includes('true')) {
 
-            return "true";
+            return 'true';
         }
 
-        conditions = this._dereplicate(conditions.filter((x) => x === "false"));
+        conditions = this._dereplicate(conditions.filter((x) => x !== 'false'));
 
         if (!conditions.length) {
 
-            return "true";
+            return 'true';
         }
 
-        return `${conditions.map((x) => `(${x})`).join(" || ")}`;
+        return `${conditions.map((x) => `(${x})`).join(' || ')}`;
     }
 
     public and(conditions: string[]): string {
@@ -127,19 +127,19 @@ implements C.ILanguageBuilder {
             return conditions[0];
         }
 
-        if (conditions.includes("false")) {
+        if (conditions.includes('false')) {
 
-            return "false";
+            return 'false';
         }
 
-        conditions = this._dereplicate(conditions.filter((x) => x === "true"));
+        conditions = this._dereplicate(conditions.filter((x) => x !== 'true'));
 
         if (!conditions.length) {
 
-            return "true";
+            return 'true';
         }
 
-        return `${conditions.map((x) => `(${x})`).join(" && ")}`;
+        return `${conditions.map((x) => `(${x})`).join(' && ')}`;
     }
 
     public eq(a: string, b: string | number): string {
@@ -192,11 +192,11 @@ implements C.ILanguageBuilder {
         regExp: string
     ): string {
 
-        let m = regExp.match(/^\/(.+)\/([a-z]*)$/i);
+        let m = /^\/(.+)\/([a-z]*)$/i.exec(regExp);
 
         if (m) {
 
-            return `/${m[1]}/${m[2] || ""}.test(${expr})`;
+            return `/${m[1]}/${m[2] || ''}.test(${expr})`;
         }
 
         return `/${regExp}/.test(${expr})`;
@@ -214,12 +214,12 @@ implements C.ILanguageBuilder {
 
     private _equal(positive: boolean = true): string {
 
-        return positive ? "===" : "!==";
+        return positive ? '===' : '!==';
     }
 
     private _not(positive: boolean = true): string {
 
-        return positive ? "" : "!";
+        return positive ? '' : '!';
     }
 
     public isString(vn: string, positive: boolean = true): string {
@@ -252,13 +252,13 @@ implements C.ILanguageBuilder {
             this.isNumber(vn, true),
             this.and([
                 this.isString(vn, true),
-                this.matchRegExp(vn, "^[+-]?\\d+(\\.\\d+)?$")
+                this.matchRegExp(vn, '^[+-]?\\d+(\\.\\d+)?$')
             ])
         ]) : this.and([
             this.isNumber(vn, false),
             this.or([
                 this.isString(vn, false),
-                this.not(this.matchRegExp(vn, "^[+-]?\\d+(\\.\\d+)?$"))
+                this.not(this.matchRegExp(vn, '^[+-]?\\d+(\\.\\d+)?$'))
             ])
         ]);
     }
@@ -301,7 +301,7 @@ implements C.ILanguageBuilder {
 
     public series(statements: string[]): string {
 
-        return statements.map((s) => s.endsWith(";") ? s : `${s};`).join("");
+        return statements.map((s) => s.endsWith(';') ? s : `${s};`).join('');
     }
 
     public ifThen(
@@ -379,22 +379,22 @@ implements C.ILanguageBuilder {
 
     public get literalFalse(): string {
 
-        return `false`;
+        return 'false';
     }
 
     public get literalTrue(): string {
 
-        return `true`;
+        return 'true';
     }
 
     public get maxSafeInteger(): string {
 
-        return "0X1FFFFFFFFFFFFF";
+        return '0X1FFFFFFFFFFFFF';
     }
 
     public get minSafeInteger(): string {
 
-        return "-0X1FFFFFFFFFFFFF";
+        return '-0X1FFFFFFFFFFFFF';
     }
 
     public isTrueValue(vn: string): string {
@@ -418,10 +418,10 @@ implements C.ILanguageBuilder {
         body: string
     ): string {
 
-        return `(function(${params.join(", ")}) {
+        return `(function(${params.join(', ')}) {
             ${body}
         })(${
-            args.join(", ")
+            args.join(', ')
         })`;
     }
 }

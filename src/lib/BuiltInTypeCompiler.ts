@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 Angus.Fenying <fenying@litert.org>
+ * Copyright 2020 Angus.Fenying <fenying@litert.org>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-import * as C from "./Common";
-import * as I from "./Internal";
-import * as B from "./BuiltInTypes";
+import * as C from './Common';
+import * as I from './Internal';
+import * as B from './BuiltInTypes';
 
 interface ITypeInfo {
 
@@ -31,214 +31,214 @@ interface ITypeInfo {
 
 const BUILT_IN_TYPES: Record<string, ITypeInfo> = {
     [B.STRING]: {
-        "kind": "string",
-        "string": true,
-        "constructed": false,
-        "elemental": true
+        'kind': 'string',
+        'string': true,
+        'constructed': false,
+        'elemental': true
     },
     [B.ASCII_STRING]: {
-        "kind": "string",
-        "string": true,
-        "constructed": false,
-        "elemental": true
+        'kind': 'string',
+        'string': true,
+        'constructed': false,
+        'elemental': true
     },
     [B.HEX_STRING]: {
-        "kind": "string",
-        "string": true,
-        "constructed": false,
-        "elemental": true
+        'kind': 'string',
+        'string': true,
+        'constructed': false,
+        'elemental': true
     },
     [B.LATIN_STRING]: {
-        "kind": "string",
-        "string": true,
-        "constructed": false,
-        "elemental": true
+        'kind': 'string',
+        'string': true,
+        'constructed': false,
+        'elemental': true
     },
     [B.NUMERIC]: {
-        "kind": "number",
-        "string": true,
-        "constructed": false,
-        "elemental": true
+        'kind': 'number',
+        'string': true,
+        'constructed': false,
+        'elemental': true
     },
     [B.SAFE_INT]: {
-        "kind": "number",
-        "string": false,
-        "constructed": false,
-        "elemental": true
+        'kind': 'number',
+        'string': false,
+        'constructed': false,
+        'elemental': true
     },
     [B.INT]: {
-        "kind": "number",
-        "string": false,
-        "constructed": false,
-        "elemental": true
+        'kind': 'number',
+        'string': false,
+        'constructed': false,
+        'elemental': true
     },
     [B.INT8]: {
-        "kind": "number",
-        "string": false,
-        "constructed": false,
-        "elemental": true
+        'kind': 'number',
+        'string': false,
+        'constructed': false,
+        'elemental': true
     },
     [B.INT16]: {
-        "kind": "number",
-        "string": false,
-        "constructed": false,
-        "elemental": true
+        'kind': 'number',
+        'string': false,
+        'constructed': false,
+        'elemental': true
     },
     [B.INT32]: {
-        "kind": "number",
-        "string": false,
-        "constructed": false,
-        "elemental": true
+        'kind': 'number',
+        'string': false,
+        'constructed': false,
+        'elemental': true
     },
     [B.INT64]: {
-        "kind": "number",
-        "string": false,
-        "constructed": false,
-        "elemental": true
+        'kind': 'number',
+        'string': false,
+        'constructed': false,
+        'elemental': true
     },
     [B.SAFE_UINT]: {
-        "kind": "number",
-        "string": false,
-        "constructed": false,
-        "elemental": true
+        'kind': 'number',
+        'string': false,
+        'constructed': false,
+        'elemental': true
     },
     [B.UINT]: {
-        "kind": "number",
-        "string": false,
-        "constructed": false,
-        "elemental": true
+        'kind': 'number',
+        'string': false,
+        'constructed': false,
+        'elemental': true
     },
     [B.UINT8]: {
-        "kind": "number",
-        "string": false,
-        "constructed": false,
-        "elemental": true
+        'kind': 'number',
+        'string': false,
+        'constructed': false,
+        'elemental': true
     },
     [B.UINT16]: {
-        "kind": "number",
-        "string": false,
-        "constructed": false,
-        "elemental": true
+        'kind': 'number',
+        'string': false,
+        'constructed': false,
+        'elemental': true
     },
     [B.UINT32]: {
-        "kind": "number",
-        "string": false,
-        "constructed": false,
-        "elemental": true
+        'kind': 'number',
+        'string': false,
+        'constructed': false,
+        'elemental': true
     },
     [B.UINT64]: {
-        "kind": "number",
-        "string": false,
-        "constructed": false,
-        "elemental": true
+        'kind': 'number',
+        'string': false,
+        'constructed': false,
+        'elemental': true
     },
     [B.BOOLEAN]: {
-        "kind": "boolean",
-        "string": false,
-        "constructed": false,
-        "elemental": true
+        'kind': 'boolean',
+        'string': false,
+        'constructed': false,
+        'elemental': true
     },
     [B.ARRAY]: {
-        "kind": "array",
-        "string": false,
-        "constructed": true,
-        "elemental": false
+        'kind': 'array',
+        'string': false,
+        'constructed': true,
+        'elemental': false
     },
     [B.ANY]: {
-        "kind": "unknown",
-        "string": false,
-        "constructed": false,
-        "elemental": false
+        'kind': 'unknown',
+        'string': false,
+        'constructed': false,
+        'elemental': false
     },
     [B.STRUCT]: {
-        "kind": "struct",
-        "string": false,
-        "constructed": true,
-        "elemental": false
+        'kind': 'struct',
+        'string': false,
+        'constructed': true,
+        'elemental': false
     },
     [B.NULL]: {
-        "kind": "null",
-        "string": false,
-        "constructed": false,
-        "elemental": false
+        'kind': 'null',
+        'string': false,
+        'constructed': false,
+        'elemental': false
     },
     [B.UNDEFINED]: {
-        "kind": "void",
-        "string": false,
-        "constructed": false,
-        "elemental": false
+        'kind': 'void',
+        'string': false,
+        'constructed': false,
+        'elemental': false
     },
     [B.VOID]: {
-        "kind": "void",
-        "string": false,
-        "constructed": false,
-        "elemental": false
+        'kind': 'void',
+        'string': false,
+        'constructed': false,
+        'elemental': false
     },
     [B.FALSE]: {
-        "kind": "boolean",
-        "string": false,
-        "constructed": false,
-        "elemental": true
+        'kind': 'boolean',
+        'string': false,
+        'constructed': false,
+        'elemental': true
     },
     [B.TRUE]: {
-        "kind": "boolean",
-        "string": false,
-        "constructed": false,
-        "elemental": true
+        'kind': 'boolean',
+        'string': false,
+        'constructed': false,
+        'elemental': true
     },
     [B.FALSE_VALUE]: {
-        "kind": "unknown",
-        "string": false,
-        "constructed": false,
-        "elemental": false
+        'kind': 'unknown',
+        'string': false,
+        'constructed': false,
+        'elemental': false
     },
     [B.TRUE_VALUE]: {
-        "kind": "unknown",
-        "string": false,
-        "constructed": false,
-        "elemental": false
+        'kind': 'unknown',
+        'string': false,
+        'constructed': false,
+        'elemental': false
     },
     [B.OPTIONAL]: {
-        "kind": "void",
-        "string": false,
-        "constructed": false,
-        "elemental": false
+        'kind': 'void',
+        'string': false,
+        'constructed': false,
+        'elemental': false
     },
     [B.REQUIRED]: {
-        "kind": "unknown",
-        "string": false,
-        "constructed": false,
-        "elemental": false
+        'kind': 'unknown',
+        'string': false,
+        'constructed': false,
+        'elemental': false
     },
     [B.DECIMAL]: {
-        "kind": "number",
-        "string": true,
-        "constructed": false,
-        "elemental": true
+        'kind': 'number',
+        'string': true,
+        'constructed': false,
+        'elemental': true
     },
     [B.NUMBER]: {
-        "kind": "number",
-        "string": false,
-        "constructed": false,
-        "elemental": true
+        'kind': 'number',
+        'string': false,
+        'constructed': false,
+        'elemental': true
     },
     [B.FLOAT]: {
-        "kind": "number",
-        "string": false,
-        "constructed": false,
-        "elemental": true
+        'kind': 'number',
+        'string': false,
+        'constructed': false,
+        'elemental': true
     },
     [B.UDECIMAL]: {
-        "kind": "number",
-        "string": true,
-        "constructed": false,
-        "elemental": true
+        'kind': 'number',
+        'string': true,
+        'constructed': false,
+        'elemental': true
     },
     [B.UFLOAT]: {
-        "kind": "number",
-        "string": false,
-        "constructed": false,
-        "elemental": true
+        'kind': 'number',
+        'string': false,
+        'constructed': false,
+        'elemental': true
     }
 };
 
@@ -273,10 +273,10 @@ implements I.IBuiltInTypeCompiler {
 
         const fromString = !!(ctx.flags[I.EFlags.FROM_STRING] &&
                             this.isBuiltInType(type) && (
-                                BUILT_IN_TYPES[type].kind === "number" ||
-                                BUILT_IN_TYPES[type].kind === "boolean" ||
-                                BUILT_IN_TYPES[type].kind === "null"
-                            ));
+            BUILT_IN_TYPES[type].kind === 'number' ||
+                                BUILT_IN_TYPES[type].kind === 'boolean' ||
+                                BUILT_IN_TYPES[type].kind === 'null'
+        ));
 
         switch (type) {
 
@@ -288,7 +288,7 @@ implements I.IBuiltInTypeCompiler {
                         this._lang.isNull(ctx.vName, true),
                         this._lang.eq(
                             ctx.vName,
-                            this._lang.literal("null")
+                            this._lang.literal('null')
                         )
                     ]);
                 }
@@ -312,7 +312,7 @@ implements I.IBuiltInTypeCompiler {
                 return this._isString(
                     ctx,
                     args,
-                    "[\\u0000-\\u007F]"
+                    '[\\u0000-\\u007F]'
                 );
             }
             case B.LATIN_STRING: {
@@ -320,12 +320,12 @@ implements I.IBuiltInTypeCompiler {
                 return this._isString(
                     ctx,
                     args,
-                    "[\\u0000-\\u024F\\u2C60-\\u2C7F]"
+                    '[\\u0000-\\u024F\\u2C60-\\u2C7F]'
                 );
             }
             case B.HEX_STRING: {
 
-                return this._isString(ctx, args, "[0-9A-Fa-f]");
+                return this._isString(ctx, args, '[0-9A-Fa-f]');
             }
             case B.UFLOAT: {
 
@@ -469,7 +469,7 @@ implements I.IBuiltInTypeCompiler {
                 if (ctx.flags[I.EFlags.REQUIRED]) {
 
                     throw new Error(
-                        `Conflicted: Can not use "optional" with "required" type.`
+                        'Conflicted: Can not use "optional" with "required" type.'
                     );
                 }
 
@@ -487,7 +487,7 @@ implements I.IBuiltInTypeCompiler {
                 if (ctx.flags[I.EFlags.OPTIONAL]) {
 
                     throw new Error(
-                        `Conflicted: Can not use "required" with "optional" type.`
+                        'Conflicted: Can not use "required" with "optional" type.'
                     );
                 }
 
@@ -530,10 +530,10 @@ implements I.IBuiltInTypeCompiler {
 
         if (params[0] <= 0) {
 
-            throw new RangeError(`Arg 0 can not be zero for decimal.`);
+            throw new RangeError('Arg 0 can not be zero for decimal.');
         }
 
-        const sign = unsigned ? "" : "[-+]?";
+        const sign = unsigned ? '' : '[-+]?';
         switch (params.length) {
 
             default:
@@ -557,7 +557,7 @@ implements I.IBuiltInTypeCompiler {
                         `^${sign}([1-9]\\d*|0)(\\.\\d+)?$`
                     ),
                     this._lang.ifElseOp(
-                        this._lang.instr(ctx.vName, this._lang.literal(".")),
+                        this._lang.instr(ctx.vName, this._lang.literal('.')),
                         this._lang.lte(
                             this._lang.stringLength(ctx.vName),
                             params[0] + 1
@@ -574,7 +574,7 @@ implements I.IBuiltInTypeCompiler {
 
                 if (params[0] < params[1]) {
 
-                    throw new RangeError(`Arg 0 should not be larger than arg 1 for decimal.`);
+                    throw new RangeError('Arg 0 should not be larger than arg 1 for decimal.');
                 }
 
                 if (params[1] === 0) {
@@ -654,7 +654,7 @@ implements I.IBuiltInTypeCompiler {
                     if (params[0] > params[1]) {
 
                         throw new RangeError(
-                            `Arg 0 should not be larger than arg 1 for array.`
+                            'Arg 0 should not be larger than arg 1 for array.'
                         );
                     }
 
@@ -691,7 +691,7 @@ implements I.IBuiltInTypeCompiler {
                         this._lang.isString(ctx.vName, true),
                         this._lang.matchRegExp(
                             ctx.vName,
-                            "^[-+]?\\d+(\\.\\d+)?$"
+                            '^[-+]?\\d+(\\.\\d+)?$'
                         )
                     ]));
                 }
@@ -720,7 +720,7 @@ implements I.IBuiltInTypeCompiler {
 
                     if (params[0] > params[1]) {
 
-                        throw new RangeError(`Arg 0 should not be larger than arg 1 for number.`);
+                        throw new RangeError('Arg 0 should not be larger than arg 1 for number.');
                     }
 
                     result.push(this._lang.lte(
@@ -732,7 +732,7 @@ implements I.IBuiltInTypeCompiler {
                 if (result.length === 1) {
 
                     throw new SyntaxError(
-                        `Invalid syntax of integer.`
+                        'Invalid syntax of integer.'
                     );
                 }
 
@@ -747,7 +747,7 @@ implements I.IBuiltInTypeCompiler {
                                 this._lang.isString(ctx.vName, true),
                                 this._lang.matchRegExp(
                                     ctx.vName,
-                                    "^[-+]?\\d+(\\.\\d+)?$"
+                                    '^[-+]?\\d+(\\.\\d+)?$'
                                 )
                             ])
                         ]),
@@ -783,7 +783,7 @@ implements I.IBuiltInTypeCompiler {
 
     private _checkValidInteger(v: number | string, msg: string): boolean {
 
-        if (typeof v === "string") {
+        if (typeof v === 'string') {
 
             v = parseFloat(v);
         }
@@ -836,7 +836,7 @@ implements I.IBuiltInTypeCompiler {
                         this._lang.isString(ctx.vName, true),
                         this._lang.matchRegExp(
                             ctx.vName,
-                            "^[-+]?\\d+$"
+                            '^[-+]?\\d+$'
                         )
                     ]));
                 }
@@ -872,7 +872,7 @@ implements I.IBuiltInTypeCompiler {
                     if (params[0] > params[1]) {
 
                         throw new RangeError(
-                            `Arg 0 should not be larger than arg 1 for number.`
+                            'Arg 0 should not be larger than arg 1 for number.'
                         );
                     }
 
@@ -885,7 +885,7 @@ implements I.IBuiltInTypeCompiler {
                 if (result.length === 1) {
 
                     throw new SyntaxError(
-                        `Invalid syntax of integer.`
+                        'Invalid syntax of integer.'
                     );
                 }
 
@@ -900,7 +900,7 @@ implements I.IBuiltInTypeCompiler {
                                 this._lang.isString(ctx.vName, true),
                                 this._lang.matchRegExp(
                                     ctx.vName,
-                                    "^[-+]?\\d+$"
+                                    '^[-+]?\\d+$'
                                 )
                             ])
                         ]),
@@ -980,7 +980,7 @@ implements I.IBuiltInTypeCompiler {
                         if (params[0] > params[1]) {
 
                             throw new RangeError(
-                                `Arg 0 should not be larger than arg 1 for string.`
+                                'Arg 0 should not be larger than arg 1 for string.'
                             );
                         }
 
@@ -1007,7 +1007,7 @@ implements I.IBuiltInTypeCompiler {
                         if (params[0] > params[1]) {
 
                             throw new RangeError(
-                                `Arg 0 should not be larger than arg 1 for string.`
+                                'Arg 0 should not be larger than arg 1 for string.'
                             );
                         }
 

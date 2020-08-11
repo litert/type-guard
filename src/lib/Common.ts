@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Angus.Fenying <fenying@litert.org>
+ * Copyright 2020 Angus.Fenying <fenying@litert.org>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,12 +21,12 @@ export interface ICompileOutputArgument {
     /**
      * The name of argument.
      */
-    "name": string;
+    'name': string;
 
     /**
      * The type of argument.
      */
-    "type": string;
+    'type': string;
 }
 
 export interface ICompileResult {
@@ -34,22 +34,22 @@ export interface ICompileResult {
     /**
      * The arguments of checker.
      */
-    "arguments": ICompileOutputArgument[];
+    'arguments': ICompileOutputArgument[];
 
     /**
      * The variable name of pre-defined type checkers.
      */
-    "typeSlotName": string;
+    'typeSlotName': string;
 
     /**
      * The source code of checker.
      */
-    "source": string;
+    'source': string;
 
     /**
      * The predefined types used by this type.
      */
-    "referredTypes": string[];
+    'referredTypes': string[];
 }
 
 export interface ICompileOptions {
@@ -57,12 +57,12 @@ export interface ICompileOptions {
     /**
      * The rules to be compiled.
      */
-    "rule": any;
+    'rule': any;
 
     /**
      * Give this type a name, so it could be used as a pre-defined type.
      */
-    "name"?: string;
+    'name'?: string;
 }
 
 export interface ILanguageBuilder {

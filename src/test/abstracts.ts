@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 Angus.Fenying <fenying@litert.org>
+ * Copyright 2020 Angus.Fenying <fenying@litert.org>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import * as assert from "assert";
-import * as TypeGuard from "../lib";
+import * as assert from 'assert';
+import * as TypeGuard from '../lib';
 
 export interface ITestItem {
 
@@ -23,7 +23,7 @@ export interface ITestItem {
 
     inputValue: any;
 
-    expect: boolean | "throw";
+    expect: boolean | 'throw';
 }
 
 export interface ITestRule {
@@ -49,61 +49,61 @@ export function defaultItemss(
 
     return [
         {
-            "inputName": "true",
-            "inputValue": true,
-            "expect": items["true"] === undefined ? defaultValue : items["true"]
+            'inputName': 'true',
+            'inputValue': true,
+            'expect': items['true'] === undefined ? defaultValue : items['true']
         },
         {
-            "inputName": "false",
-            "inputValue": false,
-            "expect": items["false"] === undefined ? defaultValue : items["false"]
+            'inputName': 'false',
+            'inputValue': false,
+            'expect': items['false'] === undefined ? defaultValue : items['false']
         },
         {
-            "inputName": "undefined",
-            "inputValue": undefined,
-            "expect": items["undefined"] === undefined ? defaultValue : items["undefined"]
+            'inputName': 'undefined',
+            'inputValue': undefined,
+            'expect': items['undefined'] === undefined ? defaultValue : items['undefined']
         },
         {
-            "inputName": "null",
-            "inputValue": null,
-            "expect": items["null"] === undefined ? defaultValue : items["null"]
+            'inputName': 'null',
+            'inputValue': null,
+            'expect': items['null'] === undefined ? defaultValue : items['null']
         },
         {
-            "inputName": "empty array",
-            "inputValue": [],
-            "expect": items["empty array"] === undefined ? defaultValue : items["empty array"]
+            'inputName': 'empty array',
+            'inputValue': [],
+            'expect': items['empty array'] === undefined ? defaultValue : items['empty array']
         },
         {
-            "inputName": "string 'hello'",
-            "inputValue": "hello",
-            "expect": items["string 'hello'"] === undefined ? defaultValue : items["string 'hello'"]
+            'inputName': 'string \'hello\'',
+            'inputValue': 'hello',
+            'expect': items['string \'hello\''] === undefined ? defaultValue : items['string \'hello\'']
         },
         {
-            "inputName": "empty string",
-            "inputValue": "",
-            "expect": items["empty string"] === undefined ? defaultValue : items["empty string"]
+            'inputName': 'empty string',
+            'inputValue': '',
+            'expect': items['empty string'] === undefined ? defaultValue : items['empty string']
         },
         {
-            "inputName": "object",
-            "inputValue": {},
-            "expect": items["object"] === undefined ? defaultValue : items["object"]
+            'inputName': 'object',
+            'inputValue': {},
+            'expect': items['object'] === undefined ? defaultValue : items['object']
         },
         {
-            "inputName": "number 0",
-            "inputValue": 0,
-            "expect": items["number 0"] === undefined ? defaultValue : items["number 0"]
+            'inputName': 'number 0',
+            'inputValue': 0,
+            'expect': items['number 0'] === undefined ? defaultValue : items['number 0']
         },
         {
-            "inputName": "number 1",
-            "inputValue": 1,
-            "expect": items["number 1"] === undefined ? defaultValue : items["number 1"]
+            'inputName': 'number 1',
+            'inputValue': 1,
+            'expect': items['number 1'] === undefined ? defaultValue : items['number 1']
         }
     ];
 }
 
 const compiler = TypeGuard.createInlineCompiler();
 
-export function assertItem(input: any, expect: boolean | "throw"): ITestItem {
+export function assertItem(input: unknown, expect: boolean | 'throw'): ITestItem {
 
     return {
         inputName: JSON.stringify(input),
@@ -112,7 +112,7 @@ export function assertItem(input: any, expect: boolean | "throw"): ITestItem {
     };
 }
 
-export function addRule(rule: any, items: ITestItem[]): ITestRule {
+export function addRule(rule: unknown, items: ITestItem[]): ITestRule {
 
     return {
         name: JSON.stringify(rule),
@@ -133,15 +133,15 @@ export function createTestDefinition(suite: ITestSuite) {
 
                     if (
                         section.items.length === 1 &&
-                        section.items[0].expect === "throw"
+                        section.items[0].expect === 'throw'
                     ) {
 
-                        it(`Throws exception.`, function() {
+                        it('Throws exception.', function() {
 
                             assert.throws(() => {
 
                                 compiler.compile<any>({
-                                    "rule": section.rule
+                                    'rule': section.rule
                                 });
                             });
                         });
@@ -149,13 +149,13 @@ export function createTestDefinition(suite: ITestSuite) {
                     }
 
                     const check = compiler.compile<any>({
-                        "rule": section.rule
+                        'rule': section.rule
                     });
 
                     for (let item of section.items.sort((a, b) => a.expect === b.expect ? 0 : (a.expect ? -1 : 1))) {
 
                         it(`${
-                            item.expect ? "PASSED" : "REJECTED"
+                            item.expect ? 'PASSED' : 'REJECTED'
                         } when input ${
                             item.inputName
                         }.`, function() {

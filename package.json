@@ -1,6 +1,6 @@
 {
   "name": "@litert/typeguard",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "An easy and powerful data validation code generator by JavaScript.",
   "main": "lib/index.js",
   "scripts": {
@@ -12,8 +12,9 @@
     "build-all": "npm run build & npm run build-amd & npm run build-systemjs",
     "rebuild": "npm run clean && npm run lint && npm run build-all",
     "test": "mocha",
-    "clean": "rm -rf lib samples test dist",
-    "lint": "tslint -p . -c tslint.json"
+    "clean": "rm -rf lib examples test dist",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint": "eslint --ext ts src"
   },
   "keywords": [
     "litert",
@@ -36,10 +37,22 @@
   "types": "lib/index.d.ts",
   "typings": "lib/index.d.ts",
   "devDependencies": {
-    "@types/mocha": "^5.2.6",
-    "@types/node": "^11.12.0",
-    "mocha": "^6.0.2",
-    "typescript": "^3.4.1"
+    "@commitlint/cli": "^9.1.1",
+    "@commitlint/config-conventional": "^9.1.1",
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^11.15.20",
+    "@typescript-eslint/eslint-plugin": "^3.9.0",
+    "@typescript-eslint/parser": "^3.9.0",
+    "eslint": "^7.6.0",
+    "husky": "^4.2.5",
+    "mocha": "^6.2.3",
+    "typescript": "^3.9.7"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-commit": "npm run lint && npm run typecheck"
+    }
   },
   "engines": {
     "node": ">=8.0.0"

@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 Angus.Fenying <fenying@litert.org>
+ * Copyright 2020 Angus.Fenying <fenying@litert.org>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import * as i from "./Internal";
+import * as i from './Internal';
 
 export class Context implements i.IContext {
 
@@ -80,7 +80,7 @@ export class Context implements i.IContext {
 
         if (!prev) {
 
-            throw new Error("Failed to pop stack.");
+            throw new Error('Failed to pop stack.');
         }
 
         this.vName = prev.vName;

@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 Angus.Fenying <fenying@litert.org>
+ * Copyright 2020 Angus.Fenying <fenying@litert.org>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,94 +14,94 @@
  * limitations under the License.
  */
 
-import { createTestDefinition, defaultItemss, ITestSuite } from "./abstracts";
+import { createTestDefinition, defaultItemss, ITestSuite } from './abstracts';
 
 const testItems: ITestSuite = {
 
-    name: "Modifiers",
+    name: 'Modifiers',
     sections: [
 
         {
-            "name": "$.string",
-            "rule": ["$.string", "uint32", {"a": "uint32"}],
-            "items": [
+            'name': '$.string',
+            'rule': ['$.string', 'uint32', {'a': 'uint32'}],
+            'items': [
                 {
-                    inputName: JSON.stringify("123"),
-                    inputValue: "123",
+                    inputName: JSON.stringify('123'),
+                    inputValue: '123',
                     expect: true
                 },
                 {
-                    inputName: JSON.stringify({"a": 123}),
-                    inputValue: {"a": 123},
+                    inputName: JSON.stringify({'a': 123}),
+                    inputValue: {'a': 123},
                     expect: true
                 },
                 {
-                    inputName: JSON.stringify({"a": 123}),
-                    inputValue: {"a": 123},
+                    inputName: JSON.stringify({'a': 123}),
+                    inputValue: {'a': 123},
                     expect: true
                 },
                 ...defaultItemss({
-                    "number 1": true,
-                    "number 0": true
+                    'number 1': true,
+                    'number 0': true
                 })
             ]
         },
         {
-            "name": "$.string standalone",
-            "rule": ["$.and", ["$.string", "uint32"], "uint32"],
-            "items": [
+            'name': '$.string standalone',
+            'rule': ['$.and', ['$.string', 'uint32'], 'uint32'],
+            'items': [
                 {
-                    inputName: JSON.stringify("123"),
-                    inputValue: "123",
+                    inputName: JSON.stringify('123'),
+                    inputValue: '123',
                     expect: false
                 }
             ]
         },
         {
-            "name": "$.strict standalone",
-            "rule": ["$.tuple", ["$.strict", {
-                "a": "string"
+            'name': '$.strict standalone',
+            'rule': ['$.tuple', ['$.strict', {
+                'a': 'string'
             }], {
-                "a": "string"
+                'a': 'string'
             }],
-            "items": [
+            'items': [
                 {
-                    inputName: JSON.stringify([{"a": "x"}, {"a": "c", "b": "x"}]),
-                    inputValue: [{"a": "x"}, {"a": "c", "b": "x"}],
+                    inputName: JSON.stringify([{'a': 'x'}, {'a': 'c', 'b': 'x'}]),
+                    inputValue: [{'a': 'x'}, {'a': 'c', 'b': 'x'}],
                     expect: true
                 }
             ]
         },
         {
-            "name": "$.equal standalone",
-            "rule": ["$.and", ["$.equal", {
-                "a": "any"
+            'name': '$.equal standalone',
+            'rule': ['$.and', ['$.equal', {
+                'a': 'any'
             }], {
-                "a": {
-                    "b": "string"
+                'a': {
+                    'b': 'string'
                 }
             }],
-            "items": [
+            'items': [
                 {
-                    inputName: JSON.stringify({"a": {"b": "c", "d": "ccc"}}),
-                    inputValue: {"a": {"b": "c", "d": "ccc"}},
+                    inputName: JSON.stringify({'a': {'b': 'c', 'd': 'ccc'}}),
+                    inputValue: {'a': {'b': 'c', 'd': 'ccc'}},
                     expect: true
                 }
             ]
         },
         {
-            "name": "$.not with string and literal 0",
-            "rule": ["$.not", "string", 0],
-            "items": [
+            'name': '$.not with string and literal 0',
+            'rule': ['$.not', 'string', 0],
+            'items': [
                 {
-                    inputName: "string 'abc'",
-                    inputValue: "abc",
+                    inputName: 'string \'abc\'',
+                    inputValue: 'abc',
                     expect: false
                 },
                 ...defaultItemss({
-                    "string 'hello'": false,
-                    "empty string": false,
-                    "number 0": false
+                    'string \'hello\'': false,
+                    'empty string': false,
+                    'number 0': false
                 }, true)
             ]
         },

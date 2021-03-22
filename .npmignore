@@ -9,3 +9,6 @@
 /examples/
 /test/
 /.husky/
+/.eslintignore
+/.eslintrc
+/commitlint.config.js

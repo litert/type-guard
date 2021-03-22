@@ -105,6 +105,54 @@ const testItems: ITestSuite = {
                 }, true)
             ]
         },
+        {
+            'name': '$.type ',
+            'rule': {
+                'a': ['$.type', 'test:a.b-c', 'int'],
+                'b': '@test:a.b-c',
+            },
+            'items': [
+                {
+                    inputName: 'object {a: 213, b: 321}',
+                    inputValue: {
+                        'a': 213,
+                        'b': 321
+                    },
+                    expect: true
+                },
+                {
+                    inputName: 'object {a: 213, b: "321"}',
+                    inputValue: {
+                        'a': 213,
+                        'b': '321'
+                    },
+                    expect: false
+                },
+                {
+                    inputName: 'object {a: 213, b: "321"}',
+                    inputValue: {
+                        'a': 213,
+                        'b': 777
+                    },
+                    expect: true
+                },
+                ...defaultItemss({}, false)
+            ]
+        },
+        {
+            'name': '$.type with unsupported characters in type name',
+            'rule': {
+                'a': ['$.type', 'test=123', 'int'],
+                'b': '@test:a',
+            },
+            'items': [
+                {
+                    inputName: 'invalid format',
+                    inputValue: '',
+                    expect: 'throw'
+                }
+            ]
+        },
     ]
 };
 

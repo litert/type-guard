@@ -1,5 +1,10 @@
 # Changes Logs
 
+## v1.1.0
+
+- Allows characters `.:-` in predefined type names.
+- Removed the distribution of AMD/SystemJS modules.
+
 ## v1.0.2
 
 - Improved the output of `$.or` and `$.and`.

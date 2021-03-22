@@ -882,7 +882,7 @@ implements C.ICompiler {
 
     private _validateTypeName(name: unknown): void {
 
-        if (typeof name !== 'string' || !/^\w+$/.test(name)) {
+        if (typeof name !== 'string' || !/^[-:.\w]+$/.test(name)) {
 
             throw new TypeError(`Invalid name ${
                 JSON.stringify(name)

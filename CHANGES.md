@@ -1,10 +1,11 @@
 # Changes Logs
 
-## v1.1.0
+## v1.2.0
 
 - Added API `IInlineCompiler.addPredefinedType`.
+- Deprecated type `TypeChecker` with new type `ITypeChecker`.
 
-## v1.2.0
+## v1.1.0
 
 - Allows characters `.:-` in predefined type names.
 - Removed the distribution of AMD/SystemJS modules.

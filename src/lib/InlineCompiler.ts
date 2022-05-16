@@ -35,14 +35,14 @@ export interface IInlineCompiler {
      *
      * @param options The options of compilation.
      */
-    compile<T>(options: IInlineCompileOptions): C.TypeChecker<T>;
+    compile<T>(options: IInlineCompileOptions): C.ITypeChecker<T>;
 
     /**
      * Get the type-checker of a pre-defined type.
      *
      * @param name The name of the pre-defined type.
      */
-    getPredefinedType<T>(name: string): C.TypeChecker<T>;
+    getPredefinedType<T>(name: string): C.ITypeChecker<T>;
 
     /**
      * Register a pre-defined type checker.
@@ -50,7 +50,7 @@ export interface IInlineCompiler {
      * @param name      The name of the pre-defined type (without prefix `@`)
      * @param checker   The checker callback of the pre-defined type.
      */
-    addPredefinedType<T>(name: string, checker: C.TypeChecker<T>): this;
+    addPredefinedType<T>(name: string, checker: C.ITypeChecker<T>): this;
 
     /**
      * Check if a pre-defined type is compiled.
@@ -68,7 +68,7 @@ export interface IInlineCompiler {
 class InlineCompiler
 implements IInlineCompiler {
 
-    private _defTypes: Record<string, C.TypeChecker<any>>;
+    private _defTypes: Record<string, C.ITypeChecker<any>>;
 
     private _missingTypes: Record<string, boolean>;
 
@@ -87,7 +87,7 @@ implements IInlineCompiler {
         );
     }
 
-    public compile<T>(options: IInlineCompileOptions): C.TypeChecker<T> {
+    public compile<T>(options: IInlineCompileOptions): C.ITypeChecker<T> {
 
         const result = this._compiler.compile(options);
 
@@ -124,7 +124,7 @@ implements IInlineCompiler {
         }
     }
 
-    public addPredefinedType(name: string, checker: C.TypeChecker<any>): this {
+    public addPredefinedType(name: string, checker: C.ITypeChecker<any>): this {
 
         if (!I.RE_VALID_CUSTOM_TYPE_NAME.test(name)) {
 
@@ -146,7 +146,7 @@ implements IInlineCompiler {
         return !!this._defTypes[name];
     }
 
-    public getPredefinedType(name: string): C.TypeChecker<any> {
+    public getPredefinedType(name: string): C.ITypeChecker<any> {
 
         if (!this._defTypes[name]) {
 
@@ -159,7 +159,7 @@ implements IInlineCompiler {
     private _wrapCheckerCode(
         info: C.ICompileResult,
         stopOnEntry: boolean = false
-    ): C.TypeChecker<any> {
+    ): C.ITypeChecker<any> {
 
         const soe = stopOnEntry ? 'debugger;' : '';
 

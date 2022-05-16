@@ -14,7 +14,12 @@
  * limitations under the License.
  */
 
-export type TypeChecker<T> = (v: unknown) => v is T;
+export type ITypeChecker<T> = (v: unknown) => v is T;
+
+/**
+ * @deprecated Use `ITypeChecker` instead.
+ */
+export type TypeChecker<T> = ITypeChecker<T>;
 
 export interface ICompileOutputArgument {
 

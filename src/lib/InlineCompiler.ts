@@ -17,6 +17,7 @@
 import { createCompiler } from './Compiler';
 import { createJavaScriptLanguageBuilder } from './langs/JavaScript';
 import * as C from './Common';
+import * as I from './Internal';
 
 export interface IInlineCompileOptions extends C.ICompileOptions {
 
@@ -44,6 +45,14 @@ export interface IInlineCompiler {
     getPredefinedType<T>(name: string): C.TypeChecker<T>;
 
     /**
+     * Register a pre-defined type checker.
+     *
+     * @param name      The name of the pre-defined type (without prefix `@`)
+     * @param checker   The checker callback of the pre-defined type.
+     */
+    addPredefinedType<T>(name: string, checker: C.TypeChecker<T>): this;
+
+    /**
      * Check if a pre-defined type is compiled.
      *
      * @param name The name of the pre-defined type.
@@ -63,7 +72,7 @@ implements IInlineCompiler {
 
     private _missingTypes: Record<string, boolean>;
 
-    private _compiler: C.ICompiler;
+    private readonly _compiler: C.ICompiler;
 
     public constructor() {
 
@@ -92,7 +101,7 @@ implements IInlineCompiler {
         stopOnEntry?: boolean
     ): void {
 
-        for (let x of types) {
+        for (const x of types) {
 
             if (this._defTypes[x]) {
 
@@ -113,6 +122,18 @@ implements IInlineCompiler {
 
             delete this._missingTypes[x];
         }
+    }
+
+    public addPredefinedType(name: string, checker: C.TypeChecker<any>): this {
+
+        if (!I.RE_VALID_CUSTOM_TYPE_NAME.test(name)) {
+
+            throw new TypeError(`Invalid name ${ JSON.stringify(name) } for a pre-defined type.`);
+        }
+
+        this._defTypes[name] = checker;
+
+        return this;
     }
 
     public detectUndefinedTypes(): string[] {

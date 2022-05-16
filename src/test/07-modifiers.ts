@@ -23,7 +23,7 @@ const testItems: ITestSuite = {
 
         {
             'name': '$.string',
-            'rule': ['$.string', 'uint32', {'a': 'uint32'}],
+            'rule': ['$.string', 'uint32', { 'a': 'uint32' }],
             'items': [
                 {
                     inputName: JSON.stringify('123'),
@@ -31,13 +31,13 @@ const testItems: ITestSuite = {
                     expect: true
                 },
                 {
-                    inputName: JSON.stringify({'a': 123}),
-                    inputValue: {'a': 123},
+                    inputName: JSON.stringify({ 'a': 123 }),
+                    inputValue: { 'a': 123 },
                     expect: true
                 },
                 {
-                    inputName: JSON.stringify({'a': 123}),
-                    inputValue: {'a': 123},
+                    inputName: JSON.stringify({ 'a': 123 }),
+                    inputValue: { 'a': 123 },
                     expect: true
                 },
                 ...defaultItemss({
@@ -66,8 +66,8 @@ const testItems: ITestSuite = {
             }],
             'items': [
                 {
-                    inputName: JSON.stringify([{'a': 'x'}, {'a': 'c', 'b': 'x'}]),
-                    inputValue: [{'a': 'x'}, {'a': 'c', 'b': 'x'}],
+                    inputName: JSON.stringify([{ 'a': 'x' }, { 'a': 'c', 'b': 'x' }]),
+                    inputValue: [{ 'a': 'x' }, { 'a': 'c', 'b': 'x' }],
                     expect: true
                 }
             ]
@@ -83,8 +83,8 @@ const testItems: ITestSuite = {
             }],
             'items': [
                 {
-                    inputName: JSON.stringify({'a': {'b': 'c', 'd': 'ccc'}}),
-                    inputValue: {'a': {'b': 'c', 'd': 'ccc'}},
+                    inputName: JSON.stringify({ 'a': { 'b': 'c', 'd': 'ccc' } }),
+                    inputValue: { 'a': { 'b': 'c', 'd': 'ccc' } },
                     expect: true
                 }
             ]
@@ -135,6 +135,67 @@ const testItems: ITestSuite = {
                         'b': 777
                     },
                     expect: true
+                },
+                ...defaultItemss({}, false)
+            ]
+        },
+        {
+            'name': 'Pre-defined IPv4 Address Checker',
+            'rule': '@ipv4_address',
+            'items': [
+                {
+                    inputName: 'String: 1.1.1.1',
+                    inputValue: '1.1.1.1',
+                    expect: true
+                },
+                {
+                    inputName: 'String: 255.255.255.255',
+                    inputValue: '255.255.255.255',
+                    expect: true
+                },
+                {
+                    inputName: 'String: 0.0.0.0',
+                    inputValue: '0.0.0.0',
+                    expect: true
+                },
+                {
+                    inputName: 'String: 2552.1.1.1',
+                    inputValue: '2552.1.1.1',
+                    expect: false
+                },
+                {
+                    inputName: 'String: 256.1.1.1',
+                    inputValue: '256.1.1.1',
+                    expect: false
+                },
+                {
+                    inputName: 'String: .1.1.1',
+                    inputValue: '.1.1.1',
+                    expect: false
+                },
+                {
+                    inputName: 'object {a: 213, b: 321}',
+                    inputValue: {
+                        'a': 213,
+                        'b': 321
+                    },
+                    expect: false
+                },
+                {
+                    inputName: 'object {a: 213, b: "321"}',
+                    inputValue: {
+                        'a': 213,
+                        'b': '321'
+                    },
+                    expect: false
+                },
+                {
+                    inputName: 'object {a: 213, b: "321"}',
+                    inputValue: {
+                        'a': 213,
+                        'b': 777
+                    },
+                    expect: false
                 },
                 ...defaultItemss({}, false)
             ]

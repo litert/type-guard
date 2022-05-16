@@ -2,6 +2,10 @@
 
 ## v1.1.0
 
+- Added API `IInlineCompiler.addPredefinedType`.
+
+## v1.2.0
+
 - Allows characters `.:-` in predefined type names.
 - Removed the distribution of AMD/SystemJS modules.
 - Improved the output of `$.or` and `$.and`.

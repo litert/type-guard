@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-loss-of-precision */
 /**
  * Copyright 2021 Angus.Fenying <fenying@litert.org>
  *

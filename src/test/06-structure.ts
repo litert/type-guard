@@ -32,7 +32,7 @@ const testItems: ITestSuite = {
                 },
                 {
                     inputName: 'Object with one property',
-                    inputValue: {'a': 123},
+                    inputValue: { 'a': 123 },
                     expect: true
                 },
                 {
@@ -56,7 +56,7 @@ const testItems: ITestSuite = {
                 },
                 {
                     inputName: 'Object with one property',
-                    inputValue: {'a': 123},
+                    inputValue: { 'a': 123 },
                     expect: true
                 },
                 {
@@ -80,12 +80,12 @@ const testItems: ITestSuite = {
                 },
                 {
                     inputName: 'Object with one property',
-                    inputValue: {'a': 123},
+                    inputValue: { 'a': 123 },
                     expect: true
                 },
                 {
                     inputName: 'Object with one mismatch-type property',
-                    inputValue: {'a': '123'},
+                    inputValue: { 'a': '123' },
                     expect: false
                 },
                 {
@@ -109,22 +109,22 @@ const testItems: ITestSuite = {
                 },
                 {
                     inputName: 'Object with one property',
-                    inputValue: {'a': 123},
+                    inputValue: { 'a': 123 },
                     expect: false
                 },
                 {
                     inputName: 'Object with mismatch-typed nest property',
-                    inputValue: {'a': 123, 'b': { 'c': 1232131 }},
+                    inputValue: { 'a': 123, 'b': { 'c': 1232131 } },
                     expect: false
                 },
                 {
                     inputName: 'Object with one mismatch-typed property',
-                    inputValue: {'a': '123', 'b': { 'c': 'ffff'} },
+                    inputValue: { 'a': '123', 'b': { 'c': 'ffff' } },
                     expect: false
                 },
                 {
                     inputName: 'Object with all corrected',
-                    inputValue: {'a': 123, 'b': { 'c': 'ffff'} },
+                    inputValue: { 'a': 123, 'b': { 'c': 'ffff' } },
                     expect: true
                 }
             ]
@@ -142,17 +142,17 @@ const testItems: ITestSuite = {
                 },
                 {
                     inputName: 'Object with one property',
-                    inputValue: {'a': 123},
+                    inputValue: { 'a': 123 },
                     expect: true
                 },
                 {
                     inputName: 'Object with one mismatch-typed property',
-                    inputValue: {'a': '123' },
+                    inputValue: { 'a': '123' },
                     expect: false
                 },
                 {
                     inputName: 'Object with 2 properties',
-                    inputValue: {'a': 123, 'b': { 'c': 'ffff'} },
+                    inputValue: { 'a': 123, 'b': { 'c': 'ffff' } },
                     expect: false
                 }
             ]
@@ -168,22 +168,22 @@ const testItems: ITestSuite = {
             'items': [
                 {
                     inputName: 'Object with one property',
-                    inputValue: {'a': 123},
+                    inputValue: { 'a': 123 },
                     expect: false
                 },
                 {
                     inputName: 'Object with wrong type in nest',
-                    inputValue: {'a': 123, 'b': { 'c': 'ffff'} },
+                    inputValue: { 'a': 123, 'b': { 'c': 'ffff' } },
                     expect: false
                 },
                 {
                     inputName: 'Object with all correct',
-                    inputValue: {'a': 123, 'b': { 'c': 123 } },
+                    inputValue: { 'a': 123, 'b': { 'c': 123 } },
                     expect: true
                 },
                 {
                     inputName: 'Object with one more in nested',
-                    inputValue: {'a': 123, 'b': { 'c': 123, 'd': '1213131' } },
+                    inputValue: { 'a': 123, 'b': { 'c': 123, 'd': '1213131' } },
                     expect: true
                 }
             ]
@@ -199,22 +199,22 @@ const testItems: ITestSuite = {
             'items': [
                 {
                     inputName: 'Object with one property',
-                    inputValue: {'a': 123},
+                    inputValue: { 'a': 123 },
                     expect: false
                 },
                 {
                     inputName: 'Object with wrong type in nest',
-                    inputValue: {'a': 123, 'b': { 'c': 'ffff'} },
+                    inputValue: { 'a': 123, 'b': { 'c': 'ffff' } },
                     expect: false
                 },
                 {
                     inputName: 'Object with all correct',
-                    inputValue: {'a': 123, 'b': { 'c': 123 } },
+                    inputValue: { 'a': 123, 'b': { 'c': 123 } },
                     expect: true
                 },
                 {
                     inputName: 'Object with one more in nested',
-                    inputValue: {'a': 123, 'b': { 'c': 123, 'd': '1213131' } },
+                    inputValue: { 'a': 123, 'b': { 'c': 123, 'd': '1213131' } },
                     expect: false
                 }
             ]
@@ -230,17 +230,17 @@ const testItems: ITestSuite = {
             'items': [
                 {
                     inputName: 'Object with all correct',
-                    inputValue: {'a': 123, 'b': { 'c': 123 } },
+                    inputValue: { 'a': 123, 'b': { 'c': 123 } },
                     expect: true
                 },
                 {
                     inputName: 'Object with string incorrect-value',
-                    inputValue: {'a': 123, 'b': { 'c': '123d' } },
+                    inputValue: { 'a': 123, 'b': { 'c': '123d' } },
                     expect: false
                 },
                 {
                     inputName: 'Object with string value',
-                    inputValue: {'a': '123312312', 'b': { 'c': '123' } },
+                    inputValue: { 'a': '123312312', 'b': { 'c': '123' } },
                     expect: true
                 }
             ]
@@ -256,17 +256,17 @@ const testItems: ITestSuite = {
             'items': [
                 {
                     inputName: 'Object with all correct',
-                    inputValue: {'a': 123, 'b': { 'c': 123 } },
+                    inputValue: { 'a': 123, 'b': { 'c': 123 } },
                     expect: true
                 },
                 {
                     inputName: 'Object with string incorrect-value',
-                    inputValue: {'a': 123, 'b': { 'c': '123d' } },
+                    inputValue: { 'a': 123, 'b': { 'c': '123d' } },
                     expect: false
                 },
                 {
                     inputName: 'Object with string value',
-                    inputValue: {'a': '123312312', 'b': { 'c': '123' } },
+                    inputValue: { 'a': '123312312', 'b': { 'c': '123' } },
                     expect: true
                 }
             ]

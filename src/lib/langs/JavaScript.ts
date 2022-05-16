@@ -192,7 +192,7 @@ implements C.ILanguageBuilder {
         regExp: string
     ): string {
 
-        let m = /^\/(.+)\/([a-z]*)$/i.exec(regExp);
+        const m = /^\/(.+)\/([a-z]*)$/i.exec(regExp);
 
         if (m) {
 

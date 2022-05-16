@@ -103,6 +103,15 @@ export function defaultItemss(
 
 const compiler = TypeGuard.createInlineCompiler();
 
+compiler.addPredefinedType<string>(
+    'ipv4_address',
+    function(i): i is string {
+        return  typeof i === 'string'
+            && /^[0-9]{1,3}(\.[0-9]{1,3}){3}$/.test(i)
+            && i.split('.').map(x => parseInt(x, 10)).every(x => x >= 0 && x <= 255);
+    }
+);
+
 export function assertItem(input: unknown, expect: boolean | 'throw'): ITestItem {
 
     return {
@@ -127,7 +136,7 @@ export function createTestDefinition(suite: ITestSuite) {
 
         describe(suite.name, function() {
 
-            for (let section of suite.sections) {
+            for (const section of suite.sections) {
 
                 describe(section.name, function() {
 
@@ -152,7 +161,7 @@ export function createTestDefinition(suite: ITestSuite) {
                         'rule': section.rule
                     });
 
-                    for (let item of section.items.sort((a, b) => a.expect === b.expect ? 0 : (a.expect ? -1 : 1))) {
+                    for (const item of section.items.sort((a, b) => a.expect === b.expect ? 0 : (a.expect ? -1 : 1))) {
 
                         it(`${
                             item.expect ? 'PASSED' : 'REJECTED'

@@ -246,7 +246,7 @@ export class BuiltInTypeCompiler
 implements I.IBuiltInTypeCompiler {
 
     public constructor(
-        private _lang: C.ILanguageBuilder
+        private readonly _lang: C.ILanguageBuilder
     ) {}
 
     public isStringType(type: string): boolean {

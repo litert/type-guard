@@ -21,8 +21,8 @@ export class FilterCompiler
 implements I.IFilterCompiler {
 
     public constructor(
-        private _lang: C.ILanguageBuilder,
-        private _bitc: I.IBuiltInTypeCompiler
+        private readonly _lang: C.ILanguageBuilder,
+        private readonly _bitc: I.IBuiltInTypeCompiler
     ) {}
 
     public compile(rule: string, ctx: I.IContext): string {
@@ -36,7 +36,7 @@ implements I.IFilterCompiler {
             throw new TypeError('Only number is allowed as filter arguments.');
         }
 
-        let ret: string[] = [];
+        const ret: string[] = [];
 
         switch (filter[0]) {
             case 'array.length':

@@ -28,9 +28,9 @@ implements C.ICompiler {
     private _defTypes: Record<string, C.ICompileResult>;
 
     public constructor(
-        private _lang: C.ILanguageBuilder,
-        private _builtInTypes: I.IBuiltInTypeCompiler,
-        private _filters: I.IFilterCompiler
+        private readonly _lang: C.ILanguageBuilder,
+        private readonly _builtInTypes: I.IBuiltInTypeCompiler,
+        private readonly _filters: I.IFilterCompiler
     ) {
         this._defTypes = {};
     }
@@ -164,6 +164,9 @@ implements C.ICompiler {
             case 'undefined':
 
                 return this._lang.isUndefined(ctx.vName, true);
+
+            default:
+                break;
         }
 
         throw new TypeError('Unknwn rules.');
@@ -203,7 +206,7 @@ implements C.ICompiler {
 
             if (regResult[1]) {
 
-                let range = regResult[1].split(',').map((x) => parseInt(x.trim()));
+                const range = regResult[1].split(',').map((x) => parseInt(x.trim()));
 
                 if (range.length === 1) {
 
@@ -576,7 +579,7 @@ implements C.ICompiler {
 
     private _compileModifierOR(ctx: I.IContext, rules: any[]): string {
 
-        let result: string[] = [];
+        const result: string[] = [];
 
         for (const r of rules) {
 
@@ -882,7 +885,7 @@ implements C.ICompiler {
 
     private _validateTypeName(name: unknown): void {
 
-        if (typeof name !== 'string' || !/^[-:.\w]+$/.test(name)) {
+        if (typeof name !== 'string' || !I.RE_VALID_CUSTOM_TYPE_NAME.test(name)) {
 
             throw new TypeError(`Invalid name ${
                 JSON.stringify(name)
@@ -988,7 +991,7 @@ implements C.ICompiler {
             throw new SyntaxError(`Invalid dict ${JSON.stringify(rules)}.`);
         }
 
-        let tmp: Record<string, string> = {};
+        const tmp: Record<string, string> = {};
 
         const id = `${Date.now()}${Math.floor(Math.random() * Number.MAX_SAFE_INTEGER)}`;
 
@@ -999,7 +1002,7 @@ implements C.ICompiler {
 
         const type = `${I.PREDEF_TYPE_SYMBOL}${this._lang.varName(id)}`;
 
-        for (let key of rules[0]) {
+        for (const key of rules[0]) {
 
             if (typeof key !== 'string') {
 

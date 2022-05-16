@@ -123,3 +123,5 @@ export interface IBuiltInTypeCompiler {
 
     isElemental(type: string): boolean;
 }
+
+export const RE_VALID_CUSTOM_TYPE_NAME = /^[-:.\w]+$/;

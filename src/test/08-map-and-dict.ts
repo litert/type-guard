@@ -33,22 +33,22 @@ const testItems: ITestSuite = {
             'items': [
                 {
                     inputName: 'all string object',
-                    inputValue: {'a': '123312312', 'b': 'ccc' },
+                    inputValue: { 'a': '123312312', 'b': 'ccc' },
                     expect: true
                 },
                 {
                     inputName: 'all uint32 object',
-                    inputValue: {'a': 123312312, 'b': 0xCCC },
+                    inputValue: { 'a': 123312312, 'b': 0xCCC },
                     expect: true
                 },
                 {
                     inputName: 'all uint32 & string object',
-                    inputValue: {'a': 123312312, 'b': 0xCCC },
+                    inputValue: { 'a': 123312312, 'b': 0xCCC },
                     expect: true
                 },
                 {
                     inputName: 'all uint32 & boolean object',
-                    inputValue: {'a': 123312312, 'b': false },
+                    inputValue: { 'a': 123312312, 'b': false },
                     expect: false
                 },
                 ...defaultItemss({
@@ -67,15 +67,15 @@ const testItems: ITestSuite = {
             },
             'items': [
                 assertItem(
-                    {'a': '123312312', 'b': 123.3, c: 1232 },
+                    { 'a': '123312312', 'b': 123.3, c: 1232 },
                     true
                 ),
                 assertItem(
-                    {'a': '123312312', 'b': 'ccc' },
+                    { 'a': '123312312', 'b': 'ccc' },
                     false
                 ),
                 assertItem(
-                    {'a': 123312312, 'b': 123.3 },
+                    { 'a': 123312312, 'b': 123.3 },
                     false
                 ),
             ]
@@ -91,56 +91,56 @@ const testItems: ITestSuite = {
             },
             'items': [
                 assertItem(
-                    {'a': '123312312', 'b': 'ccc' },
+                    { 'a': '123312312', 'b': 'ccc' },
                     false
                 ),
                 assertItem(
-                    {'a': 123312312, 'b': 123.3 },
+                    { 'a': 123312312, 'b': 123.3 },
                     false
                 ),
                 assertItem(
-                    {'a': '123312312', 'b': {d: 123.3, c: 1232} },
+                    { 'a': '123312312', 'b': { d: 123.3, c: 1232 } },
                     true
                 ),
                 assertItem(
-                    {'a': '123312312', 'b': { d: 123.3, c: '1232' } },
+                    { 'a': '123312312', 'b': { d: 123.3, c: '1232' } },
                     false
                 ),
             ]
         },
         addRule(['$.dict', ['a', 'b'], 'string'], [
             assertItem(
-                {'a': '123312312', 'b': 'ccc' },
+                { 'a': '123312312', 'b': 'ccc' },
                 true
             ),
             assertItem(
-                {'a': '123312312', 'b': 'ccc', 'c': 123 },
+                { 'a': '123312312', 'b': 'ccc', 'c': 123 },
                 true
             ),
             assertItem(
-                {'a': '123312312' },
+                { 'a': '123312312' },
                 false
             ),
             assertItem(
-                {'a': '123312312', 'c': 'ddd' },
+                { 'a': '123312312', 'c': 'ddd' },
                 false
             ),
             assertItem(
-                {'a': '123312312', 'b': 123.3 },
+                { 'a': '123312312', 'b': 123.3 },
                 false
             )
         ]),
         addRule(['$.strict', '$.dict', ['a', 'b'], 'string'], [
             assertItem(
-                {'a': '123312312', 'b': 'ccc' },
+                { 'a': '123312312', 'b': 'ccc' },
                 true
             ),
             assertItem(
-                {'a': '123312312', 'b': 'ccc', 'c': 123 },
+                { 'a': '123312312', 'b': 'ccc', 'c': 123 },
                 false
             ),
             assertItem(
-                {'a': '123312312' },
+                { 'a': '123312312' },
                 false
             ),
         ])

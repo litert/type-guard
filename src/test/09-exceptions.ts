@@ -30,7 +30,7 @@ const testItems: ITestSuite = {
             'items': [
                 {
                     inputName: 'When test === \'ffff\'',
-                    inputValue: {'test': 'ffff'},
+                    inputValue: { 'test': 'ffff' },
                     expect: true
                 },
                 {
@@ -46,12 +46,12 @@ const testItems: ITestSuite = {
             'items': [
                 {
                     inputName: 'When test === 123',
-                    inputValue: {'test': 123},
+                    inputValue: { 'test': 123 },
                     expect: true
                 },
                 {
                     inputName: 'When test === 1234',
-                    inputValue: {'test': 1234},
+                    inputValue: { 'test': 1234 },
                     expect: false
                 },
                 {

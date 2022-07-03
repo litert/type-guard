@@ -212,7 +212,7 @@ class Compiler implements C.ICompiler {
                     return this._compileModifiedRule(ctx, [
                         M.ARRAY,
                         range[0],
-                        rule.substr(0, regResult.index)
+                        rule.slice(0, regResult.index)
                     ]);
                 }
                 else if (Number.isNaN(range[1])) {
@@ -220,7 +220,7 @@ class Compiler implements C.ICompiler {
                     return this._compileModifiedRule(ctx, [
                         M.ARRAY,
                         [range[0]],
-                        rule.substr(0, regResult.index)
+                        rule.slice(0, regResult.index)
                     ]);
                 }
                 else {
@@ -228,7 +228,7 @@ class Compiler implements C.ICompiler {
                     return this._compileModifiedRule(ctx, [
                         M.ARRAY,
                         range,
-                        rule.substr(0, regResult.index)
+                        rule.slice(0, regResult.index)
                     ]);
                 }
             }
@@ -236,7 +236,7 @@ class Compiler implements C.ICompiler {
 
                 return this._compileModifiedRule(ctx, [
                     M.LIST,
-                    rule.substr(0, regResult.index)
+                    rule.slice(0, regResult.index)
                 ]);
             }
         }
@@ -326,7 +326,7 @@ class Compiler implements C.ICompiler {
 
         const offset = assertRule ? assertRule[1].length + 2 : 2;
 
-        switch ((assertRule?.[1]) ?? rule.substr(0, 2)) {
+        switch ((assertRule?.[1]) ?? rule.slice(0, 2)) {
             case '==':
             case 'equal':
 

@@ -1,5 +1,9 @@
 # Changes Logs
 
+## v1.3.0
+
+- fix(project): replaced substr with slice.
+
 ## v1.2.0
 
 - Added API `IInlineCompiler.addPredefinedType`.

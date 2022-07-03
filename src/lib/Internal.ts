@@ -79,10 +79,6 @@ export interface IContextData {
 
 export interface IContext extends IContextData {
 
-    trace: boolean;
-
-    tracePoint: number;
-
     vCursor: number;
 
     readonly stack: IContextData[];

@@ -22,8 +22,7 @@ import * as B from './BuiltInTypes';
 import { BuiltInTypeCompiler } from './BuiltInTypeCompiler';
 import { FilterCompiler } from './FilterCompiler';
 
-class Compiler
-implements C.ICompiler {
+class Compiler implements C.ICompiler {
 
     private _defTypes: Record<string, C.ICompileResult>;
 

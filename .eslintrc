@@ -24,7 +24,11 @@
         "brace-style": "off",
         "@typescript-eslint/brace-style": ["error", "stroustrup", { "allowSingleLine": true }],
         "camelcase": "off",
-        "max-len": ["error", 120],
+        "max-len": ["error", 120, {
+            "ignoreStrings": true,
+            "ignoreTemplateLiterals": true,
+            "ignoreComments": true
+        }],
         "@typescript-eslint/ban-types": ["error", {
             "types": {
 
@@ -142,8 +146,9 @@
         "@typescript-eslint/prefer-ts-expect-error": ["error"],
         "require-await": "off",
         "@typescript-eslint/require-await": ["error"],
-        "@typescript-eslint/restrict-plus-operands": ["off", {
-            "checkCompoundAssignments": true
+        "@typescript-eslint/restrict-plus-operands": ["error", {
+            "checkCompoundAssignments": true,
+            "allowAny": true
         }],
         "@typescript-eslint/unified-signatures": ["error"],
         "semi": "off",

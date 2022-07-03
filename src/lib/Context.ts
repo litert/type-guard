@@ -18,10 +18,6 @@ import * as i from './Internal';
 
 export class Context implements i.IContext {
 
-    public trace: boolean;
-
-    public tracePoint: number;
-
     public vCursor: number;
 
     public stack: i.IContextData[];
@@ -38,10 +34,6 @@ export class Context implements i.IContext {
         this.vCursor = 0;
 
         this.flags = {};
-
-        this.tracePoint = 0;
-
-        this.trace = false;
     }
 
     public trap(subjChanged: boolean = false): void {

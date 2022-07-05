@@ -44,12 +44,43 @@ class Compiler implements C.ICompiler {
         return null;
     }
 
+    private _addTrace(ctx: I.IContext): string {
+
+        if (!ctx.vTraceName) {
+
+            return this._lang.literalFalse;
+        }
+
+        return this._lang.addTrace(
+            ctx.vTraceName,
+            ctx.vTracePrefix,
+            ctx.tracePath
+        );
+    }
+
+    private _addTraceOr(ctx: I.IContext, expr: string, subPath: string = ''): string {
+
+        if (!ctx.vTraceName) {
+
+            return expr;
+        }
+
+        return this._lang.orAddTrace(
+            expr,
+            ctx.vTraceName,
+            ctx.vTracePrefix,
+            `${ctx.tracePath}${subPath}`
+        );
+    }
+
     public compile(options: C.ICompileOptions): C.ICompileResult {
 
         const referredTypes: Record<string, true> = {};
 
         const ctx: I.IContext = new Context(
             this._lang.varName('entry'),
+            options.traceErrors ? this._lang.varName('failedAsserts') : '',
+            options.traceErrors ? this._lang.varName('tracePrefix') : '',
             this._lang.varName('types'),
             referredTypes
         );
@@ -70,11 +101,27 @@ class Compiler implements C.ICompiler {
                 source: '',
                 arguments: [{
                     'name': ctx.vName,
-                    'type': 'unknown'
+                    'type': 'unknown',
+                    'initial': ''
                 }],
                 typeSlotName: ctx.typeSlotName,
                 referredTypes: []
             };
+
+            if (ctx.vTraceName) {
+
+                ret.arguments.push({
+                    'name': ctx.vTraceName,
+                    'type': 'string[]',
+                    'initial': '[]'
+                });
+
+                ret.arguments.push({
+                    'name': ctx.vTracePrefix,
+                    'type': 'string',
+                    'initial': this._lang.literal('data')
+                });
+            }
 
             ret.source = this._compile(
                 ctx,
@@ -199,7 +246,7 @@ class Compiler implements C.ICompiler {
         let regResult: RegExpMatchArray | null = /\[\s*(\d*|\d+\s*,\s*\d*)\s*\]$/.exec(rule);
 
         /**
-         * For rules like `xxx[123]` or `xxx[1,5]`.
+         * For rules like `xxx[123]` or `xxx[1,5]` or `xxx[1,]`.
          */
         if (regResult) {
 
@@ -209,6 +256,9 @@ class Compiler implements C.ICompiler {
 
                 if (range.length === 1) {
 
+                    /**
+                     * For rules like `xxx[123]`.
+                     */
                     return this._compileModifiedRule(ctx, [
                         M.ARRAY,
                         range[0],
@@ -217,6 +267,9 @@ class Compiler implements C.ICompiler {
                 }
                 else if (Number.isNaN(range[1])) {
 
+                    /**
+                     * For rules like `xxx[1,]`.
+                     */
                     return this._compileModifiedRule(ctx, [
                         M.ARRAY,
                         [range[0]],
@@ -225,6 +278,9 @@ class Compiler implements C.ICompiler {
                 }
                 else {
 
+                    /**
+                     * For rules like `xxx[1,5]`.
+                     */
                     return this._compileModifiedRule(ctx, [
                         M.ARRAY,
                         range,
@@ -234,6 +290,9 @@ class Compiler implements C.ICompiler {
             }
             else {
 
+                /**
+                 * For rules like `xxx[]`.
+                 */
                 return this._compileModifiedRule(ctx, [
                     M.LIST,
                     rule.slice(0, regResult.index)
@@ -241,11 +300,11 @@ class Compiler implements C.ICompiler {
             }
         }
 
-        /**
-         * For rules like `xxx{}`.
-         */
         if (rule.endsWith(I.MAP_SUFFIX)) {
 
+            /**
+             * For rules like `xxx{}`.
+             */
             return this._lang.and([
                 this._compileModifiedRule(ctx, [
                     M.MAP,
@@ -599,7 +658,7 @@ class Compiler implements C.ICompiler {
         );
     }
 
-    private _compileModifierLIST(ctx: I.IContext, rules: any[]): string {
+    private _compileModifierLIST(ctx: I.IContext, rules: any[], traceOffset: number = 0): string {
 
         const result: string[] = [];
 
@@ -617,6 +676,10 @@ class Compiler implements C.ICompiler {
         const CLOSURE_PARAM = this._lang.varName(ctx.vCursor++);
 
         ctx.vName = this._lang.varName(ctx.vCursor++);
+        const vIter = this._lang.varName(ctx.vCursor++);
+        ctx.tracePath = `${ctx.tracePath}[${this._lang.numberTemplateVar(
+            traceOffset ? this._lang.add(traceOffset, vIter) : vIter
+        )}]`;
 
         if (rules[0] !== B.ANY) {
 
@@ -625,9 +688,9 @@ class Compiler implements C.ICompiler {
                 [CLOSURE_ARG],
                 this._lang.series([
                     this._lang.forEach(
-                        CLOSURE_PARAM, ctx.vName, this._lang.ifThen(
+                        CLOSURE_PARAM, vIter, ctx.vName, this._lang.ifThen(
                             this._lang.not(this._compile(ctx, rules)),
-                            this._lang.returnValue(this._lang.literal(false))
+                            this._lang.returnValue(this._addTrace(ctx))
                         )
                     ),
                     this._lang.returnValue(this._lang.literal(true))
@@ -640,7 +703,7 @@ class Compiler implements C.ICompiler {
         return this._lang.and(result);
     }
 
-    private _compileModifierARRAY(ctx: I.IContext, rules: any[]): string {
+    private _compileModifierARRAY(ctx: I.IContext, rules: any[], traceOffset: number = 0): string {
 
         let a: number = 0;
         let b: number = -1;
@@ -720,6 +783,10 @@ class Compiler implements C.ICompiler {
         const CLOSURE_PARAM = this._lang.varName(ctx.vCursor++);
 
         ctx.vName = this._lang.varName(ctx.vCursor++);
+        const vIter = this._lang.varName(ctx.vCursor++);
+        ctx.tracePath = `${ctx.tracePath}[${this._lang.numberTemplateVar(
+            traceOffset ? this._lang.add(traceOffset, vIter) : vIter
+        )}]`;
 
         switch (b) {
             case -1: {
@@ -753,9 +820,9 @@ class Compiler implements C.ICompiler {
                 [CLOSURE_ARG],
                 this._lang.series([
                     this._lang.forEach(
-                        CLOSURE_PARAM, ctx.vName, this._lang.ifThen(
+                        CLOSURE_PARAM, vIter, ctx.vName, this._lang.ifThen(
                             this._lang.not(this._compile(ctx, rules.slice(1))),
-                            this._lang.returnValue(this._lang.literal(false))
+                            this._lang.returnValue(this._addTrace(ctx))
                         )
                     ),
                     this._lang.returnValue(this._lang.literal(true))
@@ -785,6 +852,7 @@ class Compiler implements C.ICompiler {
 
         const types = rules.slice();
         let tupleLength = 0;
+        let tupleLengthMin = 0;
 
         while (1) {
 
@@ -821,10 +889,11 @@ class Compiler implements C.ICompiler {
                     if (type !== 'any') {
 
                         result.push(this._compileModifierLIST(
-                            ctx, type
+                            ctx, type, i
                         ));
                     }
 
+                    tupleLengthMin = tupleLength;
                     tupleLength = -1;
                 }
                 else if (!/^\d+$/.test(dots.slice(3))) {
@@ -835,22 +904,27 @@ class Compiler implements C.ICompiler {
 
                     const length = parseInt(dots.slice(3));
 
-                    if (length <= 3) {
+                    if (length === 0) {
+
+                        throw new TypeError(`Invalid syntax for tuple: ${dots}`);
+                    }
+                    else if (length === 1) {
 
                         const vName = ctx.vName;
 
-                        for (let j = 0; j < length; j++) {
-
-                            ctx.vName = this._lang.arrayIndex(vName, i++);
-                            result.push(this._compile(ctx, type));
-                        }
+                        ctx.tracePath = `${ctx.tracePath}[${i}]`;
+                        ctx.vName = this._lang.arrayIndex(vName, i++);
+                        result.push(this._addTraceOr(
+                            ctx,
+                            this._compile(ctx, type),
+                        ));
                     }
                     else {
 
                         ctx.vName = this._lang.arraySlice(ctx.vName, i, i + length);
 
                         result.push(this._compileModifierARRAY(
-                            ctx, [length, type]
+                            ctx, [length, type], i
                         ));
 
                         i += length;
@@ -863,8 +937,12 @@ class Compiler implements C.ICompiler {
 
                 ctx.trap(true);
 
+                ctx.tracePath = `${ctx.tracePath}[${i}]`;
                 ctx.vName = this._lang.arrayIndex(ctx.vName, i++);
-                result.push(this._compile(ctx, type));
+                result.push(this._addTraceOr(
+                    ctx,
+                    this._compile(ctx, type),
+                ));
                 tupleLength++;
             }
 
@@ -873,9 +951,24 @@ class Compiler implements C.ICompiler {
 
         if (tupleLength >= 0) {
 
-            result.splice(1, -1, this._lang.eq(
-                this._lang.arrayLength(ctx.vName),
-                tupleLength
+            result.splice(1, -1, this._addTraceOr(
+                ctx,
+                this._lang.eq(
+                    this._lang.arrayLength(ctx.vName),
+                    tupleLength
+                ),
+                '.length'
+            ));
+        }
+        else if (tupleLengthMin >= 0) {
+
+            result.splice(1, -1, this._addTraceOr(
+                ctx,
+                this._lang.gte(
+                    this._lang.arrayLength(ctx.vName),
+                    tupleLengthMin
+                ),
+                '.length'
             ));
         }
 
@@ -902,7 +995,8 @@ class Compiler implements C.ICompiler {
         }
 
         this._defTypes[rules[0]] = this.compile({
-            rule: rules.slice(1)
+            rule: rules.slice(1),
+            traceErrors: !!ctx.vTraceName
         });
 
         return this._usePredefinedType(ctx, rules[0]);
@@ -953,24 +1047,25 @@ class Compiler implements C.ICompiler {
 
         ctx.trap(true);
 
-        const CLOSURE_ARG = ctx.vName;
+        const vCArg = ctx.vName;
 
-        const CLOSURE_PARAM = this._lang.varName(ctx.vCursor++);
+        const vCParam = this._lang.varName(ctx.vCursor++);
 
-        const FOR_IN_KEY = this._lang.varName(ctx.vCursor++);
+        const vKey = this._lang.varName(ctx.vCursor++);
 
         ctx.vName = this._lang.varName(ctx.vCursor++);
+        ctx.tracePath = `${ctx.tracePath}[${this._lang.stringTemplateVar(vKey)}]`;
 
         const result = this._lang.and([
-            this._lang.isStrucutre(CLOSURE_ARG, true),
+            this._lang.isStrucutre(vCArg, true),
             this._lang.closure(
-                [CLOSURE_PARAM],
-                [CLOSURE_ARG],
+                [vCParam],
+                [vCArg],
                 this._lang.series([
                     this._lang.forIn(
-                        CLOSURE_PARAM, FOR_IN_KEY, ctx.vName, this._lang.ifThen(
+                        vCParam, vKey, ctx.vName, this._lang.ifThen(
                             this._lang.not(this._compile(ctx, rules)),
-                            this._lang.returnValue(this._lang.literal(false))
+                            this._lang.returnValue(this._addTrace(ctx))
                         )
                     ),
                     this._lang.returnValue(this._lang.literal(true))
@@ -1022,7 +1117,11 @@ class Compiler implements C.ICompiler {
         const strict = !!ctx.flags[I.EFlags.STRICT];
 
         const result: string[] = [
-            this._lang.isStrucutre(ctx.vName, true)
+            this._addTraceOr(
+                ctx,
+                this._lang.isStrucutre(ctx.vName, true),
+                '!object'
+            )
         ];
 
         const keys: string[] = [];
@@ -1106,8 +1205,12 @@ class Compiler implements C.ICompiler {
             keys.push(k);
 
             ctx.vName = this._lang.fieldIndex(ctx.vName, this._lang.literal(k));
+            ctx.tracePath = `${ctx.tracePath}[${this._lang.literal(k)}]`;
 
-            result.push(this._compile(ctx, rule));
+            result.push(this._addTraceOr(
+                ctx,
+                this._compile(ctx, rule)
+            ));
 
             ctx.untrap();
         }

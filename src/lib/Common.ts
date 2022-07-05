@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-export type ITypeChecker<T> = (v: unknown) => v is T;
+export type ITypeChecker<T> = (v: unknown, errorTraces?: string[]) => v is T;
 
 /**
  * @deprecated Use `ITypeChecker` instead.
@@ -32,6 +32,8 @@ export interface ICompileOutputArgument {
      * The type of argument.
      */
     'type': string;
+
+    'initial': string;
 }
 
 export interface ICompileResult {
@@ -68,6 +70,13 @@ export interface ICompileOptions {
      * Give this type a name, so it could be used as a pre-defined type.
      */
     'name'?: string;
+
+    /**
+     * Enable adding failed asserts tracing info to the second argument.
+     *
+     * @default false
+     */
+    'traceErrors'?: boolean;
 }
 
 export interface ILanguageBuilder {
@@ -87,6 +96,25 @@ export interface ILanguageBuilder {
      * @param expr The statements
      */
     caseIf(cond: string[], expr: string): string;
+
+    orAddTrace(
+        expr: string,
+        vTrace: string,
+        vTraceStack: string,
+        path: string,
+    ): string;
+
+    addTrace(
+        vTrace: string,
+        vTraceStack: string,
+        path: string,
+    ): string;
+
+    stringTemplateVar(varExpr: string): string;
+
+    numberTemplateVar(varExpr: string): string;
+
+    escape(str: string): string;
 
     caseDefault(expr: string): string;
 
@@ -286,6 +314,7 @@ export interface ILanguageBuilder {
 
     forEach(
         arrayName: string,
+        elName: string,
         itemName: string,
         forBody: string
     ): string;
@@ -311,6 +340,11 @@ export interface ILanguageBuilder {
     arrayIndex(
         arrayName: string,
         index: string | number
+    ): string;
+
+    add(
+        expr1: string | number,
+        expr2: string | number,
     ): string;
 
     arraySlice(

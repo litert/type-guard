@@ -112,6 +112,17 @@ compiler.addPredefinedType<string>(
     }
 );
 
+const compiler2 = TypeGuard.createInlineCompiler();
+
+compiler2.addPredefinedType<string>(
+    'ipv4_address',
+    function(i): i is string {
+        return  typeof i === 'string'
+            && /^[0-9]{1,3}(\.[0-9]{1,3}){3}$/.test(i)
+            && i.split('.').map(x => parseInt(x, 10)).every(x => x >= 0 && x <= 255);
+    }
+);
+
 export function assertItem(input: unknown, expect: boolean | 'throw'): ITestItem {
 
     return {
@@ -150,15 +161,28 @@ export function createTestDefinition(suite: ITestSuite) {
                             assert.throws(() => {
 
                                 compiler.compile<any>({
-                                    'rule': section.rule
+                                    'rule': section.rule,
+                                    traceErrors: true,
+                                });
+                            });
+
+                            assert.throws(() => {
+
+                                compiler2.compile<any>({
+                                    'rule': section.rule,
                                 });
                             });
                         });
                         return;
                     }
 
-                    const check = compiler.compile<any>({
-                        'rule': section.rule
+                    const checkWithTrace = compiler.compile<any>({
+                        'rule': section.rule,
+                        traceErrors: true,
+                    });
+
+                    const checkWithoutTrace = compiler2.compile<any>({
+                        'rule': section.rule,
                     });
 
                     for (const item of section.items.sort((a, b) => a.expect === b.expect ? 0 : (a.expect ? -1 : 1))) {
@@ -170,7 +194,12 @@ export function createTestDefinition(suite: ITestSuite) {
                         }.`, function() {
 
                             assert.equal(
-                                check(item.inputValue),
+                                checkWithTrace(item.inputValue),
+                                item.expect
+                            );
+
+                            assert.equal(
+                                checkWithoutTrace(item.inputValue),
                                 item.expect
                             );
                         });

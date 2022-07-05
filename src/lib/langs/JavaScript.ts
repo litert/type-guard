@@ -289,12 +289,14 @@ implements C.ILanguageBuilder {
     }
 
     public forEach(
-        an: string,
-        it: string,
+        arrVar: string,
+        elVar: string,
+        iterVar: string,
         body: string
     ): string {
 
-        return `for (const ${it} of ${an}) {
+        return `for (let ${elVar} = 0; ${elVar} < ${arrVar}.length; ${elVar}++) {
+            const ${iterVar} = ${arrVar}[${elVar}];
             ${body}
         }`;
     }
@@ -423,6 +425,57 @@ implements C.ILanguageBuilder {
         })(${
             args.join(', ')
         })`;
+    }
+
+    public escape(str: string): string {
+
+        return str.replace(/(['"])/g, '\\$1').replace(/\n/g, '\\n').replace(/\r/g, '\\r');
+    }
+
+    public stringTemplateVar(varExpr: string): string {
+
+        return `"\${${varExpr}.replace(/(['"])/g, '\\\\$1').replace(/\\n/g, '\\\\n').replace(/\\r/g, '\\\\r')}"`;
+    }
+
+    public numberTemplateVar(varExpr: string): string {
+
+        return `\${${varExpr}}`;
+    }
+
+    public addTrace(
+        vTrace: string,
+        vTraceStack: string,
+        path: string,
+        negative: boolean = false
+    ): string {
+
+        if (negative) {
+
+            return `(${vTrace}.push(\`\${${vTraceStack}}${path}\`), true)`;
+        }
+
+        return `(${vTrace}.push(\`\${${vTraceStack}}${path}\`), false)`;
+    }
+
+    public add(a: string | number, b: string | number): string {
+
+        return `${a} + ${b}`;
+    }
+
+    public orAddTrace(
+        expr: string,
+        vTrace: string,
+        vTraceStack: string,
+        path: string,
+        negative: boolean = false
+    ): string {
+
+        if (negative) {
+
+            return `((${expr}) && (${vTrace}.push(\`\${${vTraceStack}}${path}\`), true))`;
+        }
+
+        return `((${expr}) || (${vTrace}.push(\`\${${vTraceStack}}${path}\`), false))`;
     }
 }
 

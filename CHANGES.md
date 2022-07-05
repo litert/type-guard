@@ -3,6 +3,7 @@
 ## v1.3.0
 
 - fix(project): replaced substr with slice.
+- feat(compiler): added experimental failure tracing info.
 
 ## v1.2.0
 

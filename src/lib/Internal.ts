@@ -72,12 +72,18 @@ export enum EFlagValue {
 
 export interface IContextData {
 
+    flags: Record<string, EFlagValue>;
+
     vName: string;
 
-    flags: Record<string, EFlagValue>;
+    tracePath: string;
 }
 
 export interface IContext extends IContextData {
+
+    vTraceName: string;
+
+    vTracePrefix: string;
 
     vCursor: number;
 

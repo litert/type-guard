@@ -24,8 +24,12 @@ export class Context implements i.IContext {
 
     public flags: Record<string, i.EFlagValue>;
 
+    public tracePath: string = '';
+
     public constructor(
         public vName: string,
+        public vTraceName: string,
+        public vTracePrefix: string,
         public readonly typeSlotName: string,
         public readonly referredTypes: Record<string, boolean>
     ) {
@@ -40,7 +44,8 @@ export class Context implements i.IContext {
 
         this.stack.push({
             vName: this.vName,
-            flags: this.flags
+            flags: this.flags,
+            tracePath: this.tracePath,
         });
 
         const prevFlags = this.flags;
@@ -75,7 +80,8 @@ export class Context implements i.IContext {
             throw new Error('Failed to pop stack.');
         }
 
-        this.vName = prev.vName;
         this.flags = prev.flags;
+        this.vName = prev.vName;
+        this.tracePath = prev.tracePath;
     }
 }

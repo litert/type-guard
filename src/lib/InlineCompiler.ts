@@ -165,7 +165,12 @@ implements IInlineCompiler {
 
         return (new Function(
             info.typeSlotName,
-            `return function(${info.arguments[0].name}) {${soe}
+            `return function(${
+                info.arguments
+                    .map((a) => a.initial ? `${a.name} = ${a.initial}` : a.name)
+                    .join(',')
+            }) {
+                ${soe}
 
                 return ${info.source};
             };`

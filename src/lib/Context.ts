@@ -71,7 +71,7 @@ export class Context implements i.IContext {
         }
     }
 
-    public untrap(): void {
+    public popUp(): void {
 
         const prev = this.stack.pop();
 

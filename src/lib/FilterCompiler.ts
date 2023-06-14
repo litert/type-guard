@@ -22,7 +22,7 @@ implements I.IFilterCompiler {
 
     public constructor(
         private readonly _lang: C.ILanguageBuilder,
-        private readonly _bitc: I.IBuiltInTypeCompiler
+        private readonly _memCompiler: I.IBuiltInTypeCompiler
     ) {}
 
     public compile(rule: string, ctx: I.IContext): string {
@@ -51,7 +51,7 @@ implements I.IFilterCompiler {
                 ret.push(this._lang.isNumber(vName, true));
                 break;
             default:
-                ret.push(this._bitc.compile(filter[0], ctx, []));
+                ret.push(this._memCompiler.compile(filter[0], ctx, []));
                 break;
         }
 

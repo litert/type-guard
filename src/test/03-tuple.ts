@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { createTestDefinition, defaultItemss, ITestSuite } from './abstracts';
+import { createTestDefinition, defaultItems, ITestSuite } from './abstracts';
 
 const testItems: ITestSuite = {
 
@@ -40,7 +40,7 @@ const testItems: ITestSuite = {
                     inputValue: [123, 'fff'],
                     expect: false
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'empty array': false
                 })
             ]
@@ -64,13 +64,13 @@ const testItems: ITestSuite = {
                     inputValue: [123, 'fff'],
                     expect: false
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'empty array': true
                 })
             ]
         },
         {
-            'name': 'Umlimited omittable tuple',
+            'name': 'Unlimited optional tuple',
             'rule': ['$.tuple', 'string', 'int', '...'],
             'items': [
                 {
@@ -93,13 +93,13 @@ const testItems: ITestSuite = {
                     inputValue: [123, 'fff'],
                     expect: false
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'empty array': false
                 })
             ]
         },
         {
-            'name': 'Limited omittable tuple',
+            'name': 'Limited optional tuple',
             'rule': ['$.tuple', 'string', 'int', '...3', 'string'],
             'items': [
                 {
@@ -127,7 +127,7 @@ const testItems: ITestSuite = {
                     inputValue: [123, 'fff'],
                     expect: false
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'empty array': false
                 })
             ]
@@ -176,7 +176,7 @@ const testItems: ITestSuite = {
                     inputValue: [123, 'fff'],
                     expect: false
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'empty array': false
                 })
             ]

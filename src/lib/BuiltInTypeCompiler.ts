@@ -502,7 +502,7 @@ implements I.IBuiltInTypeCompiler {
             }
             case B.STRUCT: {
 
-                return this._lang.isStrucutre(ctx.vName, true);
+                return this._lang.isStructure(ctx.vName, true);
             }
             case B.NUMERIC: {
 
@@ -738,7 +738,7 @@ implements I.IBuiltInTypeCompiler {
 
                 if (fromString) {
 
-                    ctx.untrap();
+                    ctx.popUp();
 
                     return this._lang.and([
                         this._lang.or([
@@ -891,7 +891,7 @@ implements I.IBuiltInTypeCompiler {
 
                 if (fromString) {
 
-                    ctx.untrap();
+                    ctx.popUp();
 
                     return this._lang.and([
                         this._lang.or([

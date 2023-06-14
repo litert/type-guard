@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { createTestDefinition, defaultItemss, ITestSuite } from './abstracts';
+import { createTestDefinition, defaultItems, ITestSuite } from './abstracts';
 
 const testItems: ITestSuite = {
 
@@ -40,7 +40,7 @@ const testItems: ITestSuite = {
                     inputValue: { 'a': 123 },
                     expect: true
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'number 1': true,
                     'number 0': true
                 })
@@ -98,7 +98,7 @@ const testItems: ITestSuite = {
                     inputValue: 'abc',
                     expect: false
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'string \'hello\'': false,
                     'empty string': false,
                     'number 0': false
@@ -136,7 +136,7 @@ const testItems: ITestSuite = {
                     },
                     expect: true
                 },
-                ...defaultItemss({}, false)
+                ...defaultItems({}, false)
             ]
         },
         {
@@ -197,7 +197,7 @@ const testItems: ITestSuite = {
                     },
                     expect: false
                 },
-                ...defaultItemss({}, false)
+                ...defaultItems({}, false)
             ]
         },
         {

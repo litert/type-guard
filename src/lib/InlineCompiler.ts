@@ -91,12 +91,12 @@ implements IInlineCompiler {
 
         const result = this._compiler.compile(options);
 
-        this._preapreDefinedTypes(result.referredTypes, options.stopOnEntry);
+        this._prepareDefinedTypes(result.referredTypes, options.stopOnEntry);
 
         return this._wrapCheckerCode(result, options.stopOnEntry);
     }
 
-    private _preapreDefinedTypes(
+    private _prepareDefinedTypes(
         types: string[],
         stopOnEntry?: boolean
     ): void {
@@ -118,7 +118,7 @@ implements IInlineCompiler {
 
             this._defTypes[x] = this._wrapCheckerCode(info, stopOnEntry);
 
-            this._preapreDefinedTypes(info.referredTypes);
+            this._prepareDefinedTypes(info.referredTypes);
 
             delete this._missingTypes[x];
         }

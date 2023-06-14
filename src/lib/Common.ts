@@ -249,7 +249,7 @@ export interface ILanguageBuilder {
      * @param expr      The expression to be checked.
      * @param positive  Assert positive or negative.
      */
-    isStrucutre(expr: string, positive: boolean): string;
+    isStructure(expr: string, positive: boolean): string;
 
     /**
      * Get the statement checking if an expression is an integer value.
@@ -306,7 +306,7 @@ export interface ILanguageBuilder {
     stringLength(expr: string): string;
 
     /**
-     * Get the statement of the keys list of an dicitionary.
+     * Get the statement of the keys list of an dictionary.
      *
      * @param expr The expression of dictionary.
      */

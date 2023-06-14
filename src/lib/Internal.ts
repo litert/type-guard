@@ -24,7 +24,7 @@ export const FILTER_PREFIX = '|';
 
 export const IMPLICIT_SYMBOL = '?';
 
-export const PREDEF_TYPE_SYMBOL = '@';
+export const PRE_DEF_TYPE_SYMBOL = '@';
 
 export const NEGATIVE_SYMBOL = '!';
 
@@ -95,7 +95,7 @@ export interface IContext extends IContextData {
 
     trap(subjChanged?: boolean): void;
 
-    untrap(): void;
+    popUp(): void;
 }
 
 export interface IFilterCompiler {

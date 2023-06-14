@@ -16,7 +16,7 @@
 
 import {
     createTestDefinition,
-    defaultItemss,
+    defaultItems,
     ITestSuite,
     assertItem,
     addRule
@@ -46,7 +46,7 @@ const testItems: ITestSuite = {
                     inputValue: ['fff', 123],
                     expect: false
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'empty array': true
                 })
             ]
@@ -65,7 +65,7 @@ const testItems: ITestSuite = {
                     inputValue: ['fff', 'ggg'],
                     expect: false
                 },
-                ...defaultItemss({})
+                ...defaultItems({})
             ]
         },
         {
@@ -97,7 +97,7 @@ const testItems: ITestSuite = {
                     inputValue: [333, 'ddsadsa'],
                     expect: true
                 },
-                ...defaultItemss({})
+                ...defaultItems({})
             ]
         },
         {
@@ -119,7 +119,7 @@ const testItems: ITestSuite = {
                     inputValue: ['fff', 123],
                     expect: false
                 },
-                ...defaultItemss({})
+                ...defaultItems({})
             ]
         },
         {
@@ -151,7 +151,7 @@ const testItems: ITestSuite = {
                     inputValue: ['fff', 123],
                     expect: false
                 },
-                ...defaultItemss({})
+                ...defaultItems({})
             ]
         },
         addRule({

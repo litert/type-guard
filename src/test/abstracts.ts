@@ -42,7 +42,7 @@ export interface ITestSuite {
     sections: ITestRule[];
 }
 
-export function defaultItemss(
+export function defaultItems(
     items: Record<string, boolean>,
     defaultValue: boolean = false
 ): ITestItem[] {

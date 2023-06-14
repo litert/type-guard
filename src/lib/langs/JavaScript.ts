@@ -227,7 +227,7 @@ implements C.ILanguageBuilder {
         return `typeof ${vn} ${this._equal(positive)} "string"`;
     }
 
-    public isStrucutre(vn: string, positive: boolean = true): string {
+    public isStructure(vn: string, positive: boolean = true): string {
 
         return positive ?
             `(typeof ${vn} === "object" && ${vn} !== null && !Array.isArray(${vn}))` :

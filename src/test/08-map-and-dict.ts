@@ -16,7 +16,7 @@
 
 import {
     createTestDefinition,
-    defaultItemss,
+    defaultItems,
     ITestSuite,
     assertItem,
     addRule
@@ -51,7 +51,7 @@ const testItems: ITestSuite = {
                     inputValue: { 'a': 123312312, 'b': false },
                     expect: false
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'object': true
                 })
             ]

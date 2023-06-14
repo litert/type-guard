@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import { createTestDefinition, defaultItemss, ITestSuite } from './abstracts';
+import { createTestDefinition, defaultItems, ITestSuite } from './abstracts';
 
 const testItems: ITestSuite = {
 
@@ -36,7 +36,7 @@ const testItems: ITestSuite = {
                     'inputValue': 'false',
                     'expect': true
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'true': true,
                     'false': true
                 })
@@ -51,7 +51,7 @@ const testItems: ITestSuite = {
                     'inputValue': 'true',
                     'expect': true
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'true': true,
                     'false': false
                 })
@@ -66,7 +66,7 @@ const testItems: ITestSuite = {
                     'inputValue': 'false',
                     'expect': true
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'true': false,
                     'false': true
                 })
@@ -96,7 +96,7 @@ const testItems: ITestSuite = {
                     'inputValue': 1.23,
                     'expect': false
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'number 0': true,
                     'number 1': true
                 })
@@ -156,7 +156,7 @@ const testItems: ITestSuite = {
                     'inputValue': '1.23',
                     'expect': false
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'number 0': false,
                     'number 1': false
                 })
@@ -216,7 +216,7 @@ const testItems: ITestSuite = {
                     'inputValue': '1.23',
                     'expect': false
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'number 0': true,
                     'number 1': true
                 })
@@ -296,7 +296,7 @@ const testItems: ITestSuite = {
                     'inputValue': '1.23',
                     'expect': false
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'number 0': true,
                     'number 1': true
                 })
@@ -376,7 +376,7 @@ const testItems: ITestSuite = {
                     'inputValue': (-1.23).toString(),
                     'expect': false
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'number 0': true,
                     'number 1': true
                 })
@@ -456,7 +456,7 @@ const testItems: ITestSuite = {
                     'inputValue': (-1.23).toString(),
                     'expect': false
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'number 0': true,
                     'number 1': true
                 })
@@ -536,7 +536,7 @@ const testItems: ITestSuite = {
                     'inputValue': (-1.23).toString(),
                     'expect': false
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'number 0': true,
                     'number 1': true
                 })
@@ -606,7 +606,7 @@ const testItems: ITestSuite = {
                     'inputValue': (-1.23).toString(),
                     'expect': false
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'number 0': true,
                     'number 1': true
                 })
@@ -646,7 +646,7 @@ const testItems: ITestSuite = {
                     'inputValue': (0).toString(),
                     'expect': true
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'number 0': true,
                     'number 1': true
                 })
@@ -706,7 +706,7 @@ const testItems: ITestSuite = {
                     'inputValue': (-1.23).toString(),
                     'expect': false
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'number 0': true,
                     'number 1': true
                 })
@@ -766,7 +766,7 @@ const testItems: ITestSuite = {
                     'inputValue': (-1.23).toString(),
                     'expect': false
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'number 0': true,
                     'number 1': true
                 })
@@ -826,7 +826,7 @@ const testItems: ITestSuite = {
                     'inputValue': (-1.23).toString(),
                     'expect': false
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'number 0': true,
                     'number 1': true
                 })
@@ -886,7 +886,7 @@ const testItems: ITestSuite = {
                     'inputValue': (-1.23).toString(),
                     'expect': false
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'number 0': true,
                     'number 1': true
                 })
@@ -966,7 +966,7 @@ const testItems: ITestSuite = {
                     'inputValue': (-1.23).toString(),
                     'expect': false
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'number 0': true,
                     'number 1': true
                 })
@@ -1026,7 +1026,7 @@ const testItems: ITestSuite = {
                     'inputValue': (-1.23).toString(),
                     'expect': false
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'number 0': true,
                     'number 1': true
                 })
@@ -1076,7 +1076,7 @@ const testItems: ITestSuite = {
                     'inputValue': (-1.23).toString(),
                     'expect': true
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'number 0': true,
                     'number 1': true
                 })
@@ -1126,7 +1126,7 @@ const testItems: ITestSuite = {
                     'inputValue': (-1.23).toString(),
                     'expect': false
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'number 0': true,
                     'number 1': true
                 })
@@ -1176,7 +1176,7 @@ const testItems: ITestSuite = {
                     'inputValue': (-1.23).toString(),
                     'expect': true
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'number 0': true,
                     'number 1': true
                 })
@@ -1256,7 +1256,7 @@ const testItems: ITestSuite = {
                     'inputValue': (-1.23).toString(),
                     'expect': false
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'number 0': false,
                     'number 1': true
                 })
@@ -1336,7 +1336,7 @@ const testItems: ITestSuite = {
                     'inputValue': (-1.23).toString(),
                     'expect': false
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'number 0': false,
                     'number 1': true
                 })
@@ -1406,7 +1406,7 @@ const testItems: ITestSuite = {
                     'inputValue': (-1.23).toString(),
                     'expect': true
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'number 0': false,
                     'number 1': false
                 })
@@ -1421,7 +1421,7 @@ const testItems: ITestSuite = {
                     'inputValue': 'null',
                     'expect': true
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'null': true
                 })
             ]
@@ -1435,7 +1435,7 @@ const testItems: ITestSuite = {
                     'inputValue': 'null',
                     'expect': true
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'null': true
                 })
             ]
@@ -1449,7 +1449,7 @@ const testItems: ITestSuite = {
                     'inputValue': '1',
                     'expect': true
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'number 1': true
                 })
             ]
@@ -1463,7 +1463,7 @@ const testItems: ITestSuite = {
                     'inputValue': 'true',
                     'expect': true
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'true': true
                 })
             ]
@@ -1477,7 +1477,7 @@ const testItems: ITestSuite = {
                     'inputValue': 'false',
                     'expect': true
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'false': true
                 })
             ]

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { createTestDefinition, defaultItemss, ITestSuite } from './abstracts';
+import { createTestDefinition, defaultItems, ITestSuite } from './abstracts';
 
 const testItems: ITestSuite = {
 
@@ -34,7 +34,7 @@ const testItems: ITestSuite = {
                     'inputValue': 'AASDSADSADA',
                     'expect': false
                 },
-                ...defaultItemss({})
+                ...defaultItems({})
             ]
         },
         {
@@ -51,7 +51,7 @@ const testItems: ITestSuite = {
                     'inputValue': 'AASDSADSADA',
                     'expect': false
                 },
-                ...defaultItemss({})
+                ...defaultItems({})
             ]
         },
         {
@@ -68,7 +68,7 @@ const testItems: ITestSuite = {
                     'inputValue': 'AASDSADSADA',
                     'expect': false
                 },
-                ...defaultItemss({})
+                ...defaultItems({})
             ]
         },
         {
@@ -85,7 +85,7 @@ const testItems: ITestSuite = {
                     'inputValue': 'AASDSADSADA',
                     'expect': true
                 },
-                ...defaultItemss({})
+                ...defaultItems({})
             ]
         },
         {
@@ -102,7 +102,7 @@ const testItems: ITestSuite = {
                     'inputValue': 'AASDSADSADA',
                     'expect': true
                 },
-                ...defaultItemss({})
+                ...defaultItems({})
             ]
         },
         {
@@ -119,7 +119,7 @@ const testItems: ITestSuite = {
                     'inputValue': 'AASDSADSADA',
                     'expect': true
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'string \'hello\'': true,
                     'empty string': true
                 })
@@ -139,7 +139,7 @@ const testItems: ITestSuite = {
                     'inputValue': 'AASDSADSADA',
                     'expect': true
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'string \'hello\'': true,
                     'empty string': true
                 })
@@ -159,7 +159,7 @@ const testItems: ITestSuite = {
                     'inputValue': 'AASDSADSADA',
                     'expect': false
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'string \'hello\'': true,
                     'empty string': true
                 })
@@ -179,7 +179,7 @@ const testItems: ITestSuite = {
                     'inputValue': 'AASDSADSADA',
                     'expect': false
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'string \'hello\'': true,
                     'empty string': true
                 })
@@ -199,7 +199,7 @@ const testItems: ITestSuite = {
                     'inputValue': 'Hello world',
                     'expect': false
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'string \'hello\'': true,
                     'empty string': false
                 })
@@ -219,7 +219,7 @@ const testItems: ITestSuite = {
                     'inputValue': 'Hello world',
                     'expect': false
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'string \'hello\'': true,
                     'empty string': false
                 })
@@ -239,7 +239,7 @@ const testItems: ITestSuite = {
                     'inputValue': 'Hello world',
                     'expect': true
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'string \'hello\'': true,
                     'empty string': false
                 })
@@ -259,7 +259,7 @@ const testItems: ITestSuite = {
                     'inputValue': 'Hello world',
                     'expect': true
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'string \'hello\'': false,
                     'empty string': true
                 })
@@ -279,7 +279,7 @@ const testItems: ITestSuite = {
                     'inputValue': 'Hello world',
                     'expect': true
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'string \'hello\'': false,
                     'empty string': true
                 })
@@ -299,7 +299,7 @@ const testItems: ITestSuite = {
                     'inputValue': 'Hello world',
                     'expect': false
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'string \'hello\'': false,
                     'empty string': true
                 })
@@ -319,7 +319,7 @@ const testItems: ITestSuite = {
                     'inputValue': 'Hello World',
                     'expect': false
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'string \'hello\'': false,
                     'empty string': false
                 })
@@ -339,7 +339,7 @@ const testItems: ITestSuite = {
                     'inputValue': 'Hello World',
                     'expect': false
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'string \'hello\'': false,
                     'empty string': false
                 })
@@ -359,7 +359,7 @@ const testItems: ITestSuite = {
                     'inputValue': 'Hello World',
                     'expect': true
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'string \'hello\'': false,
                     'empty string': false
                 })
@@ -379,7 +379,7 @@ const testItems: ITestSuite = {
                     'inputValue': 'Hello World',
                     'expect': true
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'string \'hello\'': true,
                     'empty string': true
                 })
@@ -399,7 +399,7 @@ const testItems: ITestSuite = {
                     'inputValue': 'Hello World',
                     'expect': true
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'string \'hello\'': true,
                     'empty string': true
                 })
@@ -419,7 +419,7 @@ const testItems: ITestSuite = {
                     'inputValue': 'Hello world',
                     'expect': false
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'string \'hello\'': true,
                     'empty string': true
                 })
@@ -444,7 +444,7 @@ const testItems: ITestSuite = {
                     'inputValue': 'Hello world',
                     'expect': false
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'string \'hello\'': true,
                     'empty string': false
                 })
@@ -464,7 +464,7 @@ const testItems: ITestSuite = {
                     'inputValue': 'Hello world',
                     'expect': false
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'string \'hello\'': true,
                     'empty string': false
                 })
@@ -484,7 +484,7 @@ const testItems: ITestSuite = {
                     'inputValue': 'Hello world',
                     'expect': true
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'string \'hello\'': true,
                     'empty string': false
                 })
@@ -504,7 +504,7 @@ const testItems: ITestSuite = {
                     'inputValue': 'Hello world',
                     'expect': true
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'string \'hello\'': true,
                     'empty string': false
                 })
@@ -524,7 +524,7 @@ const testItems: ITestSuite = {
                     'inputValue': 'Hello world',
                     'expect': true
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'string \'hello\'': false,
                     'empty string': true
                 })
@@ -544,7 +544,7 @@ const testItems: ITestSuite = {
                     'inputValue': 'Hello world',
                     'expect': true
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'string \'hello\'': false,
                     'empty string': true
                 })
@@ -564,7 +564,7 @@ const testItems: ITestSuite = {
                     'inputValue': 'Hello world',
                     'expect': false
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'string \'hello\'': false,
                     'empty string': true
                 })
@@ -584,7 +584,7 @@ const testItems: ITestSuite = {
                     'inputValue': 'Hello world',
                     'expect': false
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'string \'hello\'': false,
                     'empty string': true
                 })
@@ -609,7 +609,7 @@ const testItems: ITestSuite = {
                     'inputValue': 'hi world',
                     'expect': false
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'string \'hello\'': true,
                     'empty string': false
                 })
@@ -634,7 +634,7 @@ const testItems: ITestSuite = {
                     'inputValue': 'hi world',
                     'expect': false
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'string \'hello\'': true,
                     'empty string': false
                 })
@@ -659,7 +659,7 @@ const testItems: ITestSuite = {
                     'inputValue': 'hi world',
                     'expect': false
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'string \'hello\'': true,
                     'empty string': false
                 })
@@ -684,7 +684,7 @@ const testItems: ITestSuite = {
                     'inputValue': 'hi world',
                     'expect': false
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'string \'hello\'': true,
                     'empty string': false
                 })
@@ -709,7 +709,7 @@ const testItems: ITestSuite = {
                     'inputValue': 'hi world',
                     'expect': true
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'string \'hello\'': false,
                     'empty string': true
                 })
@@ -734,7 +734,7 @@ const testItems: ITestSuite = {
                     'inputValue': 'hi world',
                     'expect': true
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'string \'hello\'': false,
                     'empty string': true
                 })
@@ -759,7 +759,7 @@ const testItems: ITestSuite = {
                     'inputValue': 'hi world',
                     'expect': false
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'empty string': false
                 }, true)
             ]
@@ -783,7 +783,7 @@ const testItems: ITestSuite = {
                     'inputValue': 'hi world',
                     'expect': false
                 },
-                ...defaultItemss({
+                ...defaultItems({
                     'empty string': false
                 }, true)
             ]

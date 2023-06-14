@@ -44,7 +44,7 @@
 
 - New modifier `$.string` for value in string form.
 
-- Improved tuple, add omittable dots `...` supports.
+- Improved tuple, add optional dots `...` supports.
 
     > e.g. `["$.tuple", "string", "...3", "int", "..."]`
 

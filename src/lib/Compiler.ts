@@ -215,7 +215,7 @@ class Compiler implements C.ICompiler {
                 break;
         }
 
-        throw new TypeError('Unknwn rules.');
+        throw new TypeError('Unknown rules.');
     }
 
     private _compileStringRule(ctx: I.IContext, rule: string): string {
@@ -313,7 +313,7 @@ class Compiler implements C.ICompiler {
             ]);
         }
 
-        if (rule.startsWith(I.PREDEF_TYPE_SYMBOL)) {
+        if (rule.startsWith(I.PRE_DEF_TYPE_SYMBOL)) {
 
             return this._usePredefinedType(ctx, rule.slice(1));
         }
@@ -546,7 +546,7 @@ class Compiler implements C.ICompiler {
 
         if (!rules.length) {
 
-            throw new TypeError('Unknwon type "[]".');
+            throw new TypeError('Unknown type "[]".');
         }
 
         /**
@@ -630,7 +630,7 @@ class Compiler implements C.ICompiler {
 
         const result = this._compileModifiedRule(ctx, rules);
 
-        ctx.untrap();
+        ctx.popUp();
 
         return result;
     }
@@ -645,7 +645,7 @@ class Compiler implements C.ICompiler {
 
             result.push(this._compile(ctx, r));
 
-            ctx.untrap();
+            ctx.popUp();
         }
 
         return this._lang.or(result);
@@ -699,7 +699,7 @@ class Compiler implements C.ICompiler {
             ));
         }
 
-        ctx.untrap();
+        ctx.popUp();
 
         return this._lang.and(result);
     }
@@ -832,7 +832,7 @@ class Compiler implements C.ICompiler {
             ));
         }
 
-        ctx.untrap();
+        ctx.popUp();
 
         return this._lang.and(result);
     }
@@ -948,7 +948,7 @@ class Compiler implements C.ICompiler {
                 tupleLength++;
             }
 
-            ctx.untrap();
+            ctx.popUp();
         }
 
         if (tupleLength >= 0) {
@@ -993,7 +993,7 @@ class Compiler implements C.ICompiler {
 
         if (this._defTypes[rules[0]]) {
 
-            throw new Error(`Dplicated name ${JSON.stringify(rules[0])} for a pre-defined type.`);
+            throw new Error(`Duplicated name ${JSON.stringify(rules[0])} for a pre-defined type.`);
         }
 
         this._defTypes[rules[0]] = this.compile({
@@ -1017,7 +1017,7 @@ class Compiler implements C.ICompiler {
 
         const ret = this._compile(ctx, rules);
 
-        ctx.untrap();
+        ctx.popUp();
 
         return ret;
     }
@@ -1035,7 +1035,7 @@ class Compiler implements C.ICompiler {
 
         const ret = this._compile(ctx, rules);
 
-        ctx.untrap();
+        ctx.popUp();
 
         return ret;
     }
@@ -1059,7 +1059,7 @@ class Compiler implements C.ICompiler {
         ctx.tracePath = `${ctx.tracePath}[${this._lang.stringTemplateVar(vKey)}]`;
 
         const result = this._lang.and([
-            this._lang.isStrucutre(vCArg, true),
+            this._lang.isStructure(vCArg, true),
             this._lang.closure(
                 [vCParam],
                 [vCArg],
@@ -1075,7 +1075,7 @@ class Compiler implements C.ICompiler {
             )
         ]);
 
-        ctx.untrap();
+        ctx.popUp();
 
         return result;
     }
@@ -1096,7 +1096,7 @@ class Compiler implements C.ICompiler {
             rules.slice(1)
         ]);
 
-        const type = `${I.PREDEF_TYPE_SYMBOL}${this._lang.varName(id)}`;
+        const type = `${I.PRE_DEF_TYPE_SYMBOL}${this._lang.varName(id)}`;
 
         for (const key of rules[0]) {
 
@@ -1121,7 +1121,7 @@ class Compiler implements C.ICompiler {
         const result: string[] = [
             this._addTraceOr(
                 ctx,
-                this._lang.isStrucutre(ctx.vName, true),
+                this._lang.isStructure(ctx.vName, true),
                 '!object'
             )
         ];
@@ -1214,7 +1214,7 @@ class Compiler implements C.ICompiler {
                 this._compile(ctx, rule)
             ));
 
-            ctx.untrap();
+            ctx.popUp();
         }
 
         if (strict && keys.length) {
@@ -1249,7 +1249,7 @@ class Compiler implements C.ICompiler {
         }
 
         const result: string[] = [
-            this._lang.isStrucutre(ctx.vName, true)
+            this._lang.isStructure(ctx.vName, true)
         ];
 
         ctx.trap();
@@ -1366,7 +1366,7 @@ class Compiler implements C.ICompiler {
                 ));
             }
 
-            ctx.untrap();
+            ctx.popUp();
         }
 
         if (keys.length) {
@@ -1391,7 +1391,7 @@ class Compiler implements C.ICompiler {
             ])
         ));
 
-        ctx.untrap();
+        ctx.popUp();
 
         return this._lang.and(result);
     }
@@ -1413,9 +1413,9 @@ class Compiler implements C.ICompiler {
  */
 export function createCompiler(lang: C.ILanguageBuilder): C.ICompiler {
 
-    const bitc = new BuiltInTypeCompiler(lang);
+    const ret = new BuiltInTypeCompiler(lang);
 
     return new Compiler(
-        lang, bitc, new FilterCompiler(lang, bitc)
+        lang, ret, new FilterCompiler(lang, ret)
     );
 }

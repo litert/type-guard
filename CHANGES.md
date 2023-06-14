@@ -3,6 +3,7 @@
 ## v1.4.0
 
 - build(project): upgraded toolchains.
+- feat(rules): added supports for modifier `$.enum`.
 
 ## v1.3.0
 

@@ -167,7 +167,7 @@ export interface ILanguageBuilder {
      */
     modOf(a: string, b: string): string;
 
-    literal(val: string | boolean | number): string;
+    literal(val: string | boolean | number | null): string;
 
     /**
      * Get the statement checking if a string expression includes a given

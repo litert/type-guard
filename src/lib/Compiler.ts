@@ -617,6 +617,10 @@ class Compiler implements C.ICompiler {
 
                 return this._compileModifierTYPE(ctx, rules.slice(1));
             }
+            case M.ENUM: {
+
+                return this._compileModifierEnum(ctx, rules.slice(1));
+            }
         }
 
         throw new TypeError(`Unknown modifier "${rules[0]}".`);
@@ -1078,6 +1082,36 @@ class Compiler implements C.ICompiler {
         ctx.popUp();
 
         return result;
+    }
+
+    private _compileModifierEnum(ctx: I.IContext, rules: any[]): string {
+
+        if (rules.length === 0) {
+
+            throw new SyntaxError(`At least one enum candidate is required for $.enum`);
+        }
+
+        const ret: string[] = [];
+
+        for (const r of rules) {
+
+            switch (typeof r) {
+
+                case 'string':
+                case 'number':
+                case 'boolean':
+                    ret.push(this._lang.eq(ctx.vName, this._lang.literal(r)));
+                    break;
+                default:
+                    if (r === null) {
+                        ret.push(this._lang.eq(ctx.vName, this._lang.literal(null)));
+                        break;
+                    }
+                    throw new SyntaxError(`Invalid literal value ${JSON.stringify(rules)} for $.enum.`);
+            }
+        }
+
+        return this._lang.or(ret);
     }
 
     private _compileModifierDICT(ctx: I.IContext, rules: any[]): string {

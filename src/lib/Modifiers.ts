@@ -43,3 +43,5 @@ export const EQUAL: string = `${I.MODIFIER_PREFIX}equal`;
 export const TAG: string = `${I.MODIFIER_PREFIX}tag`;
 
 export const TYPE: string = `${I.MODIFIER_PREFIX}type`;
+
+export const ENUM: string = `${I.MODIFIER_PREFIX}enum`;

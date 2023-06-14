@@ -170,3 +170,7 @@ executeTest(
         { 'a': '123312312', 'b': 'ccc' },
     ]
 );
+
+console.log(tgc.compile({
+    rule: ['$.enum', 'a', 'b', 'c', true, null, 1.23, -1],
+}).toString());

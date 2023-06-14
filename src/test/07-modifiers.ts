@@ -214,6 +214,118 @@ const testItems: ITestSuite = {
                 }
             ]
         },
+        {
+            'name': '$.enum',
+            'rule': ['$.enum', '==123', '=123', 'int', 3333333, null, true],
+            'items': [
+                {
+                    inputName: 'string "==123"',
+                    inputValue: '==123',
+                    expect: true
+                },
+                {
+                    inputName: 'string "=123"',
+                    inputValue: '=123',
+                    expect: true
+                },
+                {
+                    inputName: 'string "int"',
+                    inputValue: 'int',
+                    expect: true
+                },
+                {
+                    inputName: 'string "uint"',
+                    inputValue: 'uint',
+                    expect: false
+                },
+                {
+                    inputName: 'integer 3333333',
+                    inputValue: 3333333,
+                    expect: true
+                },
+                ...defaultItems({
+                    'null': true,
+                    'true': true
+                }, false)
+            ]
+        },
+        {
+            'name': '$.enum with empty candidate list',
+            'rule': ['$.enum'],
+            'items': [
+                {
+                    inputName: 'invalid empty candidate list',
+                    inputValue: '',
+                    expect: 'throw'
+                }
+            ]
+        },
+        {
+            'name': '$.enum with object candidate',
+            'rule': ['$.enum', {}],
+            'items': [
+                {
+                    inputName: 'object as candidate',
+                    inputValue: '',
+                    expect: 'throw'
+                }
+            ]
+        },
+        {
+            'name': '$.enum with array candidate',
+            'rule': ['$.enum', []],
+            'items': [
+                {
+                    inputName: 'array as candidate',
+                    inputValue: '',
+                    expect: 'throw'
+                }
+            ]
+        },
+        {
+            'name': '$.enum with undefined candidate',
+            'rule': ['$.enum', undefined],
+            'items': [
+                {
+                    inputName: 'undefined as candidate',
+                    inputValue: '',
+                    expect: 'throw'
+                }
+            ]
+        },
+        {
+            'name': '$.enum with function candidate',
+            'rule': ['$.enum', () => true],
+            'items': [
+                {
+                    inputName: 'function as candidate',
+                    inputValue: '',
+                    expect: 'throw'
+                }
+            ]
+        },
+        {
+            'name': '$.enum with bigint candidate',
+            'rule': ['$.enum', BigInt(123)],
+            'items': [
+                {
+                    inputName: 'bigint as candidate',
+                    inputValue: '',
+                    expect: 'throw'
+                }
+            ]
+        },
+        {
+            'name': '$.enum with symbol candidate',
+            'rule': ['$.enum', Symbol('123')],
+            'items': [
+                {
+                    inputName: 'symbol as candidate',
+                    inputValue: '',
+                    expect: 'throw'
+                }
+            ]
+        },
     ]
 };
 

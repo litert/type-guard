@@ -172,5 +172,5 @@ executeTest(
 );
 
 console.log(tgc.compile({
-    rule: ['$.enum', 'a', 'b', 'c', true, null, 1.23, -1],
+    rule: '@enum(1, 2, 3, "ss\\"")',
 }).toString());

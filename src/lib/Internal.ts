@@ -126,4 +126,73 @@ export interface IBuiltInTypeCompiler {
     isElemental(type: string): boolean;
 }
 
-export const RE_VALID_CUSTOM_TYPE_NAME = /^[-:.\w]+$/;
+const RE_VALID_CUSTOM_TYPE_NAME = /^[-:.\w]+$/;
+
+export interface IPreDefinedCallExpr {
+
+    name: string;
+
+    args: any[];
+}
+
+export function validateTypeName(name: string): void {
+
+    if (typeof name !== 'string' || !RE_VALID_CUSTOM_TYPE_NAME.test(name)) {
+
+        throw new TypeError(`Invalid name ${
+            JSON.stringify(name)
+        } for a pre-defined type.`);
+    }
+}
+
+export function decodePreDefinedCallExpr(input: string): IPreDefinedCallExpr {
+
+    let expr = input;
+
+    expr = expr.replace(/\\['"]/g, (i) => `\\u00${i.charCodeAt(1).toString(16)}`);
+
+    const r = /^([-:.\w]+)\s*(\((.*)\))?$/.exec(expr);
+
+    if (!r) {
+
+        throw new SyntaxError(`Invalid type expression: ${input}`);
+    }
+
+    const fn = r[1];
+
+    expr = r[3];
+
+    if (!expr) {
+
+        return { name: fn, args: [] };
+    }
+
+    const args = [];
+
+    while (expr) {
+
+        const m = /^\s*([-]?\d+(\.\d+)?|[-]?0x[a-fA-F0-9]+|true|false|null|"[^"]+"|'[^']+')\s*(,|$)/i.exec(expr);
+
+        if (!m) {
+
+            throw new SyntaxError(`Invalid type expression "${expr}" in "${input}"`);
+        }
+
+        expr = expr.slice(m[0].length);
+
+        if (m[1].startsWith("'") && m[1].endsWith("'")) {
+            args.push(JSON.parse(`"${m[1].slice(1, -1)}"`));
+        }
+        else if (m[1].startsWith('0x')) {
+            args.push(parseInt(m[1].slice(2), 16));
+        }
+        else if (m[1].startsWith('-0x')) {
+            args.push(-parseInt(m[1].slice(3), 16));
+        }
+        else {
+            args.push(JSON.parse(m[1]));
+        }
+    }
+
+    return { name: fn, args };
+}

@@ -360,19 +360,20 @@ class Compiler implements C.ICompiler {
 
     private _usePredefinedType(
         ctx: I.IContext,
-        typeName: string
+        typeExpr: string
     ): string {
 
-        this._validateTypeName(typeName);
+        const expr = I.decodePreDefinedCallExpr(typeExpr);
 
-        ctx.referredTypes[typeName] = true;
+        ctx.referredTypes[expr.name] = true;
 
         return this._lang.call(
             this._lang.fieldIndex(
                 ctx.typeSlotName,
-                this._lang.literal(typeName)
+                this._lang.literal(expr.name)
             ),
-            ctx.vName
+            ctx.vName,
+            ...expr.args.map(i => this._lang.literal(i))
         );
     }
 
@@ -383,7 +384,7 @@ class Compiler implements C.ICompiler {
 
         const assertRule = /^:([-\w]+):/.exec(rule);
 
-        const offset = assertRule ? assertRule[1].length + 2 : 2;
+        const offset = (assertRule?.[1]?.length ?? 0) + 2;
 
         switch ((assertRule?.[1]) ?? rule.slice(0, 2)) {
             case '==':
@@ -981,19 +982,9 @@ class Compiler implements C.ICompiler {
         return this._lang.and(result);
     }
 
-    private _validateTypeName(name: unknown): void {
-
-        if (typeof name !== 'string' || !I.RE_VALID_CUSTOM_TYPE_NAME.test(name)) {
-
-            throw new TypeError(`Invalid name ${
-                JSON.stringify(name)
-            } for a pre-defined type.`);
-        }
-    }
-
     private _compileModifierTYPE(ctx: I.IContext, rules: any[]): string {
 
-        this._validateTypeName(rules[0]);
+        I.validateTypeName(rules[0]);
 
         if (this._defTypes[rules[0]]) {
 

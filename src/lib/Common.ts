@@ -15,6 +15,7 @@
  */
 
 export type ITypeChecker<T> = (v: unknown, errorTraces?: string[]) => v is T;
+export type IPreDefinedTypeChecker<T> = (v: unknown, ...args: any[]) => v is T;
 
 /**
  * @deprecated Use `ITypeChecker` instead.

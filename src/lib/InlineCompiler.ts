@@ -50,7 +50,7 @@ export interface IInlineCompiler {
      * @param name      The name of the pre-defined type (without prefix `@`)
      * @param checker   The checker callback of the pre-defined type.
      */
-    addPredefinedType<T>(name: string, checker: C.ITypeChecker<T>): this;
+    addPredefinedType<T>(name: string, checker: C.IPreDefinedTypeChecker<T>): this;
 
     /**
      * Check if a pre-defined type is compiled.
@@ -126,10 +126,7 @@ implements IInlineCompiler {
 
     public addPredefinedType(name: string, checker: C.ITypeChecker<any>): this {
 
-        if (!I.RE_VALID_CUSTOM_TYPE_NAME.test(name)) {
-
-            throw new TypeError(`Invalid name ${ JSON.stringify(name) } for a pre-defined type.`);
-        }
+        I.validateTypeName(name);
 
         this._defTypes[name] = checker;
 

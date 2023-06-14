@@ -3,7 +3,8 @@
 ## v1.4.0
 
 - build(project): upgraded toolchains.
-- feat(rules): added supports for modifier `$.enum`.
+- feat(rules): added supports of modifier `$.enum`.
+- feat(rules): added supports of using pre-defined type with custom arguments.
 
 ## v1.3.0
 

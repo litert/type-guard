@@ -106,7 +106,7 @@ const testItems: ITestSuite = {
             ]
         },
         {
-            'name': '$.type ',
+            'name': '$.type with complex name',
             'rule': {
                 'a': ['$.type', 'test:a.b-c', 'int'],
                 'b': '@test:a.b-c',
@@ -140,7 +140,7 @@ const testItems: ITestSuite = {
             ]
         },
         {
-            'name': 'Pre-defined IPv4 Address Checker',
+            'name': '$.type pre-defined IPv4 Address Checker',
             'rule': '@ipv4_address',
             'items': [
                 {
@@ -201,6 +201,138 @@ const testItems: ITestSuite = {
             ]
         },
         {
+            'name': '$.type pre-defined type "trim_string" without args',
+            'rule': '@trim_string',
+            'items': [
+                {
+                    inputName: 'String " aaa"',
+                    inputValue: ' aaa',
+                    expect: true
+                },
+                ...defaultItems({
+                    'string \'hello\'': true,
+                    'empty string': true,
+                }, false)
+            ]
+        },
+        {
+            'name': '$.type pre-defined type "trim_string" with full args (2, 5)',
+            'rule': '@trim_string(2, 5)',
+            'items': [
+                {
+                    inputName: 'String " aaa"',
+                    inputValue: ' aaa',
+                    expect: true
+                },
+                {
+                    inputName: 'String " ffff"',
+                    inputValue: ' ffff',
+                    expect: true
+                },
+                {
+                    inputName: 'String " aa "',
+                    inputValue: ' aa ',
+                    expect: true
+                },
+                {
+                    inputName: 'String " a "',
+                    inputValue: ' a ',
+                    expect: false
+                },
+                {
+                    inputName: 'String " aaaaaaa "',
+                    inputValue: ' aaaaaaa ',
+                    expect: false
+                },
+                ...defaultItems({
+                    'string \'hello\'': true,
+                    'empty string': false,
+                }, false)
+            ]
+        },
+        {
+            'name': '$.type pre-defined type "enum" with args (1, 2, 3, "dddd", true, false, null, -2, 0x1111, "ss\\"", \'ff\', \'ff\\\'\')',
+            'rule': '@enum(1, 2, 3,     "dddd", true, false, null, -2, 0x1111, "ss\\"", \'ff\', \'ff\\\'\')',
+            'items': [
+                {
+                    inputName: 'Integer 2',
+                    inputValue: 2,
+                    expect: true
+                },
+                {
+                    inputName: 'Integer 0x1111',
+                    inputValue: 0x1111,
+                    expect: true
+                },
+                {
+                    inputName: 'Integer -2',
+                    inputValue: -2,
+                    expect: true
+                },
+                {
+                    inputName: 'String "dddd"',
+                    inputValue: 'dddd',
+                    expect: true
+                },
+                {
+                    inputName: 'String "ss\\""',
+                    inputValue: 'ss"',
+                    expect: true
+                },
+                {
+                    inputName: 'String "ff"',
+                    inputValue: 'ff',
+                    expect: true
+                },
+                {
+                    inputName: 'String "ff\'"',
+                    inputValue: 'ff\'',
+                    expect: true
+                },
+                ...defaultItems({
+                    'number 1': true,
+                    'true': true,
+                    'false': true,
+                    'null': true,
+                }, false)
+            ]
+        },
+        {
+            'name': '$.type pre-defined type "trim_string" with args (2)',
+            'rule': '@trim_string(2)',
+            'items': [
+                {
+                    inputName: 'String " aaa"',
+                    inputValue: ' aaa',
+                    expect: true
+                },
+                {
+                    inputName: 'String " ffff"',
+                    inputValue: ' ffff',
+                    expect: true
+                },
+                {
+                    inputName: 'String " aa "',
+                    inputValue: ' aa ',
+                    expect: true
+                },
+                {
+                    inputName: 'String " a "',
+                    inputValue: ' a ',
+                    expect: false
+                },
+                {
+                    inputName: 'String " aaaaaaa "',
+                    inputValue: ' aaaaaaa ',
+                    expect: true
+                },
+                ...defaultItems({
+                    'string \'hello\'': true,
+                    'empty string': false,
+                }, false)
+            ]
+        },
+        {
             'name': '$.type with unsupported characters in type name',
             'rule': {
                 'a': ['$.type', 'test=123', 'int'],
@@ -222,6 +354,11 @@ const testItems: ITestSuite = {
                     inputName: 'string "==123"',
                     inputValue: '==123',
                     expect: true
+                },
+                {
+                    inputName: 'string "123"',
+                    inputValue: '123',
+                    expect: false
                 },
                 {
                     inputName: 'string "=123"',

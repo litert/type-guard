@@ -112,6 +112,20 @@ compiler.addPredefinedType<string>(
     }
 );
 
+compiler.addPredefinedType<string>(
+    'trim_string',
+    function(i, minLen: number = 0, maxLen?: number): i is string {
+        return typeof i === 'string' && i.trim().length >= minLen && i.trim().length <= (maxLen ?? i.length);
+    }
+);
+
+compiler.addPredefinedType<string>(
+    'enum',
+    function(i, ...candidates: any[]): i is string {
+        return candidates.includes(i);
+    }
+);
+
 const compiler2 = TypeGuard.createInlineCompiler();
 
 compiler2.addPredefinedType<string>(
@@ -120,6 +134,20 @@ compiler2.addPredefinedType<string>(
         return  typeof i === 'string'
             && /^[0-9]{1,3}(\.[0-9]{1,3}){3}$/.test(i)
             && i.split('.').map(x => parseInt(x, 10)).every(x => x >= 0 && x <= 255);
+    }
+);
+
+compiler2.addPredefinedType<string>(
+    'trim_string',
+    function(i, minLen: number = 0, maxLen?: number): i is string {
+        return typeof i === 'string' && i.trim().length >= minLen && i.trim().length <= (maxLen ?? i.length);
+    }
+);
+
+compiler2.addPredefinedType<string>(
+    'enum',
+    function(i, ...candidates: any[]): i is string {
+        return candidates.includes(i);
     }
 );
 

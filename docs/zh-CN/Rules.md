@@ -927,6 +927,36 @@ tgc.compile({
 2.  类型名称不能为空字符串，只能包含字母、数字、下划线、冒号、横线、小数点，且严格区分大小写。
 3.  同一个类型名称不得重复定义。
 
+除此之外，可以使用 `IInlineCompiler.addPredefinedType` 方法在 JavaScript 中注册预定义类型处理器回调函数。
+
+这种情况下，在引用该类型时，可以传递变量以定制化类型：
+
+```ts
+tgc.addPredefinedType("trim_string", (value: unknown, minLen: number = 0, maxLen?: number) => {
+
+    return typeof value === "string" && value.trim().length >= minLen && value.trim().length <= (maxLen ?? value.length);
+});
+```
+
+然后在规则中引用它：
+
+```ts
+tgc.compile({
+    rule: '@trim_string(1, 32)'
+});
+```
+
+即可定制出一个 `1 ~ 32` 个字符的字符串校验器，且忽略掉首尾空格。
+
+还须注意的是，参数值只能是基础数据类型：
+
+- 字符串（单引号或双引号，支持 JSON 内的字符串编码）
+- 数字（整数或浮点数，支持十六进制，也可以是负数，但不能使用 `+` 号显式声明正数）
+- 布尔值 `true` 和 `false`
+- `null`
+
+> 不支持尾逗号（Trailing comma）。
+
 ## 4.12. `$.not` 修饰符——否定断言
 
 使用 `$.not` 修饰可以对其修饰的规则进行否定断言，比如

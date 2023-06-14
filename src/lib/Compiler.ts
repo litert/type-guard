@@ -1,5 +1,5 @@
 /**
- * Copyright 2022 Angus Fenying <fenying@litert.org>
+ * Copyright 2023 Angus Fenying <fenying@litert.org>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -687,6 +687,7 @@ class Compiler implements C.ICompiler {
                 [CLOSURE_PARAM],
                 [CLOSURE_ARG],
                 this._lang.series([
+                    // eslint-disable-next-line @litert/rules/disable-for-each-method
                     this._lang.forEach(
                         CLOSURE_PARAM, vIter, ctx.vName, this._lang.ifThen(
                             this._lang.not(this._compile(ctx, rules)),
@@ -819,6 +820,7 @@ class Compiler implements C.ICompiler {
                 [CLOSURE_PARAM],
                 [CLOSURE_ARG],
                 this._lang.series([
+                    // eslint-disable-next-line @litert/rules/disable-for-each-method
                     this._lang.forEach(
                         CLOSURE_PARAM, vIter, ctx.vName, this._lang.ifThen(
                             this._lang.not(this._compile(ctx, rules.slice(1))),

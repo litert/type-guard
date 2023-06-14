@@ -1,5 +1,9 @@
 # Changes Logs
 
+## v1.4.0
+
+- build(project): upgraded toolchains.
+
 ## v1.3.0
 
 - fix(project): replaced substr with slice.

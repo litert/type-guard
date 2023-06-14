@@ -29,13 +29,13 @@ const testItems: ITestSuite = {
             'rule': { 'test?': 'any' },
             'items': [
                 {
-                    inputName: 'When test === \'ffff\'',
-                    inputValue: { 'test': 'ffff' },
+                    title: 'When test === \'ffff\'',
+                    value: { 'test': 'ffff' },
                     expect: true
                 },
                 {
-                    inputName: 'When test is omitted',
-                    inputValue: {},
+                    title: 'When test is omitted',
+                    value: {},
                     expect: true
                 }
             ]
@@ -45,18 +45,18 @@ const testItems: ITestSuite = {
             'rule': { 'test': 'int8' },
             'items': [
                 {
-                    inputName: 'When test === 123',
-                    inputValue: { 'test': 123 },
+                    title: 'When test === 123',
+                    value: { 'test': 123 },
                     expect: true
                 },
                 {
-                    inputName: 'When test === 1234',
-                    inputValue: { 'test': 1234 },
+                    title: 'When test === 1234',
+                    value: { 'test': 1234 },
                     expect: false
                 },
                 {
-                    inputName: 'When test is omitted',
-                    inputValue: {},
+                    title: 'When test is omitted',
+                    value: {},
                     expect: false
                 }
             ]

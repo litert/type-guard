@@ -27,13 +27,13 @@ const testItems: ITestSuite = {
             'rule': 2113,
             'items': [
                 {
-                    'inputName': 'number 2113',
-                    'inputValue': 2113,
+                    'title': 'number 2113',
+                    'value': 2113,
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'2113\'',
-                    'inputValue': '2113',
+                    'title': 'string \'2113\'',
+                    'value': '2113',
                     'expect': false
                 }
             ]
@@ -43,8 +43,8 @@ const testItems: ITestSuite = {
             'rule': null,
             'items': [
                 {
-                    'inputName': 'string \'null\'',
-                    'inputValue': 'null',
+                    'title': 'string \'null\'',
+                    'value': 'null',
                     'expect': false
                 },
                 ...defaultItems({
@@ -57,8 +57,8 @@ const testItems: ITestSuite = {
             'rule': true,
             'items': [
                 {
-                    'inputName': 'string \'true\'',
-                    'inputValue': 'true',
+                    'title': 'string \'true\'',
+                    'value': 'true',
                     'expect': false
                 },
                 ...defaultItems({
@@ -71,8 +71,8 @@ const testItems: ITestSuite = {
             'rule': false,
             'items': [
                 {
-                    'inputName': 'string \'true\'',
-                    'inputValue': 'true',
+                    'title': 'string \'true\'',
+                    'value': 'true',
                     'expect': false
                 },
                 ...defaultItems({
@@ -95,18 +95,18 @@ const testItems: ITestSuite = {
             'rule': 'string(5)',
             'items': [
                 {
-                    'inputName': 'string \'world\'',
-                    'inputValue': 'world',
+                    'title': 'string \'world\'',
+                    'value': 'world',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'hi\'',
-                    'inputValue': 'hi',
+                    'title': 'string \'hi\'',
+                    'value': 'hi',
                     'expect': false
                 },
                 {
-                    'inputName': 'string \'logical\'',
-                    'inputValue': 'logical',
+                    'title': 'string \'logical\'',
+                    'value': 'logical',
                     'expect': false
                 },
                 ...defaultItems({
@@ -120,18 +120,18 @@ const testItems: ITestSuite = {
             'rule': 'string(5,)',
             'items': [
                 {
-                    'inputName': 'string \'world\'',
-                    'inputValue': 'world',
+                    'title': 'string \'world\'',
+                    'value': 'world',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'hihi\'',
-                    'inputValue': 'hihi',
+                    'title': 'string \'hihi\'',
+                    'value': 'hihi',
                     'expect': false
                 },
                 {
-                    'inputName': 'string \'logical\'',
-                    'inputValue': 'logical',
+                    'title': 'string \'logical\'',
+                    'value': 'logical',
                     'expect': true
                 },
                 ...defaultItems({
@@ -145,8 +145,8 @@ const testItems: ITestSuite = {
             'rule': 'string(,5)',
             'items': [
                 {
-                    'inputName': 'string \'any\'',
-                    'inputValue': 'any',
+                    'title': 'string \'any\'',
+                    'value': 'any',
                     'expect': 'throw'
                 }
             ]
@@ -156,8 +156,8 @@ const testItems: ITestSuite = {
             'rule': 'string(,)',
             'items': [
                 {
-                    'inputName': 'string \'any\'',
-                    'inputValue': 'any',
+                    'title': 'string \'any\'',
+                    'value': 'any',
                     'expect': 'throw'
                 }
             ]
@@ -167,23 +167,23 @@ const testItems: ITestSuite = {
             'rule': 'ascii_string',
             'items': [
                 {
-                    'inputName': 'string \'world\'',
-                    'inputValue': 'world',
+                    'title': 'string \'world\'',
+                    'value': 'world',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'hi\'',
-                    'inputValue': 'hi',
+                    'title': 'string \'hi\'',
+                    'value': 'hi',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'proper\'',
-                    'inputValue': 'proper',
+                    'title': 'string \'proper\'',
+                    'value': 'proper',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'logical\'',
-                    'inputValue': 'logical',
+                    'title': 'string \'logical\'',
+                    'value': 'logical',
                     'expect': true
                 },
                 ...defaultItems({
@@ -197,23 +197,23 @@ const testItems: ITestSuite = {
             'rule': 'string(2, 6)',
             'items': [
                 {
-                    'inputName': 'string \'world\'',
-                    'inputValue': 'world',
+                    'title': 'string \'world\'',
+                    'value': 'world',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'hi\'',
-                    'inputValue': 'hi',
+                    'title': 'string \'hi\'',
+                    'value': 'hi',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'proper\'',
-                    'inputValue': 'proper',
+                    'title': 'string \'proper\'',
+                    'value': 'proper',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'logical\'',
-                    'inputValue': 'logical',
+                    'title': 'string \'logical\'',
+                    'value': 'logical',
                     'expect': false
                 },
                 ...defaultItems({
@@ -227,23 +227,23 @@ const testItems: ITestSuite = {
             'rule': 'latin_string(2, 6)',
             'items': [
                 {
-                    'inputName': 'string \'ⱠⱡⱢab\'',
-                    'inputValue': 'ⱠⱡⱢab',
+                    'title': 'string \'ⱠⱡⱢab\'',
+                    'value': 'ⱠⱡⱢab',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'Ᵽ\'',
-                    'inputValue': 'Ᵽ',
+                    'title': 'string \'Ᵽ\'',
+                    'value': 'Ᵽ',
                     'expect': false
                 },
                 {
-                    'inputName': 'string \'proper\'',
-                    'inputValue': 'proper',
+                    'title': 'string \'proper\'',
+                    'value': 'proper',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'logical\'',
-                    'inputValue': 'logical',
+                    'title': 'string \'logical\'',
+                    'value': 'logical',
                     'expect': false
                 },
                 ...defaultItems({
@@ -257,28 +257,28 @@ const testItems: ITestSuite = {
             'rule': 'ascii_string(2, 6)',
             'items': [
                 {
-                    'inputName': 'string \'proper\'',
-                    'inputValue': 'proper',
+                    'title': 'string \'proper\'',
+                    'value': 'proper',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'world\'',
-                    'inputValue': 'world',
+                    'title': 'string \'world\'',
+                    'value': 'world',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'logical\'',
-                    'inputValue': 'logical',
+                    'title': 'string \'logical\'',
+                    'value': 'logical',
                     'expect': false
                 },
                 {
-                    'inputName': 'string \'ⱠⱡⱢab\'',
-                    'inputValue': 'ⱠⱡⱢab',
+                    'title': 'string \'ⱠⱡⱢab\'',
+                    'value': 'ⱠⱡⱢab',
                     'expect': false
                 },
                 {
-                    'inputName': 'string \'Ᵽ\'',
-                    'inputValue': 'Ᵽ',
+                    'title': 'string \'Ᵽ\'',
+                    'value': 'Ᵽ',
                     'expect': false
                 },
                 ...defaultItems({
@@ -292,33 +292,33 @@ const testItems: ITestSuite = {
             'rule': 'hex_string(2, 8)',
             'items': [
                 {
-                    'inputName': 'string \'fffff\'',
-                    'inputValue': 'fffff',
+                    'title': 'string \'fffff\'',
+                    'value': 'fffff',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'1234a\'',
-                    'inputValue': '1234a',
+                    'title': 'string \'1234a\'',
+                    'value': '1234a',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'fffffffffffff\'',
-                    'inputValue': 'fffffffffffff',
+                    'title': 'string \'fffffffffffff\'',
+                    'value': 'fffffffffffff',
                     'expect': false
                 },
                 {
-                    'inputName': 'string \'logical\'',
-                    'inputValue': 'logical',
+                    'title': 'string \'logical\'',
+                    'value': 'logical',
                     'expect': false
                 },
                 {
-                    'inputName': 'string \'ⱠⱡⱢab\'',
-                    'inputValue': 'ⱠⱡⱢab',
+                    'title': 'string \'ⱠⱡⱢab\'',
+                    'value': 'ⱠⱡⱢab',
                     'expect': false
                 },
                 {
-                    'inputName': 'string \'Ᵽ\'',
-                    'inputValue': 'Ᵽ',
+                    'title': 'string \'Ᵽ\'',
+                    'value': 'Ᵽ',
                     'expect': false
                 },
                 ...defaultItems({
@@ -332,13 +332,13 @@ const testItems: ITestSuite = {
             'rule': 'boolean',
             'items': [
                 {
-                    'inputName': 'string \'true\'',
-                    'inputValue': 'true',
+                    'title': 'string \'true\'',
+                    'value': 'true',
                     'expect': false
                 },
                 {
-                    'inputName': 'string \'false\'',
-                    'inputValue': 'false',
+                    'title': 'string \'false\'',
+                    'value': 'false',
                     'expect': false
                 },
                 ...defaultItems({
@@ -352,8 +352,8 @@ const testItems: ITestSuite = {
             'rule': 'true',
             'items': [
                 {
-                    'inputName': 'string \'true\'',
-                    'inputValue': 'true',
+                    'title': 'string \'true\'',
+                    'value': 'true',
                     'expect': false
                 },
                 ...defaultItems({
@@ -367,8 +367,8 @@ const testItems: ITestSuite = {
             'rule': 'false',
             'items': [
                 {
-                    'inputName': 'string \'false\'',
-                    'inputValue': 'false',
+                    'title': 'string \'false\'',
+                    'value': 'false',
                     'expect': false
                 },
                 ...defaultItems({
@@ -382,8 +382,8 @@ const testItems: ITestSuite = {
             'rule': 'true_value',
             'items': [
                 {
-                    'inputName': 'string \'true\'',
-                    'inputValue': 'true',
+                    'title': 'string \'true\'',
+                    'value': 'true',
                     'expect': true
                 },
                 ...defaultItems({
@@ -401,8 +401,8 @@ const testItems: ITestSuite = {
             'rule': 'false_value',
             'items': [
                 {
-                    'inputName': 'string \'false\'',
-                    'inputValue': 'false',
+                    'title': 'string \'false\'',
+                    'value': 'false',
                     'expect': false
                 },
                 ...defaultItems({
@@ -420,13 +420,13 @@ const testItems: ITestSuite = {
             'rule': 'int',
             'items': [
                 {
-                    'inputName': 'number -1',
-                    'inputValue': -1,
+                    'title': 'number -1',
+                    'value': -1,
                     'expect': true
                 },
                 {
-                    'inputName': 'number 1.23',
-                    'inputValue': 1.23,
+                    'title': 'number 1.23',
+                    'value': 1.23,
                     'expect': false
                 },
                 ...defaultItems({
@@ -440,8 +440,8 @@ const testItems: ITestSuite = {
             'rule': 'int(,)',
             'items': [
                 {
-                    'inputName': 'any',
-                    'inputValue': 'any',
+                    'title': 'any',
+                    'value': 'any',
                     'expect': 'throw'
                 }
             ]
@@ -451,28 +451,28 @@ const testItems: ITestSuite = {
             'rule': 'int(10,)',
             'items': [
                 {
-                    'inputName': 'number 11',
-                    'inputValue': 11,
+                    'title': 'number 11',
+                    'value': 11,
                     'expect': true
                 },
                 {
-                    'inputName': 'number 10',
-                    'inputValue': 10,
+                    'title': 'number 10',
+                    'value': 10,
                     'expect': true
                 },
                 {
-                    'inputName': 'number -1',
-                    'inputValue': -1,
+                    'title': 'number -1',
+                    'value': -1,
                     'expect': false
                 },
                 {
-                    'inputName': 'number 9',
-                    'inputValue': 9,
+                    'title': 'number 9',
+                    'value': 9,
                     'expect': false
                 },
                 {
-                    'inputName': 'number 1.23',
-                    'inputValue': 1.23,
+                    'title': 'number 1.23',
+                    'value': 1.23,
                     'expect': false
                 },
                 ...defaultItems({
@@ -486,28 +486,28 @@ const testItems: ITestSuite = {
             'rule': 'int(,10)',
             'items': [
                 {
-                    'inputName': 'number 11',
-                    'inputValue': 11,
+                    'title': 'number 11',
+                    'value': 11,
                     'expect': false
                 },
                 {
-                    'inputName': 'number 10',
-                    'inputValue': 10,
+                    'title': 'number 10',
+                    'value': 10,
                     'expect': true
                 },
                 {
-                    'inputName': 'number -1',
-                    'inputValue': -1,
+                    'title': 'number -1',
+                    'value': -1,
                     'expect': true
                 },
                 {
-                    'inputName': 'number 9',
-                    'inputValue': 9,
+                    'title': 'number 9',
+                    'value': 9,
                     'expect': true
                 },
                 {
-                    'inputName': 'number 1.23',
-                    'inputValue': 1.23,
+                    'title': 'number 1.23',
+                    'value': 1.23,
                     'expect': false
                 },
                 ...defaultItems({
@@ -521,38 +521,38 @@ const testItems: ITestSuite = {
             'rule': 'int(-12, 25)',
             'items': [
                 {
-                    'inputName': 'number -1',
-                    'inputValue': -1,
+                    'title': 'number -1',
+                    'value': -1,
                     'expect': true
                 },
                 {
-                    'inputName': 'number -12',
-                    'inputValue': -12,
+                    'title': 'number -12',
+                    'value': -12,
                     'expect': true
                 },
                 {
-                    'inputName': 'number 25',
-                    'inputValue': 25,
+                    'title': 'number 25',
+                    'value': 25,
                     'expect': true
                 },
                 {
-                    'inputName': 'number 26',
-                    'inputValue': 26,
+                    'title': 'number 26',
+                    'value': 26,
                     'expect': false
                 },
                 {
-                    'inputName': 'number -13',
-                    'inputValue': -13,
+                    'title': 'number -13',
+                    'value': -13,
                     'expect': false
                 },
                 {
-                    'inputName': 'number -11.5',
-                    'inputValue': -11.5,
+                    'title': 'number -11.5',
+                    'value': -11.5,
                     'expect': false
                 },
                 {
-                    'inputName': 'number 1.23',
-                    'inputValue': 1.23,
+                    'title': 'number 1.23',
+                    'value': 1.23,
                     'expect': false
                 },
                 ...defaultItems({
@@ -566,38 +566,38 @@ const testItems: ITestSuite = {
             'rule': 'int8',
             'items': [
                 {
-                    'inputName': 'number -1',
-                    'inputValue': -1,
+                    'title': 'number -1',
+                    'value': -1,
                     'expect': true
                 },
                 {
-                    'inputName': 'number -0x80',
-                    'inputValue': -0x80,
+                    'title': 'number -0x80',
+                    'value': -0x80,
                     'expect': true
                 },
                 {
-                    'inputName': 'number 0x7F',
-                    'inputValue': 0x7F,
+                    'title': 'number 0x7F',
+                    'value': 0x7F,
                     'expect': true
                 },
                 {
-                    'inputName': 'number 0x80',
-                    'inputValue': 0x80,
+                    'title': 'number 0x80',
+                    'value': 0x80,
                     'expect': false
                 },
                 {
-                    'inputName': 'number -0x81',
-                    'inputValue': -0x81,
+                    'title': 'number -0x81',
+                    'value': -0x81,
                     'expect': false
                 },
                 {
-                    'inputName': 'number 1.23',
-                    'inputValue': 1.23,
+                    'title': 'number 1.23',
+                    'value': 1.23,
                     'expect': false
                 },
                 {
-                    'inputName': 'number -1.23',
-                    'inputValue': -1.23,
+                    'title': 'number -1.23',
+                    'value': -1.23,
                     'expect': false
                 },
                 ...defaultItems({
@@ -611,38 +611,38 @@ const testItems: ITestSuite = {
             'rule': 'int16',
             'items': [
                 {
-                    'inputName': 'number -1',
-                    'inputValue': -1,
+                    'title': 'number -1',
+                    'value': -1,
                     'expect': true
                 },
                 {
-                    'inputName': 'number -0x8000',
-                    'inputValue': -0x8000,
+                    'title': 'number -0x8000',
+                    'value': -0x8000,
                     'expect': true
                 },
                 {
-                    'inputName': 'number 0x7FFF',
-                    'inputValue': 0x7FFF,
+                    'title': 'number 0x7FFF',
+                    'value': 0x7FFF,
                     'expect': true
                 },
                 {
-                    'inputName': 'number 0x8000',
-                    'inputValue': 0x8000,
+                    'title': 'number 0x8000',
+                    'value': 0x8000,
                     'expect': false
                 },
                 {
-                    'inputName': 'number -0x8001',
-                    'inputValue': -0x8001,
+                    'title': 'number -0x8001',
+                    'value': -0x8001,
                     'expect': false
                 },
                 {
-                    'inputName': 'number 1.23',
-                    'inputValue': 1.23,
+                    'title': 'number 1.23',
+                    'value': 1.23,
                     'expect': false
                 },
                 {
-                    'inputName': 'number -1.23',
-                    'inputValue': -1.23,
+                    'title': 'number -1.23',
+                    'value': -1.23,
                     'expect': false
                 },
                 ...defaultItems({
@@ -656,38 +656,38 @@ const testItems: ITestSuite = {
             'rule': 'int32',
             'items': [
                 {
-                    'inputName': 'number -1',
-                    'inputValue': -1,
+                    'title': 'number -1',
+                    'value': -1,
                     'expect': true
                 },
                 {
-                    'inputName': 'number -0x80000000',
-                    'inputValue': -0x80000000,
+                    'title': 'number -0x80000000',
+                    'value': -0x80000000,
                     'expect': true
                 },
                 {
-                    'inputName': 'number 0x7FFFFFFF',
-                    'inputValue': 0x7FFFFFFF,
+                    'title': 'number 0x7FFFFFFF',
+                    'value': 0x7FFFFFFF,
                     'expect': true
                 },
                 {
-                    'inputName': 'number 0x80000000',
-                    'inputValue': 0x80000000,
+                    'title': 'number 0x80000000',
+                    'value': 0x80000000,
                     'expect': false
                 },
                 {
-                    'inputName': 'number -0x80000001',
-                    'inputValue': -0x80000001,
+                    'title': 'number -0x80000001',
+                    'value': -0x80000001,
                     'expect': false
                 },
                 {
-                    'inputName': 'number 1.23',
-                    'inputValue': 1.23,
+                    'title': 'number 1.23',
+                    'value': 1.23,
                     'expect': false
                 },
                 {
-                    'inputName': 'number -1.23',
-                    'inputValue': -1.23,
+                    'title': 'number -1.23',
+                    'value': -1.23,
                     'expect': false
                 },
                 ...defaultItems({
@@ -701,33 +701,33 @@ const testItems: ITestSuite = {
             'rule': 'int64',
             'items': [
                 {
-                    'inputName': 'number -1',
-                    'inputValue': -1,
+                    'title': 'number -1',
+                    'value': -1,
                     'expect': true
                 },
                 {
-                    'inputName': 'number -0x8000000000000000',
-                    'inputValue': -0x8000000000000000,
+                    'title': 'number -0x8000000000000000',
+                    'value': -0x8000000000000000,
                     'expect': true
                 },
                 {
-                    'inputName': 'number 0x7FFFFFFF',
-                    'inputValue': 0x7FFFFFFF,
+                    'title': 'number 0x7FFFFFFF',
+                    'value': 0x7FFFFFFF,
                     'expect': true
                 },
                 {
-                    'inputName': 'number 0x7FFFFFFFFFFFFFFF',
-                    'inputValue': 0x7FFFFFFFFFFFFFFF,
+                    'title': 'number 0x7FFFFFFFFFFFFFFF',
+                    'value': 0x7FFFFFFFFFFFFFFF,
                     'expect': true
                 },
                 {
-                    'inputName': 'number 1.23',
-                    'inputValue': 1.23,
+                    'title': 'number 1.23',
+                    'value': 1.23,
                     'expect': false
                 },
                 {
-                    'inputName': 'number -1.23',
-                    'inputValue': -1.23,
+                    'title': 'number -1.23',
+                    'value': -1.23,
                     'expect': false
                 },
                 ...defaultItems({
@@ -741,13 +741,13 @@ const testItems: ITestSuite = {
             'rule': 'uint',
             'items': [
                 {
-                    'inputName': 'number -1',
-                    'inputValue': -1,
+                    'title': 'number -1',
+                    'value': -1,
                     'expect': false
                 },
                 {
-                    'inputName': 'number 1.23',
-                    'inputValue': 1.23,
+                    'title': 'number 1.23',
+                    'value': 1.23,
                     'expect': false
                 },
                 ...defaultItems({
@@ -761,28 +761,28 @@ const testItems: ITestSuite = {
             'rule': 'uint8',
             'items': [
                 {
-                    'inputName': 'number -1',
-                    'inputValue': -1,
+                    'title': 'number -1',
+                    'value': -1,
                     'expect': false
                 },
                 {
-                    'inputName': 'number 0xFF',
-                    'inputValue': 0xFF,
+                    'title': 'number 0xFF',
+                    'value': 0xFF,
                     'expect': true
                 },
                 {
-                    'inputName': 'number 0x100',
-                    'inputValue': 0x100,
+                    'title': 'number 0x100',
+                    'value': 0x100,
                     'expect': false
                 },
                 {
-                    'inputName': 'number 1.23',
-                    'inputValue': 1.23,
+                    'title': 'number 1.23',
+                    'value': 1.23,
                     'expect': false
                 },
                 {
-                    'inputName': 'number -1.23',
-                    'inputValue': -1.23,
+                    'title': 'number -1.23',
+                    'value': -1.23,
                     'expect': false
                 },
                 ...defaultItems({
@@ -796,28 +796,28 @@ const testItems: ITestSuite = {
             'rule': 'uint16',
             'items': [
                 {
-                    'inputName': 'number -1',
-                    'inputValue': -1,
+                    'title': 'number -1',
+                    'value': -1,
                     'expect': false
                 },
                 {
-                    'inputName': 'number 0xFFFF',
-                    'inputValue': 0xFFFF,
+                    'title': 'number 0xFFFF',
+                    'value': 0xFFFF,
                     'expect': true
                 },
                 {
-                    'inputName': 'number 0x10000',
-                    'inputValue': 0x10000,
+                    'title': 'number 0x10000',
+                    'value': 0x10000,
                     'expect': false
                 },
                 {
-                    'inputName': 'number 1.23',
-                    'inputValue': 1.23,
+                    'title': 'number 1.23',
+                    'value': 1.23,
                     'expect': false
                 },
                 {
-                    'inputName': 'number -1.23',
-                    'inputValue': -1.23,
+                    'title': 'number -1.23',
+                    'value': -1.23,
                     'expect': false
                 },
                 ...defaultItems({
@@ -831,28 +831,28 @@ const testItems: ITestSuite = {
             'rule': 'uint32',
             'items': [
                 {
-                    'inputName': 'number -1',
-                    'inputValue': -1,
+                    'title': 'number -1',
+                    'value': -1,
                     'expect': false
                 },
                 {
-                    'inputName': 'number 0xFFFFFFFF',
-                    'inputValue': 0xFFFFFFFF,
+                    'title': 'number 0xFFFFFFFF',
+                    'value': 0xFFFFFFFF,
                     'expect': true
                 },
                 {
-                    'inputName': 'number 0x100000000',
-                    'inputValue': 0x100000000,
+                    'title': 'number 0x100000000',
+                    'value': 0x100000000,
                     'expect': false
                 },
                 {
-                    'inputName': 'number 1.23',
-                    'inputValue': 1.23,
+                    'title': 'number 1.23',
+                    'value': 1.23,
                     'expect': false
                 },
                 {
-                    'inputName': 'number -1.23',
-                    'inputValue': -1.23,
+                    'title': 'number -1.23',
+                    'value': -1.23,
                     'expect': false
                 },
                 ...defaultItems({
@@ -866,28 +866,28 @@ const testItems: ITestSuite = {
             'rule': 'uint64',
             'items': [
                 {
-                    'inputName': 'number -1',
-                    'inputValue': -1,
+                    'title': 'number -1',
+                    'value': -1,
                     'expect': false
                 },
                 {
-                    'inputName': 'number 0xFFFFFFFFFFFFFFFF',
-                    'inputValue': 0xFFFFFFFFFFFFFFFF,
+                    'title': 'number 0xFFFFFFFFFFFFFFFF',
+                    'value': 0xFFFFFFFFFFFFFFFF,
                     'expect': true
                 },
                 {
-                    'inputName': 'number 0x7FFFFFFF',
-                    'inputValue': 0x7FFFFFFF,
+                    'title': 'number 0x7FFFFFFF',
+                    'value': 0x7FFFFFFF,
                     'expect': true
                 },
                 {
-                    'inputName': 'number 1.23',
-                    'inputValue': 1.23,
+                    'title': 'number 1.23',
+                    'value': 1.23,
                     'expect': false
                 },
                 {
-                    'inputName': 'number -1.23',
-                    'inputValue': -1.23,
+                    'title': 'number -1.23',
+                    'value': -1.23,
                     'expect': false
                 },
                 ...defaultItems({
@@ -901,38 +901,38 @@ const testItems: ITestSuite = {
             'rule': 'safe_int',
             'items': [
                 {
-                    'inputName': 'number -1',
-                    'inputValue': -1,
+                    'title': 'number -1',
+                    'value': -1,
                     'expect': true
                 },
                 {
-                    'inputName': 'number 9007199254740991',
-                    'inputValue': 9007199254740991,
+                    'title': 'number 9007199254740991',
+                    'value': 9007199254740991,
                     'expect': true
                 },
                 {
-                    'inputName': 'number -9007199254740991',
-                    'inputValue': -9007199254740991,
+                    'title': 'number -9007199254740991',
+                    'value': -9007199254740991,
                     'expect': true
                 },
                 {
-                    'inputName': 'number 9007199254740992',
-                    'inputValue': 9007199254740992,
+                    'title': 'number 9007199254740992',
+                    'value': 9007199254740992,
                     'expect': false
                 },
                 {
-                    'inputName': 'number -9007199254740992',
-                    'inputValue': -9007199254740992,
+                    'title': 'number -9007199254740992',
+                    'value': -9007199254740992,
                     'expect': false
                 },
                 {
-                    'inputName': 'number 1.23',
-                    'inputValue': 1.23,
+                    'title': 'number 1.23',
+                    'value': 1.23,
                     'expect': false
                 },
                 {
-                    'inputName': 'number -1.23',
-                    'inputValue': -1.23,
+                    'title': 'number -1.23',
+                    'value': -1.23,
                     'expect': false
                 },
                 ...defaultItems({
@@ -946,28 +946,28 @@ const testItems: ITestSuite = {
             'rule': 'safe_uint',
             'items': [
                 {
-                    'inputName': 'number -1',
-                    'inputValue': -1,
+                    'title': 'number -1',
+                    'value': -1,
                     'expect': false
                 },
                 {
-                    'inputName': 'number 9007199254740991',
-                    'inputValue': 9007199254740991,
+                    'title': 'number 9007199254740991',
+                    'value': 9007199254740991,
                     'expect': true
                 },
                 {
-                    'inputName': 'number 9007199254740992',
-                    'inputValue': 9007199254740992,
+                    'title': 'number 9007199254740992',
+                    'value': 9007199254740992,
                     'expect': false
                 },
                 {
-                    'inputName': 'number 1.23',
-                    'inputValue': 1.23,
+                    'title': 'number 1.23',
+                    'value': 1.23,
                     'expect': false
                 },
                 {
-                    'inputName': 'number -1.23',
-                    'inputValue': -1.23,
+                    'title': 'number -1.23',
+                    'value': -1.23,
                     'expect': false
                 },
                 ...defaultItems({
@@ -981,23 +981,23 @@ const testItems: ITestSuite = {
             'rule': 'float',
             'items': [
                 {
-                    'inputName': 'number -1',
-                    'inputValue': -1,
+                    'title': 'number -1',
+                    'value': -1,
                     'expect': true
                 },
                 {
-                    'inputName': 'number 120312',
-                    'inputValue': 120312,
+                    'title': 'number 120312',
+                    'value': 120312,
                     'expect': true
                 },
                 {
-                    'inputName': 'number 1.23',
-                    'inputValue': 1.23,
+                    'title': 'number 1.23',
+                    'value': 1.23,
                     'expect': true
                 },
                 {
-                    'inputName': 'number -1.23',
-                    'inputValue': -1.23,
+                    'title': 'number -1.23',
+                    'value': -1.23,
                     'expect': true
                 },
                 ...defaultItems({
@@ -1011,23 +1011,23 @@ const testItems: ITestSuite = {
             'rule': 'ufloat',
             'items': [
                 {
-                    'inputName': 'number -1',
-                    'inputValue': -1,
+                    'title': 'number -1',
+                    'value': -1,
                     'expect': false
                 },
                 {
-                    'inputName': 'number 120312',
-                    'inputValue': 120312,
+                    'title': 'number 120312',
+                    'value': 120312,
                     'expect': true
                 },
                 {
-                    'inputName': 'number 1.23',
-                    'inputValue': 1.23,
+                    'title': 'number 1.23',
+                    'value': 1.23,
                     'expect': true
                 },
                 {
-                    'inputName': 'number -1.23',
-                    'inputValue': -1.23,
+                    'title': 'number -1.23',
+                    'value': -1.23,
                     'expect': false
                 },
                 ...defaultItems({
@@ -1041,23 +1041,23 @@ const testItems: ITestSuite = {
             'rule': 'number',
             'items': [
                 {
-                    'inputName': 'number -1',
-                    'inputValue': -1,
+                    'title': 'number -1',
+                    'value': -1,
                     'expect': true
                 },
                 {
-                    'inputName': 'number 120312',
-                    'inputValue': 120312,
+                    'title': 'number 120312',
+                    'value': 120312,
                     'expect': true
                 },
                 {
-                    'inputName': 'number 1.23',
-                    'inputValue': 1.23,
+                    'title': 'number 1.23',
+                    'value': 1.23,
                     'expect': true
                 },
                 {
-                    'inputName': 'number -1.23',
-                    'inputValue': -1.23,
+                    'title': 'number -1.23',
+                    'value': -1.23,
                     'expect': true
                 },
                 ...defaultItems({
@@ -1071,38 +1071,38 @@ const testItems: ITestSuite = {
             'rule': 'number(1.0, 10.0)',
             'items': [
                 {
-                    'inputName': 'number -1',
-                    'inputValue': -1,
+                    'title': 'number -1',
+                    'value': -1,
                     'expect': false
                 },
                 {
-                    'inputName': 'number 1',
-                    'inputValue': 1,
+                    'title': 'number 1',
+                    'value': 1,
                     'expect': true
                 },
                 {
-                    'inputName': 'number 10',
-                    'inputValue': 10,
+                    'title': 'number 10',
+                    'value': 10,
                     'expect': true
                 },
                 {
-                    'inputName': 'number 11',
-                    'inputValue': 11,
+                    'title': 'number 11',
+                    'value': 11,
                     'expect': false
                 },
                 {
-                    'inputName': 'number 0',
-                    'inputValue': 0,
+                    'title': 'number 0',
+                    'value': 0,
                     'expect': false
                 },
                 {
-                    'inputName': 'number 1.23',
-                    'inputValue': 1.23,
+                    'title': 'number 1.23',
+                    'value': 1.23,
                     'expect': true
                 },
                 {
-                    'inputName': 'number -1.23',
-                    'inputValue': -1.23,
+                    'title': 'number -1.23',
+                    'value': -1.23,
                     'expect': false
                 },
                 ...defaultItems({
@@ -1116,38 +1116,38 @@ const testItems: ITestSuite = {
             'rule': 'number(1, )',
             'items': [
                 {
-                    'inputName': 'number -1',
-                    'inputValue': -1,
+                    'title': 'number -1',
+                    'value': -1,
                     'expect': false
                 },
                 {
-                    'inputName': 'number 1',
-                    'inputValue': 1,
+                    'title': 'number 1',
+                    'value': 1,
                     'expect': true
                 },
                 {
-                    'inputName': 'number 10',
-                    'inputValue': 10,
+                    'title': 'number 10',
+                    'value': 10,
                     'expect': true
                 },
                 {
-                    'inputName': 'number 11',
-                    'inputValue': 11,
+                    'title': 'number 11',
+                    'value': 11,
                     'expect': true
                 },
                 {
-                    'inputName': 'number 0',
-                    'inputValue': 0,
+                    'title': 'number 0',
+                    'value': 0,
                     'expect': false
                 },
                 {
-                    'inputName': 'number 1.23',
-                    'inputValue': 1.23,
+                    'title': 'number 1.23',
+                    'value': 1.23,
                     'expect': true
                 },
                 {
-                    'inputName': 'number -1.23',
-                    'inputValue': -1.23,
+                    'title': 'number -1.23',
+                    'value': -1.23,
                     'expect': false
                 },
                 ...defaultItems({
@@ -1161,8 +1161,8 @@ const testItems: ITestSuite = {
             'rule': 'number(,)',
             'items': [
                 {
-                    'inputName': 'any',
-                    'inputValue': 'any',
+                    'title': 'any',
+                    'value': 'any',
                     'expect': 'throw'
                 },
             ]
@@ -1172,33 +1172,33 @@ const testItems: ITestSuite = {
             'rule': 'number(, -1)',
             'items': [
                 {
-                    'inputName': 'number -1',
-                    'inputValue': -1,
+                    'title': 'number -1',
+                    'value': -1,
                     'expect': true
                 },
                 {
-                    'inputName': 'number 1',
-                    'inputValue': 1,
+                    'title': 'number 1',
+                    'value': 1,
                     'expect': false
                 },
                 {
-                    'inputName': 'number -0.3',
-                    'inputValue': -0.3,
+                    'title': 'number -0.3',
+                    'value': -0.3,
                     'expect': false
                 },
                 {
-                    'inputName': 'number -11',
-                    'inputValue': -11,
+                    'title': 'number -11',
+                    'value': -11,
                     'expect': true
                 },
                 {
-                    'inputName': 'number 0',
-                    'inputValue': 0,
+                    'title': 'number 0',
+                    'value': 0,
                     'expect': false
                 },
                 {
-                    'inputName': 'number -1.23',
-                    'inputValue': -1.23,
+                    'title': 'number -1.23',
+                    'value': -1.23,
                     'expect': true
                 },
                 ...defaultItems({
@@ -1212,38 +1212,38 @@ const testItems: ITestSuite = {
             'rule': 'numeric',
             'items': [
                 {
-                    'inputName': 'string \'120312\'',
-                    'inputValue': '120312',
+                    'title': 'string \'120312\'',
+                    'value': '120312',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'2.23\'',
-                    'inputValue': '2.23',
+                    'title': 'string \'2.23\'',
+                    'value': '2.23',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'2.23.4\'',
-                    'inputValue': '2.23.4',
+                    'title': 'string \'2.23.4\'',
+                    'value': '2.23.4',
                     'expect': false
                 },
                 {
-                    'inputName': 'number -1',
-                    'inputValue': -1,
+                    'title': 'number -1',
+                    'value': -1,
                     'expect': true
                 },
                 {
-                    'inputName': 'number 120312',
-                    'inputValue': 120312,
+                    'title': 'number 120312',
+                    'value': 120312,
                     'expect': true
                 },
                 {
-                    'inputName': 'number 1.23',
-                    'inputValue': 1.23,
+                    'title': 'number 1.23',
+                    'value': 1.23,
                     'expect': true
                 },
                 {
-                    'inputName': 'number -1.23',
-                    'inputValue': -1.23,
+                    'title': 'number -1.23',
+                    'value': -1.23,
                     'expect': true
                 },
                 ...defaultItems({
@@ -1257,38 +1257,38 @@ const testItems: ITestSuite = {
             'rule': 'numeric(10,100)',
             'items': [
                 {
-                    'inputName': 'string \'50\'',
-                    'inputValue': '50',
+                    'title': 'string \'50\'',
+                    'value': '50',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'22.23\'',
-                    'inputValue': '22.23',
+                    'title': 'string \'22.23\'',
+                    'value': '22.23',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'2.23.4\'',
-                    'inputValue': '2.23.4',
+                    'title': 'string \'2.23.4\'',
+                    'value': '2.23.4',
                     'expect': false
                 },
                 {
-                    'inputName': 'number -1',
-                    'inputValue': -1,
+                    'title': 'number -1',
+                    'value': -1,
                     'expect': false
                 },
                 {
-                    'inputName': 'number 120312',
-                    'inputValue': 120312,
+                    'title': 'number 120312',
+                    'value': 120312,
                     'expect': false
                 },
                 {
-                    'inputName': 'number 11.23',
-                    'inputValue': 11.23,
+                    'title': 'number 11.23',
+                    'value': 11.23,
                     'expect': true
                 },
                 {
-                    'inputName': 'number -1.23',
-                    'inputValue': -1.23,
+                    'title': 'number -1.23',
+                    'value': -1.23,
                     'expect': false
                 },
                 ...defaultItems({
@@ -1302,38 +1302,38 @@ const testItems: ITestSuite = {
             'rule': 'numeric(10,)',
             'items': [
                 {
-                    'inputName': 'string \'50\'',
-                    'inputValue': '50',
+                    'title': 'string \'50\'',
+                    'value': '50',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'22.23\'',
-                    'inputValue': '22.23',
+                    'title': 'string \'22.23\'',
+                    'value': '22.23',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'2.23.4\'',
-                    'inputValue': '2.23.4',
+                    'title': 'string \'2.23.4\'',
+                    'value': '2.23.4',
                     'expect': false
                 },
                 {
-                    'inputName': 'number -1',
-                    'inputValue': -1,
+                    'title': 'number -1',
+                    'value': -1,
                     'expect': false
                 },
                 {
-                    'inputName': 'number 120312',
-                    'inputValue': 120312,
+                    'title': 'number 120312',
+                    'value': 120312,
                     'expect': true
                 },
                 {
-                    'inputName': 'number 11.23',
-                    'inputValue': 11.23,
+                    'title': 'number 11.23',
+                    'value': 11.23,
                     'expect': true
                 },
                 {
-                    'inputName': 'number -1.23',
-                    'inputValue': -1.23,
+                    'title': 'number -1.23',
+                    'value': -1.23,
                     'expect': false
                 },
                 ...defaultItems({
@@ -1347,38 +1347,38 @@ const testItems: ITestSuite = {
             'rule': 'numeric(,100)',
             'items': [
                 {
-                    'inputName': 'string \'50\'',
-                    'inputValue': '50',
+                    'title': 'string \'50\'',
+                    'value': '50',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'22.23\'',
-                    'inputValue': '22.23',
+                    'title': 'string \'22.23\'',
+                    'value': '22.23',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'2.23.4\'',
-                    'inputValue': '2.23.4',
+                    'title': 'string \'2.23.4\'',
+                    'value': '2.23.4',
                     'expect': false
                 },
                 {
-                    'inputName': 'number -1',
-                    'inputValue': -1,
+                    'title': 'number -1',
+                    'value': -1,
                     'expect': true
                 },
                 {
-                    'inputName': 'number 120312',
-                    'inputValue': 120312,
+                    'title': 'number 120312',
+                    'value': 120312,
                     'expect': false
                 },
                 {
-                    'inputName': 'number 11.23',
-                    'inputValue': 11.23,
+                    'title': 'number 11.23',
+                    'value': 11.23,
                     'expect': true
                 },
                 {
-                    'inputName': 'number -1.23',
-                    'inputValue': -1.23,
+                    'title': 'number -1.23',
+                    'value': -1.23,
                     'expect': true
                 },
                 ...defaultItems({
@@ -1445,8 +1445,8 @@ const testItems: ITestSuite = {
             'rule': 'array',
             'items': [
                 {
-                    'inputName': '[string, number]',
-                    'inputValue': ['-1.23', 123123],
+                    'title': '[string, number]',
+                    'value': ['-1.23', 123123],
                     'expect': true
                 },
                 ...defaultItems({
@@ -1459,13 +1459,13 @@ const testItems: ITestSuite = {
             'rule': 'array(1)',
             'items': [
                 {
-                    'inputName': '[string, number]',
-                    'inputValue': ['-1.23', 123123],
+                    'title': '[string, number]',
+                    'value': ['-1.23', 123123],
                     'expect': false
                 },
                 {
-                    'inputName': '[string]',
-                    'inputValue': ['-1.23'],
+                    'title': '[string]',
+                    'value': ['-1.23'],
                     'expect': true
                 },
                 ...defaultItems({
@@ -1478,23 +1478,23 @@ const testItems: ITestSuite = {
             'rule': 'array(1,3)',
             'items': [
                 {
-                    'inputName': '[string, number, boolean]',
-                    'inputValue': ['-1.23', 123123, true],
+                    'title': '[string, number, boolean]',
+                    'value': ['-1.23', 123123, true],
                     'expect': true
                 },
                 {
-                    'inputName': '[string, number]',
-                    'inputValue': ['-1.23', 123123],
+                    'title': '[string, number]',
+                    'value': ['-1.23', 123123],
                     'expect': true
                 },
                 {
-                    'inputName': '[string]',
-                    'inputValue': ['-1.23'],
+                    'title': '[string]',
+                    'value': ['-1.23'],
                     'expect': true
                 },
                 {
-                    'inputName': '[string, number, boolean, string]',
-                    'inputValue': ['-1.23', 123123, true, 'fff'],
+                    'title': '[string, number, boolean, string]',
+                    'value': ['-1.23', 123123, true, 'fff'],
                     'expect': false
                 },
                 ...defaultItems({
@@ -1507,13 +1507,13 @@ const testItems: ITestSuite = {
             'rule': 'array(1,)',
             'items': [
                 {
-                    'inputName': '[string, number]',
-                    'inputValue': ['-1.23', 123123],
+                    'title': '[string, number]',
+                    'value': ['-1.23', 123123],
                     'expect': true
                 },
                 {
-                    'inputName': '[string]',
-                    'inputValue': ['-1.23'],
+                    'title': '[string]',
+                    'value': ['-1.23'],
                     'expect': true
                 },
                 ...defaultItems({
@@ -1526,8 +1526,8 @@ const testItems: ITestSuite = {
             'rule': 'array(,)',
             'items': [
                 {
-                    'inputName': 'any',
-                    'inputValue': 'any',
+                    'title': 'any',
+                    'value': 'any',
                     'expect': 'throw'
                 },
             ]
@@ -1546,53 +1546,53 @@ const testItems: ITestSuite = {
             'rule': 'decimal',
             'items': [
                 {
-                    'inputName': 'number 1.00',
-                    'inputValue': 1.00,
+                    'title': 'number 1.00',
+                    'value': 1.00,
                     'expect': false
                 },
                 {
-                    'inputName': 'string \'1.00\'',
-                    'inputValue': '1.00',
+                    'title': 'string \'1.00\'',
+                    'value': '1.00',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'+1.00\'',
-                    'inputValue': '+1.00',
+                    'title': 'string \'+1.00\'',
+                    'value': '+1.00',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'0.00\'',
-                    'inputValue': '0.00',
+                    'title': 'string \'0.00\'',
+                    'value': '0.00',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'10.00\'',
-                    'inputValue': '10.00',
+                    'title': 'string \'10.00\'',
+                    'value': '10.00',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'-10.00\'',
-                    'inputValue': '-10.00',
+                    'title': 'string \'-10.00\'',
+                    'value': '-10.00',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'010.00\'',
-                    'inputValue': '010.00',
+                    'title': 'string \'010.00\'',
+                    'value': '010.00',
                     'expect': false
                 },
                 {
-                    'inputName': 'string \'.00\'',
-                    'inputValue': '.00',
+                    'title': 'string \'.00\'',
+                    'value': '.00',
                     'expect': false
                 },
                 {
-                    'inputName': 'string \'0.\'',
-                    'inputValue': '0.',
+                    'title': 'string \'0.\'',
+                    'value': '0.',
                     'expect': false
                 },
                 {
-                    'inputName': 'string \'0.00.0\'',
-                    'inputValue': '0.00.0',
+                    'title': 'string \'0.00.0\'',
+                    'value': '0.00.0',
                     'expect': false
                 },
                 ...defaultItems({})
@@ -1603,68 +1603,68 @@ const testItems: ITestSuite = {
             'rule': 'decimal(5)',
             'items': [
                 {
-                    'inputName': 'number 1.00',
-                    'inputValue': 1.00,
+                    'title': 'number 1.00',
+                    'value': 1.00,
                     'expect': false
                 },
                 {
-                    'inputName': 'string \'1.00\'',
-                    'inputValue': '1.00',
+                    'title': 'string \'1.00\'',
+                    'value': '1.00',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'0.00\'',
-                    'inputValue': '0.00',
+                    'title': 'string \'0.00\'',
+                    'value': '0.00',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'10.00\'',
-                    'inputValue': '10.00',
+                    'title': 'string \'10.00\'',
+                    'value': '10.00',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'-10.00\'',
-                    'inputValue': '-10.00',
+                    'title': 'string \'-10.00\'',
+                    'value': '-10.00',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'10000\'',
-                    'inputValue': '10000',
+                    'title': 'string \'10000\'',
+                    'value': '10000',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'100000\'',
-                    'inputValue': '100000',
+                    'title': 'string \'100000\'',
+                    'value': '100000',
                     'expect': false
                 },
                 {
-                    'inputName': 'string \'00001.0\'',
-                    'inputValue': '00001.0',
+                    'title': 'string \'00001.0\'',
+                    'value': '00001.0',
                     'expect': false
                 },
                 {
-                    'inputName': 'string \'1.00123\'',
-                    'inputValue': '1.00123',
+                    'title': 'string \'1.00123\'',
+                    'value': '1.00123',
                     'expect': false
                 },
                 {
-                    'inputName': 'string \'010.00\'',
-                    'inputValue': '010.00',
+                    'title': 'string \'010.00\'',
+                    'value': '010.00',
                     'expect': false
                 },
                 {
-                    'inputName': 'string \'.00\'',
-                    'inputValue': '.00',
+                    'title': 'string \'.00\'',
+                    'value': '.00',
                     'expect': false
                 },
                 {
-                    'inputName': 'string \'0.\'',
-                    'inputValue': '0.',
+                    'title': 'string \'0.\'',
+                    'value': '0.',
                     'expect': false
                 },
                 {
-                    'inputName': 'string \'0.00.0\'',
-                    'inputValue': '0.00.0',
+                    'title': 'string \'0.00.0\'',
+                    'value': '0.00.0',
                     'expect': false
                 },
                 ...defaultItems({})
@@ -1675,83 +1675,83 @@ const testItems: ITestSuite = {
             'rule': 'decimal(5, 2)',
             'items': [
                 {
-                    'inputName': 'number 1.00',
-                    'inputValue': 1.00,
+                    'title': 'number 1.00',
+                    'value': 1.00,
                     'expect': false
                 },
                 {
-                    'inputName': 'string \'1.00\'',
-                    'inputValue': '1.00',
+                    'title': 'string \'1.00\'',
+                    'value': '1.00',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'0.00\'',
-                    'inputValue': '0.00',
+                    'title': 'string \'0.00\'',
+                    'value': '0.00',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'10.00\'',
-                    'inputValue': '10.00',
+                    'title': 'string \'10.00\'',
+                    'value': '10.00',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'+10.00\'',
-                    'inputValue': '+10.00',
+                    'title': 'string \'+10.00\'',
+                    'value': '+10.00',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'100.12\'',
-                    'inputValue': '100.12',
+                    'title': 'string \'100.12\'',
+                    'value': '100.12',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'-100.12\'',
-                    'inputValue': '-100.12',
+                    'title': 'string \'-100.12\'',
+                    'value': '-100.12',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'1100.1\'',
-                    'inputValue': '1100.1',
+                    'title': 'string \'1100.1\'',
+                    'value': '1100.1',
                     'expect': false
                 },
                 {
-                    'inputName': 'string \'11.123\'',
-                    'inputValue': '10.123',
+                    'title': 'string \'11.123\'',
+                    'value': '10.123',
                     'expect': false
                 },
                 {
-                    'inputName': 'string \'100000\'',
-                    'inputValue': '100000',
+                    'title': 'string \'100000\'',
+                    'value': '100000',
                     'expect': false
                 },
                 {
-                    'inputName': 'string \'00001.0\'',
-                    'inputValue': '00001.0',
+                    'title': 'string \'00001.0\'',
+                    'value': '00001.0',
                     'expect': false
                 },
                 {
-                    'inputName': 'string \'1.00123\'',
-                    'inputValue': '1.00123',
+                    'title': 'string \'1.00123\'',
+                    'value': '1.00123',
                     'expect': false
                 },
                 {
-                    'inputName': 'string \'010.00\'',
-                    'inputValue': '010.00',
+                    'title': 'string \'010.00\'',
+                    'value': '010.00',
                     'expect': false
                 },
                 {
-                    'inputName': 'string \'.00\'',
-                    'inputValue': '.00',
+                    'title': 'string \'.00\'',
+                    'value': '.00',
                     'expect': false
                 },
                 {
-                    'inputName': 'string \'0.\'',
-                    'inputValue': '0.',
+                    'title': 'string \'0.\'',
+                    'value': '0.',
                     'expect': false
                 },
                 {
-                    'inputName': 'string \'0.00.0\'',
-                    'inputValue': '0.00.0',
+                    'title': 'string \'0.00.0\'',
+                    'value': '0.00.0',
                     'expect': false
                 },
                 ...defaultItems({})
@@ -1762,30 +1762,30 @@ const testItems: ITestSuite = {
             'rule': 'string{}',
             'items': [
                 {
-                    'inputName': JSON.stringify({
+                    'title': JSON.stringify({
                         'a': 'bbbb',
                         'b': 'ccccc'
                     }),
-                    'inputValue': {
+                    'value': {
                         'a': 'bbbb',
                         'b': 'ccccc'
                     },
                     'expect': true
                 },
                 {
-                    'inputName': JSON.stringify({
+                    'title': JSON.stringify({
                         'a': 'bbbb',
                         'b': 321
                     }),
-                    'inputValue': {
+                    'value': {
                         'a': 'bbbb',
                         'b': 321
                     },
                     'expect': false
                 },
                 {
-                    'inputName': '[string, string, string]',
-                    'inputValue': ['a', 'b', 'c'],
+                    'title': '[string, string, string]',
+                    'value': ['a', 'b', 'c'],
                     'expect': false
                 },
                 ...defaultItems({
@@ -1798,18 +1798,18 @@ const testItems: ITestSuite = {
             'rule': 'string[]',
             'items': [
                 {
-                    'inputName': '[string, string]',
-                    'inputValue': ['a', '123'],
+                    'title': '[string, string]',
+                    'value': ['a', '123'],
                     'expect': true
                 },
                 {
-                    'inputName': '[string]',
-                    'inputValue': ['a'],
+                    'title': '[string]',
+                    'value': ['a'],
                     'expect': true
                 },
                 {
-                    'inputName': '[string, number]',
-                    'inputValue': ['a', 123],
+                    'title': '[string, number]',
+                    'value': ['a', 123],
                     'expect': false
                 },
                 ...defaultItems({
@@ -1822,13 +1822,13 @@ const testItems: ITestSuite = {
             'rule': 'string[0]',
             'items': [
                 {
-                    'inputName': '[string]',
-                    'inputValue': ['a'],
+                    'title': '[string]',
+                    'value': ['a'],
                     'expect': false
                 },
                 {
-                    'inputName': '[string, number]',
-                    'inputValue': ['a', 123],
+                    'title': '[string, number]',
+                    'value': ['a', 123],
                     'expect': false
                 },
                 ...defaultItems({
@@ -1841,28 +1841,28 @@ const testItems: ITestSuite = {
             'rule': 'string[3]',
             'items': [
                 {
-                    'inputName': '[string, string, string]',
-                    'inputValue': ['a', 'b', 'c'],
+                    'title': '[string, string, string]',
+                    'value': ['a', 'b', 'c'],
                     'expect': true
                 },
                 {
-                    'inputName': '[string, string, number]',
-                    'inputValue': ['a', 'b', 123],
+                    'title': '[string, string, number]',
+                    'value': ['a', 'b', 123],
                     'expect': false
                 },
                 {
-                    'inputName': '[string, string]',
-                    'inputValue': ['a', 'b'],
+                    'title': '[string, string]',
+                    'value': ['a', 'b'],
                     'expect': false
                 },
                 {
-                    'inputName': '[string]',
-                    'inputValue': ['a'],
+                    'title': '[string]',
+                    'value': ['a'],
                     'expect': false
                 },
                 {
-                    'inputName': '[string, number]',
-                    'inputValue': ['a', 123],
+                    'title': '[string, number]',
+                    'value': ['a', 123],
                     'expect': false
                 },
                 ...defaultItems({})
@@ -1873,28 +1873,28 @@ const testItems: ITestSuite = {
             'rule': 'string[0,3]',
             'items': [
                 {
-                    'inputName': '[string, string, string]',
-                    'inputValue': ['a', 'b', 'c'],
+                    'title': '[string, string, string]',
+                    'value': ['a', 'b', 'c'],
                     'expect': true
                 },
                 {
-                    'inputName': '[string, string, number]',
-                    'inputValue': ['a', 'b', 123],
+                    'title': '[string, string, number]',
+                    'value': ['a', 'b', 123],
                     'expect': false
                 },
                 {
-                    'inputName': '[string, string]',
-                    'inputValue': ['a', 'b'],
+                    'title': '[string, string]',
+                    'value': ['a', 'b'],
                     'expect': true
                 },
                 {
-                    'inputName': '[string]',
-                    'inputValue': ['a'],
+                    'title': '[string]',
+                    'value': ['a'],
                     'expect': true
                 },
                 {
-                    'inputName': '[string, number]',
-                    'inputValue': ['a', 123],
+                    'title': '[string, number]',
+                    'value': ['a', 123],
                     'expect': false
                 },
                 ...defaultItems({
@@ -1907,33 +1907,33 @@ const testItems: ITestSuite = {
             'rule': 'string(1,5)[0,3]',
             'items': [
                 {
-                    'inputName': '[string, string, string]',
-                    'inputValue': ['a', 'b', 'c'],
+                    'title': '[string, string, string]',
+                    'value': ['a', 'b', 'c'],
                     'expect': true
                 },
                 {
-                    'inputName': '[string, string, number]',
-                    'inputValue': ['a', 'b', 123],
+                    'title': '[string, string, number]',
+                    'value': ['a', 'b', 123],
                     'expect': false
                 },
                 {
-                    'inputName': '[string, string]',
-                    'inputValue': ['a', 'b'],
+                    'title': '[string, string]',
+                    'value': ['a', 'b'],
                     'expect': true
                 },
                 {
-                    'inputName': '[string, string, string(7)]',
-                    'inputValue': ['a', 'b', 'aaabbbc'],
+                    'title': '[string, string, string(7)]',
+                    'value': ['a', 'b', 'aaabbbc'],
                     'expect': false
                 },
                 {
-                    'inputName': '[string]',
-                    'inputValue': ['a'],
+                    'title': '[string]',
+                    'value': ['a'],
                     'expect': true
                 },
                 {
-                    'inputName': '[string, number]',
-                    'inputValue': ['a', 123],
+                    'title': '[string, number]',
+                    'value': ['a', 123],
                     'expect': false
                 },
                 ...defaultItems({
@@ -1946,8 +1946,8 @@ const testItems: ITestSuite = {
             'rule': '?string',
             'items': [
                 {
-                    'inputName': 'string \'fine\'',
-                    'inputValue': 'fine',
+                    'title': 'string \'fine\'',
+                    'value': 'fine',
                     'expect': true
                 },
                 ...defaultItems({

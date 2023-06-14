@@ -32,23 +32,23 @@ const testItems: ITestSuite = {
             'rule': ['$.map', 'string', 'uint32'],
             'items': [
                 {
-                    inputName: 'all string object',
-                    inputValue: { 'a': '123312312', 'b': 'ccc' },
+                    title: 'all string object',
+                    value: { 'a': '123312312', 'b': 'ccc' },
                     expect: true
                 },
                 {
-                    inputName: 'all uint32 object',
-                    inputValue: { 'a': 123312312, 'b': 0xCCC },
+                    title: 'all uint32 object',
+                    value: { 'a': 123312312, 'b': 0xCCC },
                     expect: true
                 },
                 {
-                    inputName: 'all uint32 & string object',
-                    inputValue: { 'a': 123312312, 'b': 0xCCC },
+                    title: 'all uint32 & string object',
+                    value: { 'a': 123312312, 'b': 0xCCC },
                     expect: true
                 },
                 {
-                    inputName: 'all uint32 & boolean object',
-                    inputValue: { 'a': 123312312, 'b': false },
+                    title: 'all uint32 & boolean object',
+                    value: { 'a': 123312312, 'b': false },
                     expect: false
                 },
                 ...defaultItems({

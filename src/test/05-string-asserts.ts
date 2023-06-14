@@ -25,13 +25,13 @@ const testItems: ITestSuite = {
             'rule': '==aasdsadsada',
             'items': [
                 {
-                    'inputName': 'string \'aasdsadsada\'',
-                    'inputValue': 'aasdsadsada',
+                    'title': 'string \'aasdsadsada\'',
+                    'value': 'aasdsadsada',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'AASDSADSADA\'',
-                    'inputValue': 'AASDSADSADA',
+                    'title': 'string \'AASDSADSADA\'',
+                    'value': 'AASDSADSADA',
                     'expect': false
                 },
                 ...defaultItems({})
@@ -42,13 +42,13 @@ const testItems: ITestSuite = {
             'rule': '=aasdsadsada',
             'items': [
                 {
-                    'inputName': 'string \'aasdsadsada\'',
-                    'inputValue': 'aasdsadsada',
+                    'title': 'string \'aasdsadsada\'',
+                    'value': 'aasdsadsada',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'AASDSADSADA\'',
-                    'inputValue': 'AASDSADSADA',
+                    'title': 'string \'AASDSADSADA\'',
+                    'value': 'AASDSADSADA',
                     'expect': false
                 },
                 ...defaultItems({})
@@ -59,13 +59,13 @@ const testItems: ITestSuite = {
             'rule': ':equal:aasdsadsada',
             'items': [
                 {
-                    'inputName': 'string \'aasdsadsada\'',
-                    'inputValue': 'aasdsadsada',
+                    'title': 'string \'aasdsadsada\'',
+                    'value': 'aasdsadsada',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'AASDSADSADA\'',
-                    'inputValue': 'AASDSADSADA',
+                    'title': 'string \'AASDSADSADA\'',
+                    'value': 'AASDSADSADA',
                     'expect': false
                 },
                 ...defaultItems({})
@@ -76,13 +76,13 @@ const testItems: ITestSuite = {
             'rule': ':equal-i:aasdsadsada',
             'items': [
                 {
-                    'inputName': 'string \'aasdsadsada\'',
-                    'inputValue': 'aasdsadsada',
+                    'title': 'string \'aasdsadsada\'',
+                    'value': 'aasdsadsada',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'AASDSADSADA\'',
-                    'inputValue': 'AASDSADSADA',
+                    'title': 'string \'AASDSADSADA\'',
+                    'value': 'AASDSADSADA',
                     'expect': true
                 },
                 ...defaultItems({})
@@ -93,13 +93,13 @@ const testItems: ITestSuite = {
             'rule': '%=aasdsadsada',
             'items': [
                 {
-                    'inputName': 'string \'aasdsadsada\'',
-                    'inputValue': 'aasdsadsada',
+                    'title': 'string \'aasdsadsada\'',
+                    'value': 'aasdsadsada',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'AASDSADSADA\'',
-                    'inputValue': 'AASDSADSADA',
+                    'title': 'string \'AASDSADSADA\'',
+                    'value': 'AASDSADSADA',
                     'expect': true
                 },
                 ...defaultItems({})
@@ -110,13 +110,13 @@ const testItems: ITestSuite = {
             'rule': '!=aasdsadsada',
             'items': [
                 {
-                    'inputName': 'string \'aasdsadsada\'',
-                    'inputValue': 'aasdsadsada',
+                    'title': 'string \'aasdsadsada\'',
+                    'value': 'aasdsadsada',
                     'expect': false
                 },
                 {
-                    'inputName': 'string \'AASDSADSADA\'',
-                    'inputValue': 'AASDSADSADA',
+                    'title': 'string \'AASDSADSADA\'',
+                    'value': 'AASDSADSADA',
                     'expect': true
                 },
                 ...defaultItems({
@@ -130,13 +130,13 @@ const testItems: ITestSuite = {
             'rule': ':not-equal:aasdsadsada',
             'items': [
                 {
-                    'inputName': 'string \'aasdsadsada\'',
-                    'inputValue': 'aasdsadsada',
+                    'title': 'string \'aasdsadsada\'',
+                    'value': 'aasdsadsada',
                     'expect': false
                 },
                 {
-                    'inputName': 'string \'AASDSADSADA\'',
-                    'inputValue': 'AASDSADSADA',
+                    'title': 'string \'AASDSADSADA\'',
+                    'value': 'AASDSADSADA',
                     'expect': true
                 },
                 ...defaultItems({
@@ -150,13 +150,13 @@ const testItems: ITestSuite = {
             'rule': ':not-equal-i:aasdsadsada',
             'items': [
                 {
-                    'inputName': 'string \'aasdsadsada\'',
-                    'inputValue': 'aasdsadsada',
+                    'title': 'string \'aasdsadsada\'',
+                    'value': 'aasdsadsada',
                     'expect': false
                 },
                 {
-                    'inputName': 'string \'AASDSADSADA\'',
-                    'inputValue': 'AASDSADSADA',
+                    'title': 'string \'AASDSADSADA\'',
+                    'value': 'AASDSADSADA',
                     'expect': false
                 },
                 ...defaultItems({
@@ -170,13 +170,13 @@ const testItems: ITestSuite = {
             'rule': '%!aasdsadsada',
             'items': [
                 {
-                    'inputName': 'string \'aasdsadsada\'',
-                    'inputValue': 'aasdsadsada',
+                    'title': 'string \'aasdsadsada\'',
+                    'value': 'aasdsadsada',
                     'expect': false
                 },
                 {
-                    'inputName': 'string \'AASDSADSADA\'',
-                    'inputValue': 'AASDSADSADA',
+                    'title': 'string \'AASDSADSADA\'',
+                    'value': 'AASDSADSADA',
                     'expect': false
                 },
                 ...defaultItems({
@@ -190,13 +190,13 @@ const testItems: ITestSuite = {
             'rule': '^=hello',
             'items': [
                 {
-                    'inputName': 'string \'hello world\'',
-                    'inputValue': 'hello world',
+                    'title': 'string \'hello world\'',
+                    'value': 'hello world',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'hello world\'',
-                    'inputValue': 'Hello world',
+                    'title': 'string \'hello world\'',
+                    'value': 'Hello world',
                     'expect': false
                 },
                 ...defaultItems({
@@ -210,13 +210,13 @@ const testItems: ITestSuite = {
             'rule': ':start-with:hello',
             'items': [
                 {
-                    'inputName': 'string \'hello world\'',
-                    'inputValue': 'hello world',
+                    'title': 'string \'hello world\'',
+                    'value': 'hello world',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'hello world\'',
-                    'inputValue': 'Hello world',
+                    'title': 'string \'hello world\'',
+                    'value': 'Hello world',
                     'expect': false
                 },
                 ...defaultItems({
@@ -230,13 +230,13 @@ const testItems: ITestSuite = {
             'rule': ':start-with-i:hello',
             'items': [
                 {
-                    'inputName': 'string \'hello world\'',
-                    'inputValue': 'hello world',
+                    'title': 'string \'hello world\'',
+                    'value': 'hello world',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'hello world\'',
-                    'inputValue': 'Hello world',
+                    'title': 'string \'hello world\'',
+                    'value': 'Hello world',
                     'expect': true
                 },
                 ...defaultItems({
@@ -250,13 +250,13 @@ const testItems: ITestSuite = {
             'rule': '^!hello',
             'items': [
                 {
-                    'inputName': 'string \'hello world\'',
-                    'inputValue': 'hello world',
+                    'title': 'string \'hello world\'',
+                    'value': 'hello world',
                     'expect': false
                 },
                 {
-                    'inputName': 'string \'hello world\'',
-                    'inputValue': 'Hello world',
+                    'title': 'string \'hello world\'',
+                    'value': 'Hello world',
                     'expect': true
                 },
                 ...defaultItems({
@@ -270,13 +270,13 @@ const testItems: ITestSuite = {
             'rule': ':not-start-with:hello',
             'items': [
                 {
-                    'inputName': 'string \'hello world\'',
-                    'inputValue': 'hello world',
+                    'title': 'string \'hello world\'',
+                    'value': 'hello world',
                     'expect': false
                 },
                 {
-                    'inputName': 'string \'hello world\'',
-                    'inputValue': 'Hello world',
+                    'title': 'string \'hello world\'',
+                    'value': 'Hello world',
                     'expect': true
                 },
                 ...defaultItems({
@@ -290,13 +290,13 @@ const testItems: ITestSuite = {
             'rule': ':not-start-with-i:hello',
             'items': [
                 {
-                    'inputName': 'string \'hello world\'',
-                    'inputValue': 'hello world',
+                    'title': 'string \'hello world\'',
+                    'value': 'hello world',
                     'expect': false
                 },
                 {
-                    'inputName': 'string \'hello world\'',
-                    'inputValue': 'Hello world',
+                    'title': 'string \'hello world\'',
+                    'value': 'Hello world',
                     'expect': false
                 },
                 ...defaultItems({
@@ -310,13 +310,13 @@ const testItems: ITestSuite = {
             'rule': '$=world',
             'items': [
                 {
-                    'inputName': 'string \'hello world\'',
-                    'inputValue': 'hello world',
+                    'title': 'string \'hello world\'',
+                    'value': 'hello world',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'hello world\'',
-                    'inputValue': 'Hello World',
+                    'title': 'string \'hello world\'',
+                    'value': 'Hello World',
                     'expect': false
                 },
                 ...defaultItems({
@@ -330,13 +330,13 @@ const testItems: ITestSuite = {
             'rule': ':end-with:world',
             'items': [
                 {
-                    'inputName': 'string \'hello world\'',
-                    'inputValue': 'hello world',
+                    'title': 'string \'hello world\'',
+                    'value': 'hello world',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'hello world\'',
-                    'inputValue': 'Hello World',
+                    'title': 'string \'hello world\'',
+                    'value': 'Hello World',
                     'expect': false
                 },
                 ...defaultItems({
@@ -350,13 +350,13 @@ const testItems: ITestSuite = {
             'rule': ':end-with-i:world',
             'items': [
                 {
-                    'inputName': 'string \'hello world\'',
-                    'inputValue': 'hello world',
+                    'title': 'string \'hello world\'',
+                    'value': 'hello world',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'hello world\'',
-                    'inputValue': 'Hello World',
+                    'title': 'string \'hello world\'',
+                    'value': 'Hello World',
                     'expect': true
                 },
                 ...defaultItems({
@@ -370,13 +370,13 @@ const testItems: ITestSuite = {
             'rule': '$!world',
             'items': [
                 {
-                    'inputName': 'string \'hello world\'',
-                    'inputValue': 'hello world',
+                    'title': 'string \'hello world\'',
+                    'value': 'hello world',
                     'expect': false
                 },
                 {
-                    'inputName': 'string \'hello world\'',
-                    'inputValue': 'Hello World',
+                    'title': 'string \'hello world\'',
+                    'value': 'Hello World',
                     'expect': true
                 },
                 ...defaultItems({
@@ -390,13 +390,13 @@ const testItems: ITestSuite = {
             'rule': ':not-end-with:world',
             'items': [
                 {
-                    'inputName': 'string \'hello world\'',
-                    'inputValue': 'hello world',
+                    'title': 'string \'hello world\'',
+                    'value': 'hello world',
                     'expect': false
                 },
                 {
-                    'inputName': 'string \'hello world\'',
-                    'inputValue': 'Hello World',
+                    'title': 'string \'hello world\'',
+                    'value': 'Hello World',
                     'expect': true
                 },
                 ...defaultItems({
@@ -410,13 +410,13 @@ const testItems: ITestSuite = {
             'rule': ':not-end-with-i:world',
             'items': [
                 {
-                    'inputName': 'string \'hello world\'',
-                    'inputValue': 'hello World',
+                    'title': 'string \'hello world\'',
+                    'value': 'hello World',
                     'expect': false
                 },
                 {
-                    'inputName': 'string \'hello world\'',
-                    'inputValue': 'Hello world',
+                    'title': 'string \'hello world\'',
+                    'value': 'Hello world',
                     'expect': false
                 },
                 ...defaultItems({
@@ -435,13 +435,13 @@ const testItems: ITestSuite = {
             'rule': '?=hello',
             'items': [
                 {
-                    'inputName': 'string \'hello world\'',
-                    'inputValue': 'hello world',
+                    'title': 'string \'hello world\'',
+                    'value': 'hello world',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'hello world\'',
-                    'inputValue': 'Hello world',
+                    'title': 'string \'hello world\'',
+                    'value': 'Hello world',
                     'expect': false
                 },
                 ...defaultItems({
@@ -455,13 +455,13 @@ const testItems: ITestSuite = {
             'rule': ':include:hello',
             'items': [
                 {
-                    'inputName': 'string \'hello world\'',
-                    'inputValue': 'hello world',
+                    'title': 'string \'hello world\'',
+                    'value': 'hello world',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'hello world\'',
-                    'inputValue': 'Hello world',
+                    'title': 'string \'hello world\'',
+                    'value': 'Hello world',
                     'expect': false
                 },
                 ...defaultItems({
@@ -475,13 +475,13 @@ const testItems: ITestSuite = {
             'rule': '*=hello',
             'items': [
                 {
-                    'inputName': 'string \'hello world\'',
-                    'inputValue': 'hello world',
+                    'title': 'string \'hello world\'',
+                    'value': 'hello world',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'hello world\'',
-                    'inputValue': 'Hello world',
+                    'title': 'string \'hello world\'',
+                    'value': 'Hello world',
                     'expect': true
                 },
                 ...defaultItems({
@@ -495,13 +495,13 @@ const testItems: ITestSuite = {
             'rule': ':include-i:hello',
             'items': [
                 {
-                    'inputName': 'string \'hello world\'',
-                    'inputValue': 'hello world',
+                    'title': 'string \'hello world\'',
+                    'value': 'hello world',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'hello world\'',
-                    'inputValue': 'Hello world',
+                    'title': 'string \'hello world\'',
+                    'value': 'Hello world',
                     'expect': true
                 },
                 ...defaultItems({
@@ -515,13 +515,13 @@ const testItems: ITestSuite = {
             'rule': '?!hello',
             'items': [
                 {
-                    'inputName': 'string \'hello world\'',
-                    'inputValue': 'hello world',
+                    'title': 'string \'hello world\'',
+                    'value': 'hello world',
                     'expect': false
                 },
                 {
-                    'inputName': 'string \'hello world\'',
-                    'inputValue': 'Hello world',
+                    'title': 'string \'hello world\'',
+                    'value': 'Hello world',
                     'expect': true
                 },
                 ...defaultItems({
@@ -535,13 +535,13 @@ const testItems: ITestSuite = {
             'rule': ':not-include:hello',
             'items': [
                 {
-                    'inputName': 'string \'hello world\'',
-                    'inputValue': 'hello world',
+                    'title': 'string \'hello world\'',
+                    'value': 'hello world',
                     'expect': false
                 },
                 {
-                    'inputName': 'string \'hello world\'',
-                    'inputValue': 'Hello world',
+                    'title': 'string \'hello world\'',
+                    'value': 'Hello world',
                     'expect': true
                 },
                 ...defaultItems({
@@ -555,13 +555,13 @@ const testItems: ITestSuite = {
             'rule': ':not-include-i:hello',
             'items': [
                 {
-                    'inputName': 'string \'hello world\'',
-                    'inputValue': 'hello world',
+                    'title': 'string \'hello world\'',
+                    'value': 'hello world',
                     'expect': false
                 },
                 {
-                    'inputName': 'string \'hello world\'',
-                    'inputValue': 'Hello world',
+                    'title': 'string \'hello world\'',
+                    'value': 'Hello world',
                     'expect': false
                 },
                 ...defaultItems({
@@ -575,13 +575,13 @@ const testItems: ITestSuite = {
             'rule': '*!hello',
             'items': [
                 {
-                    'inputName': 'string \'hello world\'',
-                    'inputValue': 'hello world',
+                    'title': 'string \'hello world\'',
+                    'value': 'hello world',
                     'expect': false
                 },
                 {
-                    'inputName': 'string \'hello world\'',
-                    'inputValue': 'Hello world',
+                    'title': 'string \'hello world\'',
+                    'value': 'Hello world',
                     'expect': false
                 },
                 ...defaultItems({
@@ -595,18 +595,18 @@ const testItems: ITestSuite = {
             'rule': '~=/hello/i',
             'items': [
                 {
-                    'inputName': 'string \'hello world\'',
-                    'inputValue': 'hello world',
+                    'title': 'string \'hello world\'',
+                    'value': 'hello world',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'hello world\'',
-                    'inputValue': 'Hello world',
+                    'title': 'string \'hello world\'',
+                    'value': 'Hello world',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'hi world\'',
-                    'inputValue': 'hi world',
+                    'title': 'string \'hi world\'',
+                    'value': 'hi world',
                     'expect': false
                 },
                 ...defaultItems({
@@ -620,18 +620,18 @@ const testItems: ITestSuite = {
             'rule': '~=hello',
             'items': [
                 {
-                    'inputName': 'string \'hello world\'',
-                    'inputValue': 'hello world',
+                    'title': 'string \'hello world\'',
+                    'value': 'hello world',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'hello world\'',
-                    'inputValue': 'Hello world',
+                    'title': 'string \'hello world\'',
+                    'value': 'Hello world',
                     'expect': false
                 },
                 {
-                    'inputName': 'string \'hi world\'',
-                    'inputValue': 'hi world',
+                    'title': 'string \'hi world\'',
+                    'value': 'hi world',
                     'expect': false
                 },
                 ...defaultItems({
@@ -645,18 +645,18 @@ const testItems: ITestSuite = {
             'rule': '~/hello/i',
             'items': [
                 {
-                    'inputName': 'string \'hello world\'',
-                    'inputValue': 'hello world',
+                    'title': 'string \'hello world\'',
+                    'value': 'hello world',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'hello world\'',
-                    'inputValue': 'Hello world',
+                    'title': 'string \'hello world\'',
+                    'value': 'Hello world',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'hi world\'',
-                    'inputValue': 'hi world',
+                    'title': 'string \'hi world\'',
+                    'value': 'hi world',
                     'expect': false
                 },
                 ...defaultItems({
@@ -670,18 +670,18 @@ const testItems: ITestSuite = {
             'rule': '~hello',
             'items': [
                 {
-                    'inputName': 'string \'hello world\'',
-                    'inputValue': 'hello world',
+                    'title': 'string \'hello world\'',
+                    'value': 'hello world',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'hello world\'',
-                    'inputValue': 'Hello world',
+                    'title': 'string \'hello world\'',
+                    'value': 'Hello world',
                     'expect': false
                 },
                 {
-                    'inputName': 'string \'hi world\'',
-                    'inputValue': 'hi world',
+                    'title': 'string \'hi world\'',
+                    'value': 'hi world',
                     'expect': false
                 },
                 ...defaultItems({
@@ -695,18 +695,18 @@ const testItems: ITestSuite = {
             'rule': '~!hello',
             'items': [
                 {
-                    'inputName': 'string \'hello world\'',
-                    'inputValue': 'hello world',
+                    'title': 'string \'hello world\'',
+                    'value': 'hello world',
                     'expect': false
                 },
                 {
-                    'inputName': 'string \'hello world\'',
-                    'inputValue': 'Hello world',
+                    'title': 'string \'hello world\'',
+                    'value': 'Hello world',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'hi world\'',
-                    'inputValue': 'hi world',
+                    'title': 'string \'hi world\'',
+                    'value': 'hi world',
                     'expect': true
                 },
                 ...defaultItems({
@@ -720,18 +720,18 @@ const testItems: ITestSuite = {
             'rule': '~!/hello/i',
             'items': [
                 {
-                    'inputName': 'string \'hello world\'',
-                    'inputValue': 'hello world',
+                    'title': 'string \'hello world\'',
+                    'value': 'hello world',
                     'expect': false
                 },
                 {
-                    'inputName': 'string \'hello world\'',
-                    'inputValue': 'Hello world',
+                    'title': 'string \'hello world\'',
+                    'value': 'Hello world',
                     'expect': false
                 },
                 {
-                    'inputName': 'string \'hi world\'',
-                    'inputValue': 'hi world',
+                    'title': 'string \'hi world\'',
+                    'value': 'hi world',
                     'expect': true
                 },
                 ...defaultItems({
@@ -745,18 +745,18 @@ const testItems: ITestSuite = {
             'rule': '!~!/hello/i',
             'items': [
                 {
-                    'inputName': 'string \'hello world\'',
-                    'inputValue': 'hello world',
+                    'title': 'string \'hello world\'',
+                    'value': 'hello world',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'hello world\'',
-                    'inputValue': 'Hello world',
+                    'title': 'string \'hello world\'',
+                    'value': 'Hello world',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'hi world\'',
-                    'inputValue': 'hi world',
+                    'title': 'string \'hi world\'',
+                    'value': 'hi world',
                     'expect': false
                 },
                 ...defaultItems({
@@ -769,18 +769,18 @@ const testItems: ITestSuite = {
             'rule': ['$.not', '~!/hello/i'],
             'items': [
                 {
-                    'inputName': 'string \'hello world\'',
-                    'inputValue': 'hello world',
+                    'title': 'string \'hello world\'',
+                    'value': 'hello world',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'hello world\'',
-                    'inputValue': 'Hello world',
+                    'title': 'string \'hello world\'',
+                    'value': 'Hello world',
                     'expect': true
                 },
                 {
-                    'inputName': 'string \'hi world\'',
-                    'inputValue': 'hi world',
+                    'title': 'string \'hi world\'',
+                    'value': 'hi world',
                     'expect': false
                 },
                 ...defaultItems({

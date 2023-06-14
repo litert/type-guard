@@ -26,18 +26,18 @@ const testItems: ITestSuite = {
             'rule': ['$.tuple', 'string', 'int'],
             'items': [
                 {
-                    inputName: '[string]',
-                    inputValue: ['fff'],
+                    title: '[string]',
+                    value: ['fff'],
                     expect: false
                 },
                 {
-                    inputName: '[string,int]',
-                    inputValue: ['fff', 1213],
+                    title: '[string,int]',
+                    value: ['fff', 1213],
                     expect: true
                 },
                 {
-                    inputName: '[int, string]',
-                    inputValue: [123, 'fff'],
+                    title: '[int, string]',
+                    value: [123, 'fff'],
                     expect: false
                 },
                 ...defaultItems({
@@ -50,18 +50,18 @@ const testItems: ITestSuite = {
             'rule': ['$.tuple'],
             'items': [
                 {
-                    inputName: '[string]',
-                    inputValue: ['fff'],
+                    title: '[string]',
+                    value: ['fff'],
                     expect: false
                 },
                 {
-                    inputName: '[string,int]',
-                    inputValue: ['fff', 1213],
+                    title: '[string,int]',
+                    value: ['fff', 1213],
                     expect: false
                 },
                 {
-                    inputName: '[int, string]',
-                    inputValue: [123, 'fff'],
+                    title: '[int, string]',
+                    value: [123, 'fff'],
                     expect: false
                 },
                 ...defaultItems({
@@ -74,23 +74,23 @@ const testItems: ITestSuite = {
             'rule': ['$.tuple', 'string', 'int', '...'],
             'items': [
                 {
-                    inputName: '[string]',
-                    inputValue: ['fff'],
+                    title: '[string]',
+                    value: ['fff'],
                     expect: true
                 },
                 {
-                    inputName: '[string,int]',
-                    inputValue: ['fff', 1213],
+                    title: '[string,int]',
+                    value: ['fff', 1213],
                     expect: true
                 },
                 {
-                    inputName: '[string,int,int]',
-                    inputValue: ['fff', 1213, 233],
+                    title: '[string,int,int]',
+                    value: ['fff', 1213, 233],
                     expect: true
                 },
                 {
-                    inputName: '[int, string]',
-                    inputValue: [123, 'fff'],
+                    title: '[int, string]',
+                    value: [123, 'fff'],
                     expect: false
                 },
                 ...defaultItems({
@@ -103,28 +103,28 @@ const testItems: ITestSuite = {
             'rule': ['$.tuple', 'string', 'int', '...3', 'string'],
             'items': [
                 {
-                    inputName: '[string,int,int,int,string]',
-                    inputValue: ['fff', 1, 3, 5, 'ccc'],
+                    title: '[string,int,int,int,string]',
+                    value: ['fff', 1, 3, 5, 'ccc'],
                     expect: true
                 },
                 {
-                    inputName: '[string,int]',
-                    inputValue: ['fff', 1213],
+                    title: '[string,int]',
+                    value: ['fff', 1213],
                     expect: false
                 },
                 {
-                    inputName: '[string,int,string]',
-                    inputValue: ['fff', 1213, 'ccc'],
+                    title: '[string,int,string]',
+                    value: ['fff', 1213, 'ccc'],
                     expect: false
                 },
                 {
-                    inputName: '[string,int,int]',
-                    inputValue: ['fff', 1213, 233],
+                    title: '[string,int,int]',
+                    value: ['fff', 1213, 233],
                     expect: false
                 },
                 {
-                    inputName: '[int, string]',
-                    inputValue: [123, 'fff'],
+                    title: '[int, string]',
+                    value: [123, 'fff'],
                     expect: false
                 },
                 ...defaultItems({
@@ -137,43 +137,43 @@ const testItems: ITestSuite = {
             'rule': ['$.tuple', 'string', 'int', '...4', 'string', '...'],
             'items': [
                 {
-                    inputName: '[string,int,int,int,int,string]',
-                    inputValue: ['fff', 1, 3, 5, 2, 'ccc'],
+                    title: '[string,int,int,int,int,string]',
+                    value: ['fff', 1, 3, 5, 2, 'ccc'],
                     expect: true
                 },
                 {
-                    inputName: '[string,int,int,int,int,string,string]',
-                    inputValue: ['fff', 1, 3, 5, 2, 'ccc', 'aaa'],
+                    title: '[string,int,int,int,int,string,string]',
+                    value: ['fff', 1, 3, 5, 2, 'ccc', 'aaa'],
                     expect: true
                 },
                 {
-                    inputName: '[string,int,int,int,int]',
-                    inputValue: ['fff', 1, 3, 5, 2],
+                    title: '[string,int,int,int,int]',
+                    value: ['fff', 1, 3, 5, 2],
                     expect: true
                 },
                 {
-                    inputName: '[string,int,int,int]',
-                    inputValue: ['fff', 1, 3, 5],
+                    title: '[string,int,int,int]',
+                    value: ['fff', 1, 3, 5],
                     expect: false
                 },
                 {
-                    inputName: '[string,int]',
-                    inputValue: ['fff', 1213],
+                    title: '[string,int]',
+                    value: ['fff', 1213],
                     expect: false
                 },
                 {
-                    inputName: '[string,int,string]',
-                    inputValue: ['fff', 1213, 'ccc'],
+                    title: '[string,int,string]',
+                    value: ['fff', 1213, 'ccc'],
                     expect: false
                 },
                 {
-                    inputName: '[string,int,int]',
-                    inputValue: ['fff', 1213, 233],
+                    title: '[string,int,int]',
+                    value: ['fff', 1213, 233],
                     expect: false
                 },
                 {
-                    inputName: '[int, string]',
-                    inputValue: [123, 'fff'],
+                    title: '[int, string]',
+                    value: [123, 'fff'],
                     expect: false
                 },
                 ...defaultItems({
@@ -186,8 +186,8 @@ const testItems: ITestSuite = {
             'rule': ['$.tuple', '...'],
             'items': [
                 {
-                    inputName: 'any',
-                    inputValue: 'any',
+                    title: 'any',
+                    value: 'any',
                     expect: 'throw'
                 }
             ]
@@ -197,8 +197,8 @@ const testItems: ITestSuite = {
             'rule': ['$.tuple', 'string', '...', '...'],
             'items': [
                 {
-                    inputName: 'any',
-                    inputValue: 'any',
+                    title: 'any',
+                    value: 'any',
                     expect: 'throw'
                 }
             ]
@@ -208,8 +208,8 @@ const testItems: ITestSuite = {
             'rule': ['$.tuple', 'string', '...d'],
             'items': [
                 {
-                    inputName: 'any',
-                    inputValue: 'any',
+                    title: 'any',
+                    value: 'any',
                     expect: 'throw'
                 }
             ]

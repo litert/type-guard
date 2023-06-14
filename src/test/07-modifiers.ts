@@ -26,18 +26,18 @@ const testItems: ITestSuite = {
             'rule': ['$.string', 'uint32', { 'a': 'uint32' }],
             'items': [
                 {
-                    inputName: JSON.stringify('123'),
-                    inputValue: '123',
+                    title: JSON.stringify('123'),
+                    value: '123',
                     expect: true
                 },
                 {
-                    inputName: JSON.stringify({ 'a': 123 }),
-                    inputValue: { 'a': 123 },
+                    title: JSON.stringify({ 'a': 123 }),
+                    value: { 'a': 123 },
                     expect: true
                 },
                 {
-                    inputName: JSON.stringify({ 'a': 123 }),
-                    inputValue: { 'a': 123 },
+                    title: JSON.stringify({ 'a': 123 }),
+                    value: { 'a': 123 },
                     expect: true
                 },
                 ...defaultItems({
@@ -51,8 +51,8 @@ const testItems: ITestSuite = {
             'rule': ['$.and', ['$.string', 'uint32'], 'uint32'],
             'items': [
                 {
-                    inputName: JSON.stringify('123'),
-                    inputValue: '123',
+                    title: JSON.stringify('123'),
+                    value: '123',
                     expect: false
                 }
             ]
@@ -66,8 +66,8 @@ const testItems: ITestSuite = {
             }],
             'items': [
                 {
-                    inputName: JSON.stringify([{ 'a': 'x' }, { 'a': 'c', 'b': 'x' }]),
-                    inputValue: [{ 'a': 'x' }, { 'a': 'c', 'b': 'x' }],
+                    title: JSON.stringify([{ 'a': 'x' }, { 'a': 'c', 'b': 'x' }]),
+                    value: [{ 'a': 'x' }, { 'a': 'c', 'b': 'x' }],
                     expect: true
                 }
             ]
@@ -83,8 +83,8 @@ const testItems: ITestSuite = {
             }],
             'items': [
                 {
-                    inputName: JSON.stringify({ 'a': { 'b': 'c', 'd': 'ccc' } }),
-                    inputValue: { 'a': { 'b': 'c', 'd': 'ccc' } },
+                    title: JSON.stringify({ 'a': { 'b': 'c', 'd': 'ccc' } }),
+                    value: { 'a': { 'b': 'c', 'd': 'ccc' } },
                     expect: true
                 }
             ]
@@ -94,8 +94,8 @@ const testItems: ITestSuite = {
             'rule': ['$.not', 'string', 0],
             'items': [
                 {
-                    inputName: 'string \'abc\'',
-                    inputValue: 'abc',
+                    title: 'string \'abc\'',
+                    value: 'abc',
                     expect: false
                 },
                 ...defaultItems({
@@ -113,24 +113,24 @@ const testItems: ITestSuite = {
             },
             'items': [
                 {
-                    inputName: 'object {a: 213, b: 321}',
-                    inputValue: {
+                    title: 'object {a: 213, b: 321}',
+                    value: {
                         'a': 213,
                         'b': 321
                     },
                     expect: true
                 },
                 {
-                    inputName: 'object {a: 213, b: "321"}',
-                    inputValue: {
+                    title: 'object {a: 213, b: "321"}',
+                    value: {
                         'a': 213,
                         'b': '321'
                     },
                     expect: false
                 },
                 {
-                    inputName: 'object {a: 213, b: "321"}',
-                    inputValue: {
+                    title: 'object {a: 213, b: "321"}',
+                    value: {
                         'a': 213,
                         'b': 777
                     },
@@ -144,54 +144,54 @@ const testItems: ITestSuite = {
             'rule': '@ipv4_address',
             'items': [
                 {
-                    inputName: 'String: 1.1.1.1',
-                    inputValue: '1.1.1.1',
+                    title: 'String: 1.1.1.1',
+                    value: '1.1.1.1',
                     expect: true
                 },
                 {
-                    inputName: 'String: 255.255.255.255',
-                    inputValue: '255.255.255.255',
+                    title: 'String: 255.255.255.255',
+                    value: '255.255.255.255',
                     expect: true
                 },
                 {
-                    inputName: 'String: 0.0.0.0',
-                    inputValue: '0.0.0.0',
+                    title: 'String: 0.0.0.0',
+                    value: '0.0.0.0',
                     expect: true
                 },
                 {
-                    inputName: 'String: 2552.1.1.1',
-                    inputValue: '2552.1.1.1',
+                    title: 'String: 2552.1.1.1',
+                    value: '2552.1.1.1',
                     expect: false
                 },
                 {
-                    inputName: 'String: 256.1.1.1',
-                    inputValue: '256.1.1.1',
+                    title: 'String: 256.1.1.1',
+                    value: '256.1.1.1',
                     expect: false
                 },
                 {
-                    inputName: 'String: .1.1.1',
-                    inputValue: '.1.1.1',
+                    title: 'String: .1.1.1',
+                    value: '.1.1.1',
                     expect: false
                 },
                 {
-                    inputName: 'object {a: 213, b: 321}',
-                    inputValue: {
+                    title: 'object {a: 213, b: 321}',
+                    value: {
                         'a': 213,
                         'b': 321
                     },
                     expect: false
                 },
                 {
-                    inputName: 'object {a: 213, b: "321"}',
-                    inputValue: {
+                    title: 'object {a: 213, b: "321"}',
+                    value: {
                         'a': 213,
                         'b': '321'
                     },
                     expect: false
                 },
                 {
-                    inputName: 'object {a: 213, b: "321"}',
-                    inputValue: {
+                    title: 'object {a: 213, b: "321"}',
+                    value: {
                         'a': 213,
                         'b': 777
                     },
@@ -205,8 +205,8 @@ const testItems: ITestSuite = {
             'rule': '@trim_string',
             'items': [
                 {
-                    inputName: 'String " aaa"',
-                    inputValue: ' aaa',
+                    title: 'String " aaa"',
+                    value: ' aaa',
                     expect: true
                 },
                 ...defaultItems({
@@ -220,28 +220,28 @@ const testItems: ITestSuite = {
             'rule': '@trim_string(2, 5)',
             'items': [
                 {
-                    inputName: 'String " aaa"',
-                    inputValue: ' aaa',
+                    title: 'String " aaa"',
+                    value: ' aaa',
                     expect: true
                 },
                 {
-                    inputName: 'String " ffff"',
-                    inputValue: ' ffff',
+                    title: 'String " ffff"',
+                    value: ' ffff',
                     expect: true
                 },
                 {
-                    inputName: 'String " aa "',
-                    inputValue: ' aa ',
+                    title: 'String " aa "',
+                    value: ' aa ',
                     expect: true
                 },
                 {
-                    inputName: 'String " a "',
-                    inputValue: ' a ',
+                    title: 'String " a "',
+                    value: ' a ',
                     expect: false
                 },
                 {
-                    inputName: 'String " aaaaaaa "',
-                    inputValue: ' aaaaaaa ',
+                    title: 'String " aaaaaaa "',
+                    value: ' aaaaaaa ',
                     expect: false
                 },
                 ...defaultItems({
@@ -255,38 +255,38 @@ const testItems: ITestSuite = {
             'rule': '@enum(1, 2, 3,     "dddd", true, false, null, -2, 0x1111, "ss\\"", \'ff\', \'ff\\\'\')',
             'items': [
                 {
-                    inputName: 'Integer 2',
-                    inputValue: 2,
+                    title: 'Integer 2',
+                    value: 2,
                     expect: true
                 },
                 {
-                    inputName: 'Integer 0x1111',
-                    inputValue: 0x1111,
+                    title: 'Integer 0x1111',
+                    value: 0x1111,
                     expect: true
                 },
                 {
-                    inputName: 'Integer -2',
-                    inputValue: -2,
+                    title: 'Integer -2',
+                    value: -2,
                     expect: true
                 },
                 {
-                    inputName: 'String "dddd"',
-                    inputValue: 'dddd',
+                    title: 'String "dddd"',
+                    value: 'dddd',
                     expect: true
                 },
                 {
-                    inputName: 'String "ss\\""',
-                    inputValue: 'ss"',
+                    title: 'String "ss\\""',
+                    value: 'ss"',
                     expect: true
                 },
                 {
-                    inputName: 'String "ff"',
-                    inputValue: 'ff',
+                    title: 'String "ff"',
+                    value: 'ff',
                     expect: true
                 },
                 {
-                    inputName: 'String "ff\'"',
-                    inputValue: 'ff\'',
+                    title: 'String "ff\'"',
+                    value: 'ff\'',
                     expect: true
                 },
                 ...defaultItems({
@@ -302,28 +302,28 @@ const testItems: ITestSuite = {
             'rule': '@trim_string(2)',
             'items': [
                 {
-                    inputName: 'String " aaa"',
-                    inputValue: ' aaa',
+                    title: 'String " aaa"',
+                    value: ' aaa',
                     expect: true
                 },
                 {
-                    inputName: 'String " ffff"',
-                    inputValue: ' ffff',
+                    title: 'String " ffff"',
+                    value: ' ffff',
                     expect: true
                 },
                 {
-                    inputName: 'String " aa "',
-                    inputValue: ' aa ',
+                    title: 'String " aa "',
+                    value: ' aa ',
                     expect: true
                 },
                 {
-                    inputName: 'String " a "',
-                    inputValue: ' a ',
+                    title: 'String " a "',
+                    value: ' a ',
                     expect: false
                 },
                 {
-                    inputName: 'String " aaaaaaa "',
-                    inputValue: ' aaaaaaa ',
+                    title: 'String " aaaaaaa "',
+                    value: ' aaaaaaa ',
                     expect: true
                 },
                 ...defaultItems({
@@ -340,8 +340,8 @@ const testItems: ITestSuite = {
             },
             'items': [
                 {
-                    inputName: 'invalid format',
-                    inputValue: '',
+                    title: 'invalid format',
+                    value: '',
                     expect: 'throw'
                 }
             ]
@@ -351,33 +351,33 @@ const testItems: ITestSuite = {
             'rule': ['$.enum', '==123', '=123', 'int', 3333333, null, true],
             'items': [
                 {
-                    inputName: 'string "==123"',
-                    inputValue: '==123',
+                    title: 'string "==123"',
+                    value: '==123',
                     expect: true
                 },
                 {
-                    inputName: 'string "123"',
-                    inputValue: '123',
+                    title: 'string "123"',
+                    value: '123',
                     expect: false
                 },
                 {
-                    inputName: 'string "=123"',
-                    inputValue: '=123',
+                    title: 'string "=123"',
+                    value: '=123',
                     expect: true
                 },
                 {
-                    inputName: 'string "int"',
-                    inputValue: 'int',
+                    title: 'string "int"',
+                    value: 'int',
                     expect: true
                 },
                 {
-                    inputName: 'string "uint"',
-                    inputValue: 'uint',
+                    title: 'string "uint"',
+                    value: 'uint',
                     expect: false
                 },
                 {
-                    inputName: 'integer 3333333',
-                    inputValue: 3333333,
+                    title: 'integer 3333333',
+                    value: 3333333,
                     expect: true
                 },
                 ...defaultItems({
@@ -391,8 +391,8 @@ const testItems: ITestSuite = {
             'rule': ['$.enum'],
             'items': [
                 {
-                    inputName: 'invalid empty candidate list',
-                    inputValue: '',
+                    title: 'invalid empty candidate list',
+                    value: '',
                     expect: 'throw'
                 }
             ]
@@ -402,8 +402,8 @@ const testItems: ITestSuite = {
             'rule': ['$.enum', {}],
             'items': [
                 {
-                    inputName: 'object as candidate',
-                    inputValue: '',
+                    title: 'object as candidate',
+                    value: '',
                     expect: 'throw'
                 }
             ]
@@ -413,8 +413,8 @@ const testItems: ITestSuite = {
             'rule': ['$.enum', []],
             'items': [
                 {
-                    inputName: 'array as candidate',
-                    inputValue: '',
+                    title: 'array as candidate',
+                    value: '',
                     expect: 'throw'
                 }
             ]
@@ -424,8 +424,8 @@ const testItems: ITestSuite = {
             'rule': ['$.enum', undefined],
             'items': [
                 {
-                    inputName: 'undefined as candidate',
-                    inputValue: '',
+                    title: 'undefined as candidate',
+                    value: '',
                     expect: 'throw'
                 }
             ]
@@ -435,8 +435,8 @@ const testItems: ITestSuite = {
             'rule': ['$.enum', () => true],
             'items': [
                 {
-                    inputName: 'function as candidate',
-                    inputValue: '',
+                    title: 'function as candidate',
+                    value: '',
                     expect: 'throw'
                 }
             ]
@@ -446,8 +446,8 @@ const testItems: ITestSuite = {
             'rule': ['$.enum', BigInt(123)],
             'items': [
                 {
-                    inputName: 'bigint as candidate',
-                    inputValue: '',
+                    title: 'bigint as candidate',
+                    value: '',
                     expect: 'throw'
                 }
             ]
@@ -457,8 +457,8 @@ const testItems: ITestSuite = {
             'rule': ['$.enum', Symbol('123')],
             'items': [
                 {
-                    inputName: 'symbol as candidate',
-                    inputValue: '',
+                    title: 'symbol as candidate',
+                    value: '',
                     expect: 'throw'
                 }
             ]

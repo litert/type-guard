@@ -32,18 +32,18 @@ const testItems: ITestSuite = {
             'rule': ['$.list', 'string'],
             'items': [
                 {
-                    inputName: '[string]',
-                    inputValue: ['fff'],
+                    title: '[string]',
+                    value: ['fff'],
                     expect: true
                 },
                 {
-                    inputName: '[string,string]',
-                    inputValue: ['fff', 'ggg'],
+                    title: '[string,string]',
+                    value: ['fff', 'ggg'],
                     expect: true
                 },
                 {
-                    inputName: '[string,int]',
-                    inputValue: ['fff', 123],
+                    title: '[string,int]',
+                    value: ['fff', 123],
                     expect: false
                 },
                 ...defaultItems({
@@ -56,13 +56,13 @@ const testItems: ITestSuite = {
             'rule': ['$.array', 1, 'string'],
             'items': [
                 {
-                    inputName: '[string]',
-                    inputValue: ['fff'],
+                    title: '[string]',
+                    value: ['fff'],
                     expect: true
                 },
                 {
-                    inputName: '[string,string]',
-                    inputValue: ['fff', 'ggg'],
+                    title: '[string,string]',
+                    value: ['fff', 'ggg'],
                     expect: false
                 },
                 ...defaultItems({})
@@ -73,28 +73,28 @@ const testItems: ITestSuite = {
             'rule': ['$.array', 2, 'string', 'int'],
             'items': [
                 {
-                    inputName: '[string]',
-                    inputValue: ['fff'],
+                    title: '[string]',
+                    value: ['fff'],
                     expect: false
                 },
                 {
-                    inputName: '[string,string]',
-                    inputValue: ['fff', 'ggg'],
+                    title: '[string,string]',
+                    value: ['fff', 'ggg'],
                     expect: true
                 },
                 {
-                    inputName: '[string,int]',
-                    inputValue: ['fff', 312],
+                    title: '[string,int]',
+                    value: ['fff', 312],
                     expect: true
                 },
                 {
-                    inputName: '[int,int]',
-                    inputValue: [333, 312],
+                    title: '[int,int]',
+                    value: [333, 312],
                     expect: true
                 },
                 {
-                    inputName: '[int,string]',
-                    inputValue: [333, 'ddsadsa'],
+                    title: '[int,string]',
+                    value: [333, 'ddsadsa'],
                     expect: true
                 },
                 ...defaultItems({})
@@ -105,18 +105,18 @@ const testItems: ITestSuite = {
             'rule': ['$.array', [1], 'string'],
             'items': [
                 {
-                    inputName: '[string]',
-                    inputValue: ['fff'],
+                    title: '[string]',
+                    value: ['fff'],
                     expect: true
                 },
                 {
-                    inputName: '[string,string]',
-                    inputValue: ['fff', 'ggg'],
+                    title: '[string,string]',
+                    value: ['fff', 'ggg'],
                     expect: true
                 },
                 {
-                    inputName: '[string,int]',
-                    inputValue: ['fff', 123],
+                    title: '[string,int]',
+                    value: ['fff', 123],
                     expect: false
                 },
                 ...defaultItems({})
@@ -127,28 +127,28 @@ const testItems: ITestSuite = {
             'rule': ['$.array', [1, 3], 'string'],
             'items': [
                 {
-                    inputName: '[string]',
-                    inputValue: ['fff'],
+                    title: '[string]',
+                    value: ['fff'],
                     expect: true
                 },
                 {
-                    inputName: '[string,string]',
-                    inputValue: ['fff', 'ggg'],
+                    title: '[string,string]',
+                    value: ['fff', 'ggg'],
                     expect: true
                 },
                 {
-                    inputName: '[string,string,string]',
-                    inputValue: ['fff', 'ggg', 'ggg'],
+                    title: '[string,string,string]',
+                    value: ['fff', 'ggg', 'ggg'],
                     expect: true
                 },
                 {
-                    inputName: '[string,string,string,string]',
-                    inputValue: ['fff', 'ggg', 'ggg', 'fffa'],
+                    title: '[string,string,string,string]',
+                    value: ['fff', 'ggg', 'ggg', 'fffa'],
                     expect: false
                 },
                 {
-                    inputName: '[string,int]',
-                    inputValue: ['fff', 123],
+                    title: '[string,int]',
+                    value: ['fff', 123],
                     expect: false
                 },
                 ...defaultItems({})

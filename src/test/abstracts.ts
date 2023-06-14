@@ -19,9 +19,9 @@ import * as TypeGuard from '../lib';
 
 export interface ITestItem {
 
-    inputName: string;
+    title: string;
 
-    inputValue: any;
+    value: any;
 
     expect: boolean | 'throw';
 }
@@ -49,53 +49,53 @@ export function defaultItems(
 
     return [
         {
-            'inputName': 'true',
-            'inputValue': true,
+            'title': 'true',
+            'value': true,
             'expect': items['true'] === undefined ? defaultValue : items['true']
         },
         {
-            'inputName': 'false',
-            'inputValue': false,
+            'title': 'false',
+            'value': false,
             'expect': items['false'] === undefined ? defaultValue : items['false']
         },
         {
-            'inputName': 'undefined',
-            'inputValue': undefined,
+            'title': 'undefined',
+            'value': undefined,
             'expect': items['undefined'] === undefined ? defaultValue : items['undefined']
         },
         {
-            'inputName': 'null',
-            'inputValue': null,
+            'title': 'null',
+            'value': null,
             'expect': items['null'] === undefined ? defaultValue : items['null']
         },
         {
-            'inputName': 'empty array',
-            'inputValue': [],
+            'title': 'empty array',
+            'value': [],
             'expect': items['empty array'] === undefined ? defaultValue : items['empty array']
         },
         {
-            'inputName': 'string \'hello\'',
-            'inputValue': 'hello',
+            'title': 'string \'hello\'',
+            'value': 'hello',
             'expect': items['string \'hello\''] === undefined ? defaultValue : items['string \'hello\'']
         },
         {
-            'inputName': 'empty string',
-            'inputValue': '',
+            'title': 'empty string',
+            'value': '',
             'expect': items['empty string'] === undefined ? defaultValue : items['empty string']
         },
         {
-            'inputName': 'object',
-            'inputValue': {},
+            'title': 'object',
+            'value': {},
             'expect': items['object'] === undefined ? defaultValue : items['object']
         },
         {
-            'inputName': 'number 0',
-            'inputValue': 0,
+            'title': 'number 0',
+            'value': 0,
             'expect': items['number 0'] === undefined ? defaultValue : items['number 0']
         },
         {
-            'inputName': 'number 1',
-            'inputValue': 1,
+            'title': 'number 1',
+            'value': 1,
             'expect': items['number 1'] === undefined ? defaultValue : items['number 1']
         }
     ];
@@ -154,8 +154,8 @@ compiler2.addPredefinedType<string>(
 export function assertItem(input: unknown, expect: boolean | 'throw'): ITestItem {
 
     return {
-        inputName: JSON.stringify(input),
-        inputValue: input,
+        title: JSON.stringify(input),
+        value: input,
         expect
     };
 }
@@ -218,16 +218,16 @@ export function createTestDefinition(suite: ITestSuite) {
                         it(`${
                             item.expect ? 'PASSED' : 'REJECTED'
                         } when input ${
-                            item.inputName
+                            item.title
                         }.`, function() {
 
                             assert.equal(
-                                checkWithTrace(item.inputValue),
+                                checkWithTrace(item.value),
                                 item.expect
                             );
 
                             assert.equal(
-                                checkWithoutTrace(item.inputValue),
+                                checkWithoutTrace(item.value),
                                 item.expect
                             );
                         });

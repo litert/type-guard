@@ -158,6 +158,58 @@ const testItems: ITestSuite = {
             ]
         },
         {
+            'name': 'Strict object with empty object',
+            'rule': ['$.strict', {}],
+            'items': [
+                {
+                    title: 'Empty object',
+                    value: {},
+                    expect: true
+                },
+                {
+                    title: 'Object with one property',
+                    value: { 'a': 123 },
+                    expect: false
+                },
+                {
+                    title: 'Object with one mismatch-typed property',
+                    value: { 'a': '123' },
+                    expect: false
+                },
+                {
+                    title: 'Object with 2 properties',
+                    value: { 'a': 123, 'b': { 'c': 'ffff' } },
+                    expect: false
+                }
+            ]
+        },
+        {
+            'name': 'Recursively-Strict object with empty object',
+            'rule': ['$.equal', {}],
+            'items': [
+                {
+                    title: 'Empty object',
+                    value: {},
+                    expect: true
+                },
+                {
+                    title: 'Object with one property',
+                    value: { 'a': 123 },
+                    expect: false
+                },
+                {
+                    title: 'Object with one mismatch-typed property',
+                    value: { 'a': '123' },
+                    expect: false
+                },
+                {
+                    title: 'Object with 2 properties',
+                    value: { 'a': 123, 'b': { 'c': 'ffff' } },
+                    expect: false
+                }
+            ]
+        },
+        {
             'name': 'Strict object with nested properties',
             'rule': ['$.strict', {
                 'a': 'uint',

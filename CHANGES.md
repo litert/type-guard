@@ -1,5 +1,9 @@
 # Changes Logs
 
+## v1.4.1
+
+- fix(compiler): corrected the handling of `$.strict` with empty object.
+
 ## v1.4.0
 
 - build(project): upgraded toolchains.

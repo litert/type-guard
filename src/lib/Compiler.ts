@@ -1242,7 +1242,7 @@ class Compiler implements C.ICompiler {
             ctx.popUp();
         }
 
-        if (strict && keys.length) {
+        if (strict) {
 
             result.splice(
                 1,

@@ -12,3 +12,4 @@
 /.eslintignore
 /.eslintrc
 /commitlint.config.js
+/src/test/

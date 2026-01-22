@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+import * as NodeAssert from 'node:assert';
+import { createInlineCompiler } from '../lib';
 import { createTestDefinition, defaultItems, ITestSuite } from './abstracts';
 
 const testItems: ITestSuite = {
@@ -1959,5 +1961,89 @@ const testItems: ITestSuite = {
         }
     ]
 };
+
+describe('Invalid expression of elemental type with arguments', () => {
+
+    for (const t of [
+        'int8', 'int16', 'int32', 'int64',
+        'uint', 'uint8', 'uint16', 'uint32', 'uint64',
+        'ufloat', 'void', 'any', 'required',
+        'undefined', 'false_value', 'true_value'
+    ]) {
+
+        const strictCompiler = createInlineCompiler({ ignoreInvalidArgs: false });
+        const looseCompiler = createInlineCompiler(); // compatible mode
+
+        it(`[Strict-Mode] "${t}" expression (without arguments) is allowed`, () => {
+
+            NodeAssert.doesNotThrow(() => {
+                strictCompiler.compile({ rule: t });
+            });
+        });
+
+        it(`[Compatible-Mode] "${t}" expression (without arguments) is allowed`, () => {
+
+            NodeAssert.doesNotThrow(() => {
+                looseCompiler.compile({ rule: t });
+            });
+        });
+
+        it(`[Strict-Mode] "${t}(1)" expression (with 1 argument) is not allowed`, () => {
+
+            NodeAssert.throws(() => {
+                strictCompiler.compile({ rule: `${t}(1)` });
+            });
+        });
+
+        it(`[Compatible-Mode] "${t}(1)" expression (with 1 argument) is ignored`, () => {
+
+            NodeAssert.doesNotThrow(() => {
+                looseCompiler.compile({ rule: `${t}(1)` });
+            });
+        });
+
+        it(`[Strict-Mode] "${t}(1,)" expression (with 1 argument and right opened) is not allowed`, () => {
+
+            NodeAssert.throws(() => {
+                strictCompiler.compile({ rule: `${t}(1,)` });
+            });
+        });
+
+        it(`[Compatible-Mode] "${t}(1,)" expression (with 1 argument and right opened) is ignored`, () => {
+
+            NodeAssert.doesNotThrow(() => {
+                looseCompiler.compile({ rule: `${t}(1,)` });
+            });
+        });
+
+        it(`[Strict-Mode] "${t}(,10)" expression (with 1 argument and left opened) is not allowed`, () => {
+
+            NodeAssert.throws(() => {
+                strictCompiler.compile({ rule: `${t}(,10)` });
+            });
+        });
+
+        it(`[Compatible-Mode] "${t}(,10)" expression (with 1 argument and left opened) is ignored`, () => {
+
+            NodeAssert.doesNotThrow(() => {
+                looseCompiler.compile({ rule: `${t}(,10)` });
+            });
+        });
+
+        it(`[Strict-Mode] "${t}(1,2)" expression (with 2 arguments) is not allowed`, () => {
+
+            NodeAssert.throws(() => {
+                strictCompiler.compile({ rule: `${t}(1,2)` });
+            });
+        });
+
+        it(`[Compatible-Mode] "${t}(1,2)" expression (with 2 arguments) is ignored`, () => {
+
+            NodeAssert.doesNotThrow(() => {
+                looseCompiler.compile({ rule: `${t}(1,2)` });
+            });
+        });
+    }
+});
 
 export default createTestDefinition(testItems);

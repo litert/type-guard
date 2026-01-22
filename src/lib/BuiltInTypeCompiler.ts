@@ -242,12 +242,25 @@ const BUILT_IN_TYPES: Record<string, ITypeInfo> = {
     }
 };
 
-export class BuiltInTypeCompiler
-implements I.IBuiltInTypeCompiler {
+export class BuiltInTypeCompiler implements I.IBuiltInTypeCompiler {
 
     public constructor(
-        private readonly _lang: C.ILanguageBuilder
+        private readonly _lang: C.ILanguageBuilder,
+        private readonly _ignoreInvalidArgs: boolean = true,
     ) {}
+
+    private _assertNoArgs(args: number[], type: string): void {
+
+        if (this._ignoreInvalidArgs) {
+
+            return;
+        }
+
+        if ((args?.length ?? 0) > 0) {
+
+            throw new SyntaxError(`Type "${type}" does not accept any argument.`);
+        }
+    }
 
     public isStringType(type: string): boolean {
 
@@ -297,6 +310,8 @@ implements I.IBuiltInTypeCompiler {
             }
             case B.ANY: {
 
+                this._assertNoArgs(args, type);
+
                 return this._lang.literal(true);
             }
             case B.ARRAY: {
@@ -329,6 +344,8 @@ implements I.IBuiltInTypeCompiler {
             }
             case B.UFLOAT: {
 
+                this._assertNoArgs(args, type);
+
                 return this._isNumber(ctx, [0, NaN], fromString);
             }
             case B.FLOAT:
@@ -342,17 +359,25 @@ implements I.IBuiltInTypeCompiler {
             }
             case B.INT64: {
 
+                this._assertNoArgs(args, type);
+
                 return this._isInteger(ctx, [], fromString);
             }
             case B.INT8: {
+
+                this._assertNoArgs(args, type);
 
                 return this._isInteger(ctx, [-0x80, 0x7F], fromString);
             }
             case B.INT16: {
 
+                this._assertNoArgs(args, type);
+
                 return this._isInteger(ctx, [-0x8000, 0x7FFF], fromString);
             }
             case B.INT32: {
+
+                this._assertNoArgs(args, type);
 
                 return this._isInteger(
                     ctx,
@@ -361,6 +386,8 @@ implements I.IBuiltInTypeCompiler {
                 );
             }
             case B.SAFE_INT: {
+
+                this._assertNoArgs(args, type);
 
                 return this._isInteger(
                     ctx,
@@ -371,6 +398,8 @@ implements I.IBuiltInTypeCompiler {
             case B.UINT:
             case B.UINT64: {
 
+                this._assertNoArgs(args, type);
+
                 return this._isInteger(
                     ctx,
                     [0, NaN],
@@ -378,6 +407,8 @@ implements I.IBuiltInTypeCompiler {
                 );
             }
             case B.UINT8: {
+
+                this._assertNoArgs(args, type);
 
                 return this._isInteger(
                     ctx,
@@ -387,6 +418,8 @@ implements I.IBuiltInTypeCompiler {
             }
             case B.UINT16: {
 
+                this._assertNoArgs(args, type);
+
                 return this._isInteger(
                     ctx,
                     [0, 0xFFFF],
@@ -394,6 +427,8 @@ implements I.IBuiltInTypeCompiler {
                 );
             }
             case B.UINT32: {
+
+                this._assertNoArgs(args, type);
 
                 return this._isInteger(
                     ctx,
@@ -403,6 +438,8 @@ implements I.IBuiltInTypeCompiler {
             }
             case B.SAFE_UINT: {
 
+                this._assertNoArgs(args, type);
+
                 return this._isInteger(
                     ctx,
                     [0, this._lang.maxSafeInteger],
@@ -410,6 +447,8 @@ implements I.IBuiltInTypeCompiler {
                 );
             }
             case B.BOOLEAN: {
+
+                this._assertNoArgs(args, type);
 
                 if (fromString) {
 
@@ -426,6 +465,8 @@ implements I.IBuiltInTypeCompiler {
             }
             case B.TRUE: {
 
+                this._assertNoArgs(args, type);
+
                 if (fromString) {
 
                     return this._lang.or([
@@ -440,6 +481,8 @@ implements I.IBuiltInTypeCompiler {
                 return this._lang.eq(ctx.vName, this._lang.literal(true));
             }
             case B.FALSE: {
+
+                this._assertNoArgs(args, type);
 
                 if (fromString) {
 
@@ -456,15 +499,21 @@ implements I.IBuiltInTypeCompiler {
             }
             case B.TRUE_VALUE: {
 
+                this._assertNoArgs(args, type);
+
                 return this._lang.isTrueValue(ctx.vName);
             }
             case B.FALSE_VALUE: {
+
+                this._assertNoArgs(args, type);
 
                 return this._lang.isFalseValue(ctx.vName);
             }
             case B.VOID:
             case B.OPTIONAL:
             case B.UNDEFINED: {
+
+                this._assertNoArgs(args, type);
 
                 if (ctx.flags[I.EFlags.REQUIRED]) {
 
@@ -484,6 +533,8 @@ implements I.IBuiltInTypeCompiler {
             }
             case B.REQUIRED: {
 
+                this._assertNoArgs(args, type);
+
                 if (ctx.flags[I.EFlags.OPTIONAL]) {
 
                     throw new Error(
@@ -501,6 +552,8 @@ implements I.IBuiltInTypeCompiler {
                 return this._lang.isUndefined(ctx.vName, false);
             }
             case B.STRUCT: {
+
+                this._assertNoArgs(args, type);
 
                 return this._lang.isStructure(ctx.vName, true);
             }

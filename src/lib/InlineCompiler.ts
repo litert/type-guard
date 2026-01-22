@@ -65,8 +65,7 @@ export interface IInlineCompiler {
     detectUndefinedTypes(): string[];
 }
 
-class InlineCompiler
-implements IInlineCompiler {
+class InlineCompiler implements IInlineCompiler {
 
     private _defTypes: Record<string, C.ITypeChecker<any>>;
 
@@ -74,7 +73,7 @@ implements IInlineCompiler {
 
     private readonly _compiler: C.ICompiler;
 
-    public constructor() {
+    public constructor(opts?: C.ICompilerOptions) {
 
         this._defTypes = {};
 
@@ -82,9 +81,7 @@ implements IInlineCompiler {
 
         const lang = createJavaScriptLanguageBuilder();
 
-        this._compiler = createCompiler(
-            lang
-        );
+        this._compiler = createCompiler(lang, opts);
     }
 
     public compile<T>(options: IInlineCompileOptions): C.ITypeChecker<T> {
@@ -178,7 +175,7 @@ implements IInlineCompiler {
 /**
  * Create a compiler object that compiles the rule into JavaScript lambda code.
  */
-export function createInlineCompiler(): IInlineCompiler {
+export function createInlineCompiler(opts?: C.ICompilerOptions): IInlineCompiler {
 
-    return new InlineCompiler();
+    return new InlineCompiler(opts);
 }

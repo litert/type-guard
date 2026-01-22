@@ -1,5 +1,16 @@
 # Changes Logs
 
+## v1.4.2
+
+- fix(compiler): added compiler options `ignoreInvalidArgs`.
+
+    For `uint*`, `int8/16/32/64`, `safe_int`, `safe_uint`, `ufloat`, `any`, `void`, and etc,
+    no argument is accepted.
+
+    For example, `int8(1,2)` is invalid, but previously it is treated as `int8` silently.
+    Now, by setting compiler option `ignoreInvalidArgs` to `false`, the compiler will throw an error
+    when encountering such cases.
+
 ## v1.4.1
 
 - fix(compiler): corrected the handling of `$.strict` with empty object.

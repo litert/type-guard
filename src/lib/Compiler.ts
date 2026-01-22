@@ -1436,9 +1436,12 @@ class Compiler implements C.ICompiler {
  *
  * @param lang The language builder.
  */
-export function createCompiler(lang: C.ILanguageBuilder): C.ICompiler {
+export function createCompiler(
+    lang: C.ILanguageBuilder,
+    opts?: C.ICompilerOptions,
+): C.ICompiler {
 
-    const ret = new BuiltInTypeCompiler(lang);
+    const ret = new BuiltInTypeCompiler(lang, opts?.ignoreInvalidArgs);
 
     return new Compiler(
         lang, ret, new FilterCompiler(lang, ret)

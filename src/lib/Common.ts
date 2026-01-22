@@ -60,6 +60,26 @@ export interface ICompileResult {
     'referredTypes': string[];
 }
 
+export interface ICompilerOptions {
+
+    /**
+     * Ignore the basic types with invalid arguments.
+     *
+     * For example, `int8(1,2)` will be treated as `int8` actually.
+     * To avoid misusing, set this option to `false`, and then the compiler
+     * will throw an error by default when encountering such cases.
+     *
+     * Considering the compatibilities, the default value of this option is
+     * `true` in this version, to avoid breaking changes.
+     *
+     * In the next major version, this option will be removed, and the behavior
+     * of treating invalid arguments as errors will be the only choice.
+     *
+     * @default true
+     */
+    'ignoreInvalidArgs'?: boolean;
+}
+
 export interface ICompileOptions {
 
     /**

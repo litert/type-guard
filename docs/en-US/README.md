@@ -4,9 +4,9 @@ This documentation set is organized around practical TypeGuard usage scenarios, 
 
 ## Suggested Reading Order
 
-1. [Quick Start](./Quick-Start.md)
-2. [API Reference](./API-Reference.md)
-3. [Syntax Guide](./Syntax-Guide.md)
+1. [Quick Start](./quick-start.md)
+2. [API Reference](./api-reference.md)
+3. [Syntax Guide](./syntax-guide/README.md)
 
 ## About These Docs
 

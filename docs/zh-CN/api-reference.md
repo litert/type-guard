@@ -183,7 +183,7 @@ type ITypeChecker<T> = (v: unknown, errorTraces?: string[]) => v is T;
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
 | `options.rule` | `any` | 是 | 规则定义 |
-| `options.name` | `string` | 否 | 将规则命名为预定义类型 |
+| `options.name` | `string` | 否 | 将规则命名为自定义类型 |
 | `options.traceErrors` | `boolean` | 否 | 是否启用失败路径追踪 |
 | `options.stopOnEntry` | `boolean` | 否 | 生成函数入口处插入 `debugger` |
 
@@ -222,13 +222,13 @@ addPredefinedType<T>(name: string, checker: IPreDefinedTypeChecker<T>): this;
 
 **Description**
 
-注册 JavaScript 回调型预定义类型处理器，可在规则里通过 `@name(...)` 调用。
+注册 JavaScript 回调型自定义类型处理器，可在规则里通过 `@name(...)` 调用。
 
 **Parameters**
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `name` | `string` | 是 | 预定义类型名称（不含 `@`） |
+| `name` | `string` | 是 | 自定义类型名称（不含 `@`） |
 | `checker` | `IPreDefinedTypeChecker<T>` | 是 | 回调函数 `(v, ...args) => boolean` |
 
 **Return Value**
@@ -263,13 +263,13 @@ getPredefinedType<T>(name: string): ITypeChecker<T>;
 
 **Description**
 
-获取已经存在的预定义类型校验函数。
+获取已经存在的自定义类型校验函数。
 
 **Parameters**
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `name` | `string` | 是 | 预定义类型名称 |
+| `name` | `string` | 是 | 自定义类型名称 |
 
 **Return Value**
 
@@ -299,13 +299,13 @@ hasPredefinedType(name: string): boolean;
 
 **Description**
 
-判断预定义类型是否已注册或已编译。
+判断自定义类型是否已注册或已编译。
 
 **Parameters**
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `name` | `string` | 是 | 预定义类型名称 |
+| `name` | `string` | 是 | 自定义类型名称 |
 
 **Return Value**
 
@@ -337,7 +337,7 @@ detectUndefinedTypes(): string[];
 
 **Description**
 
-返回“被引用但未定义”的预定义类型名称列表。
+返回“被引用但未定义”的自定义类型名称列表。
 
 **Parameters**
 
@@ -377,14 +377,14 @@ compile(options: ICompileOptions): ICompileResult;
 
 **Description**
 
-把规则编译为目标语言代码描述（参数列表、源码、预定义类型依赖等）。
+把规则编译为目标语言代码描述（参数列表、源码、自定义类型依赖等）。
 
 **Parameters**
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
 | `options.rule` | `any` | 是 | 规则定义 |
-| `options.name` | `string` | 否 | 将规则注册为预定义类型 |
+| `options.name` | `string` | 否 | 将规则注册为自定义类型 |
 | `options.traceErrors` | `boolean` | 否 | 生成失败追踪能力 |
 
 **Return Value**
@@ -421,13 +421,13 @@ getPredefinedType(name: string): ICompileResult | null;
 
 **Description**
 
-获取已通过 `$.type` 编译并缓存的预定义类型结果。
+获取已通过 `$.type` 编译并缓存的自定义类型结果。
 
 **Parameters**
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `name` | `string` | 是 | 预定义类型名称 |
+| `name` | `string` | 是 | 自定义类型名称 |
 
 **Return Value**
 
@@ -504,9 +504,9 @@ interface ICompileResult {
 | 字段 | 说明 |
 | --- | --- |
 | `arguments` | 生成函数参数列表（名称、类型、默认值） |
-| `typeSlotName` | 预定义类型槽位变量名 |
+| `typeSlotName` | 自定义类型槽位变量名 |
 | `source` | 核心校验表达式源码 |
-| `referredTypes` | 引用到的预定义类型名 |
+| `referredTypes` | 引用到的自定义类型名 |
 
 ## 6. 类型别名
 

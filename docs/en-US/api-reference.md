@@ -183,7 +183,7 @@ type ITypeChecker<T> = (v: unknown, errorTraces?: string[]) => v is T;
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
 | `options.rule` | `any` | Yes | Rule definition |
-| `options.name` | `string` | No | Assign a name for the rule as a predefined type |
+| `options.name` | `string` | No | Assign a name for the rule as a custom type |
 | `options.traceErrors` | `boolean` | No | Enable failure-path tracing |
 | `options.stopOnEntry` | `boolean` | No | Insert `debugger` at the function entry |
 
@@ -222,13 +222,13 @@ addPredefinedType<T>(name: string, checker: IPreDefinedTypeChecker<T>): this;
 
 **Description**
 
-Registers a JavaScript callback-based predefined type handler, which can be invoked in rules via `@name(...)`.
+Registers a JavaScript callback-based custom type handler, which can be invoked in rules via `@name(...)`.
 
 **Parameters**
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `name` | `string` | Yes | Predefined type name (without `@`) |
+| `name` | `string` | Yes | Custom type name (without `@`) |
 | `checker` | `IPreDefinedTypeChecker<T>` | Yes | Callback function `(v, ...args) => boolean` |
 
 **Return Value**
@@ -263,13 +263,13 @@ getPredefinedType<T>(name: string): ITypeChecker<T>;
 
 **Description**
 
-Gets an existing predefined type checker function.
+Gets an existing custom type checker function.
 
 **Parameters**
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `name` | `string` | Yes | Predefined type name |
+| `name` | `string` | Yes | Custom type name |
 
 **Return Value**
 
@@ -299,13 +299,13 @@ hasPredefinedType(name: string): boolean;
 
 **Description**
 
-Checks whether a predefined type has been registered or compiled.
+Checks whether a custom type has been registered or compiled.
 
 **Parameters**
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `name` | `string` | Yes | Predefined type name |
+| `name` | `string` | Yes | Custom type name |
 
 **Return Value**
 
@@ -337,7 +337,7 @@ detectUndefinedTypes(): string[];
 
 **Description**
 
-Returns the list of predefined type names that are referenced but not defined.
+Returns the list of custom type names that are referenced but not defined.
 
 **Parameters**
 
@@ -377,14 +377,14 @@ compile(options: ICompileOptions): ICompileResult;
 
 **Description**
 
-Compiles a rule into a target-language code description (argument list, source, predefined type dependencies, etc.).
+Compiles a rule into a target-language code description (argument list, source, custom type dependencies, etc.).
 
 **Parameters**
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
 | `options.rule` | `any` | Yes | Rule definition |
-| `options.name` | `string` | No | Register the rule as a predefined type |
+| `options.name` | `string` | No | Register the rule as a custom type |
 | `options.traceErrors` | `boolean` | No | Generate failure-tracing capability |
 
 **Return Value**
@@ -421,13 +421,13 @@ getPredefinedType(name: string): ICompileResult | null;
 
 **Description**
 
-Gets the compile result of a predefined type that has been compiled and cached via `$.type`.
+Gets the compile result of a custom type that has been compiled and cached via `$.type`.
 
 **Parameters**
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `name` | `string` | Yes | Predefined type name |
+| `name` | `string` | Yes | Custom type name |
 
 **Return Value**
 
@@ -505,9 +505,9 @@ interface ICompileResult {
 | Field | Description |
 | --- | --- |
 | `arguments` | Generated function parameter list (name, type, default value) |
-| `typeSlotName` | Slot variable name for predefined types |
+| `typeSlotName` | Slot variable name for custom types |
 | `source` | Core validation expression source |
-| `referredTypes` | Names of referenced predefined types |
+| `referredTypes` | Names of referenced custom types |
 
 ## 6. Type Aliases
 

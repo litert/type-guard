@@ -8,7 +8,7 @@
 - [2. 安装](#2-安装)
 - [3. 第一个校验器（InlineCompiler）](#3-第一个校验器inlinecompiler)
 - [4. 生成 JavaScript 校验器源码（Compiler）](#4-生成-javascript-校验器源码compiler)
-- [5. 预定义类型与复用](#5-预定义类型与复用)
+- [5. 自定义类型与复用](#5-自定义类型与复用)
 - [6. 错误追踪（traceErrors）](#6-错误追踪traceerrors)
 
 ## 1. 环境要求
@@ -75,9 +75,9 @@ console.log('Referred Types:', result.referredTypes);
 
 `result.source` 是校验表达式本体，可用于进一步封装执行器或嵌入代码生成流程。
 
-## 5. 预定义类型与复用
+## 5. 自定义类型与复用
 
-你可以在规则里通过 `$.type` 定义预定义类型，再通过 `@类型名` 引用。
+你可以在规则里通过 `$.type` 定义自定义类型，再通过 `@类型名` 引用。
 
 ```ts
 import { createInlineCompiler } from '@litert/typeguard';

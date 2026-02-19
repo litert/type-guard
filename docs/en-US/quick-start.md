@@ -8,7 +8,7 @@ This tutorial helps you complete three things with TypeGuard in the shortest tim
 - [2. Installation](#2-installation)
 - [3. Your First Checker (InlineCompiler)](#3-your-first-checker-inlinecompiler)
 - [4. Generate JavaScript Checker Source (Compiler)](#4-generate-javascript-checker-source-compiler)
-- [5. Predefined Types and Reuse](#5-predefined-types-and-reuse)
+- [5. Custom Types and Reuse](#5-custom-types-and-reuse)
 - [6. Error Tracing (traceErrors)](#6-error-tracing-traceerrors)
 
 ## 1. Requirements
@@ -75,9 +75,9 @@ console.log('Referred Types:', result.referredTypes);
 
 `result.source` is the core validation expression itself. You can wrap it into an executor or embed it into a larger code-generation workflow.
 
-## 5. Predefined Types and Reuse
+## 5. Custom Types and Reuse
 
-You can define a predefined type within a rule via `$.type`, and reference it later via `@TypeName`.
+You can define a custom type within a rule via `$.type`, and reference it later via `@TypeName`.
 
 ```ts
 import { createInlineCompiler } from '@litert/typeguard';

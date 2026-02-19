@@ -4,9 +4,9 @@
 
 ## 阅读顺序
 
-1. [快速入门](./Quick-Start.md)
-2. [API 参考](./API-Reference.md)
-3. [语法指南](./Syntax-Guide.md)
+1. [快速入门](./quick-start.md)
+2. [API 参考](./api-reference.md)
+3. [语法指南](./syntax-guide/README.md)
 
 ## 文档说明
 

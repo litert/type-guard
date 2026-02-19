@@ -1,34 +1,19 @@
-# 快速入门
+# TypeGuard 文档索引（简体中文）
 
-## 0. 安装
+本文档集合面向 TypeGuard 的实际使用场景，按“快速上手 → API 参考 → 语法细则”组织。
 
-推荐通过npm安装
+## 阅读顺序
 
-```sh
-npm i -S @litert/typeguard
-```
+1. [快速入门](./Quick-Start.md)
+2. [API 参考](./API-Reference.md)
+3. [语法指南](./Syntax-Guide.md)
 
-在 Node.js 中使用：
+## 文档说明
 
-```ts
-import * as TyG from "@litert/typeguard";
+- **快速入门**：最短路径完成安装、编译、运行。
+- **API 参考**：Compiler / InlineCompiler 创建方式与方法详解。
+- **语法指南**：完整语法规则（基础类型、结构类型、修饰符、字符串匹配、语法糖、过滤器等）。
 
-const tgc = createJavaScriptCompiler();
+## 版本范围
 
-const isValidString = tgc.compile(
-  "string(1,255)"
-);
-
-console.log(isValidString("FF")); // true
-console.log(isValidString("")); // false
-console.log(isValidString(null)); // false
-```
-
-## 1. 语法简介
-
-[点击查看](./Rules.md)
-
-## 2. 接口说明
-
-[点击查看](./APIs.md)
-
+当前文档基于仓库 `src/` 下实现与测试用例整理，覆盖至 `v1.4.2` 已发布能力。

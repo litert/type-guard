@@ -12,7 +12,7 @@ hero:
       link: /guides/quick-start
     - theme: alt
       text: API Docs
-      link: /api
+      link: /guides/api-reference
 
 features:
   - title: Powerful and Flexible

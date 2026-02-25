@@ -40,7 +40,7 @@ console.log(isUser({ id: 1, name: 'Alice' })); // true
 
 ## Document
 
-- [English (en-US)](./docs/en-US/README.md)
+- [English (en-US)](https://litert.org/projects/typeguard.js)
 - [简体中文](./docs/zh-CN/README.md)
 
 ## License
